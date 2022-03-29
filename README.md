@@ -4,7 +4,7 @@ This is a website made to display poems as a sharing website and resource for st
 
 ## Testing locally
 
-To test it on your own computer, make sure you have ![npm](https://npmjs.com), ![yarn](https://yarnpkg.com), and ![GitHub CLI](https://cli.github.com) installed. Then clone this repo by `cd`ing to any directory and running
+To test it on your own computer, make sure you have [npm](https://npmjs.com), [yarn](https://yarnpkg.com), and [GitHub CLI](https://cli.github.com) installed. Then clone this repo by `cd`ing to any directory and running
 ```bash
 gh repo clone FryingggPannn/7c-poems
 ```
