@@ -10,11 +10,11 @@ gh repo clone FryingggPannn/7c-poems
 ```
 Then install all required dependencies using
 ```bash
-npm install
+yarn
 ```
 and start a development server with
 ```bash
-npm start
+yarn dev
 ```
 Then the website will be available at <https://localhost:3000>.
 
