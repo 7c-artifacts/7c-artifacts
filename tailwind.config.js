@@ -1,0 +1,12 @@
+module.exports = {
+    content: [
+      "./pages/**/*.{js,ts,jsx,tsx}",
+      "./components/**/*.{js,ts,jsx,tsx}",
+    ],
+    theme: {
+      extend: {},
+    },
+    plugins: [require("daisyui"), require('@tailwindcss/typography')],
+  }// scroll down and hover on the place holder image
+  
+  // i officially love tailwind
