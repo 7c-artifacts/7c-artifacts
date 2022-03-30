@@ -2,3 +2,191 @@
 @tailwind components;
 @tailwind utilities;
 
+/* html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+ */
+
+.editor-toolbar {
+  background-color: white;
+  opacity: 1;
+}
+.output h1,
+.public-DraftEditor-content h1 {
+  font-size: 3em;
+  font-weight: bold;
+}
+.output h2,
+.public-DraftEditor-content h2 {
+  font-size: 1.75em;
+  font-weight: 500;
+}
+.output h3,
+.public-DraftEditor-content h3 {
+  font-size: 1.5em;
+  font-weight: 400;
+}
+.output h4,
+.public-DraftEditor-content h4 {
+  font-size: 1.25em;
+  font-weight: 300;
+}
+.output h5,
+.public-DraftEditor-content h5 {
+  font-size: 1em;
+  font-weight: 300;
+}
+.output h6,
+.public-DraftEditor-content h6 {
+  font-size: 0.9em;
+  font-weight: 300;
+}
+.public-DraftEditor-content h1 > div {
+  margin: 0;
+}
+.public-DraftEditor-content h2 > div {
+  margin: 0;
+}
+.public-DraftEditor-content h3 > div {
+  margin: 0;
+}
+.public-DraftEditor-content h4 > div {
+  margin: 0;
+}
+.public-DraftEditor-content h5 > div {
+  margin: 0;
+}
+.public-DraftEditor-content h6 > div {
+  margin: 0;
+}
+
+
+.output ol {
+  list-style: decimal;
+  padding-left: 30px;
+}
+
+.output ul {
+  list-style: disc;
+  padding-left: 30px;
+}
+
+.output blockquote {
+  font-weight: 500;
+  font-style: italic;
+  color: var(--tw-prose-quotes);
+  border-left-width: 0.25rem;
+  border-left-color: var(--tw-prose-quote-borders);
+  quotes: "\201C""\201D""\2018""\2019";
+  margin-top: 1.6em;
+  margin-bottom: 1.6em;
+  padding-left: 1em;
+}
+
+.public-DraftEditor-content > div {
+  padding: 0 20px;
+}
+
+.output p {
+	margin: 0.75em 0;
+}
+.public-DraftStyleDefault-block {
+	margin: 0.75em 0 !important;
+}
+.thing a {
+	--tw-text-opacity: 1;
+	color: hsl(var(--a)/var(--tw-text-opacity));
+	cursor: pointer;
+	-webkit-text-decoration-line: underline;
+	text-decoration-line: underline;
+}
+.rdw-link-decorator-wrapper {
+	--tw-text-opacity: 1;
+	color: hsl(var(--a)/var(--tw-text-opacity));
+	cursor: pointer;
+	-webkit-text-decoration-line: underline;
+	text-decoration-line: underline;
+}
+.rdw-editor-wrapper {
+  background-color: white;
+  color: black;
+  border-radius: 2px;
+}
+
+.tag-wrapper {
+  --tw-border-opacity: 1;
+  border-color: hsl(var(--p)/var(--tw-border-opacity));
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--p)/var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: hsl(var(--pc)/var(--tw-text-opacity));
+  display: inline-flex; 
+  align-items: center;
+  justify-content: center;
+  transition-property: color,background-color,border-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-text-decoration-color,-webkit-backdrop-filter;
+  transition-property: color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;
+  transition-property: color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-text-decoration-color,-webkit-backdrop-filter;
+  transition-duration: .2s;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+  height: 1.25rem;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding-left: 0.563rem;
+  padding-right: 0.563rem;
+  border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: hsl(var(--n)/var(--tw-border-opacity));
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--n)/var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: hsl(var(--nc)/var(--tw-text-opacity));
+  border-radius: var(--rounded-badge,1.9rem);
+  margin: 5px;
+  margin-bottom: 10px;
+}
+
+.ReactTags__remove {
+  margin-left: 5px;
+}
+
+.ReactTags__tagInputField {
+  --tw-border-opacity: 0.2;
+  max-width: 40rem;
+  flex-shrink: 1;
+  transition-property: color,background-color,border-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-text-decoration-color,-webkit-backdrop-filter;
+  transition-property: color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;
+  transition-property: color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-text-decoration-color,-webkit-backdrop-filter;
+  transition-duration: .2s;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+  height: 3rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  line-height: 2;
+  border-width: 1px;
+  border-color: hsl(var(--bc)/var(--tw-border-opacity));
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--b1)/var(--tw-bg-opacity));
+  border-radius: var(--rounded-btn,.5rem);
+  width: 100%;
+}
+
+.thingy {
+  grid-template-rows: masonry;
+}

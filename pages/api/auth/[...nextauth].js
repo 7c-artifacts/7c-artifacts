@@ -34,6 +34,13 @@ export default NextAuth({
       console.log('Signing in...')
 
       return true;
+    },
+    async session({ session, token, user }) {
+      // Get db primary key using user.email
+      const userId = await models.User(sequelize).findOne({ where: { email: user.email } });
+      session.pk = userId.id;
+      // session.user.image = "https://lh3.googleusercontent.com/a-/AOh14GiKSXn_dw6jzCX-JJV0HRF0vpi3uSQsm8X2ywCCYg=s50-c-k-no"
+      return session;
     }
   },
   
