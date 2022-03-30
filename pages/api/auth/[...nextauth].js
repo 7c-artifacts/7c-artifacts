@@ -27,7 +27,7 @@ export default NextAuth({
   callbacks: {
     async signIn(data) {
       if (data.profile.hd !== "sas.edu.sg") {
-          return "/";
+          return "/auth/signin";
       } 
       // Filter down the data to this
       console.log('Signing in...')

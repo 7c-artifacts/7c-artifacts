@@ -47,12 +47,12 @@ function Navbar() {
                     <div className="dropdown dropdown-end">
                         <label tabIndex={0} className="btn btn-ghost btn-circle avatar" >
                             <div className="w-10 rounded-full">
-                                <img src={session.user.image} />
+                                <img src={session.data.user.image} />
                             </div>
                         </label>
                         <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-                            <h1 className="pl-4 pt-2 pb-2 text-xl">Hi, {session.user.name.split(" ")[0]}.</h1>
-                            <li><a href={"/users/" + session.user.id}>Your Account</a></li>
+                            <h1 className="pl-4 pt-2 pb-2 text-xl">Hi, {session.data.user.name.split(" ")[0]}.</h1>
+                            <li><a href={"/users/" + session.data.user.id}>Your Account</a></li>
                             <li><a onClick={() => {signOut()}}>Logout</a></li>
 
                         </ul>
