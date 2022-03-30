@@ -1,0 +1,37 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Google Chat
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3 
+
+      - name: Google Chat Notification
+        uses: nakamuraos/google-chat-notifications@v2.0.1
+        with:
+          title: ${{ github.event.commits[0].message }}
+          subtitle: ${{ github.event.pusher.name }}
+          webhookUrl: https://chat.googleapis.com/v1/spaces/AAAAt82xNeY/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=6IE7MFXJvxPXjJ5fkN7uSXmuEgY2XMaSNS2rhzkuVyE%3D
+          status: ${{ job.status }}
+        if: always()
+
+
+
+
+
