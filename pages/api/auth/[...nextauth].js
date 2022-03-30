@@ -2,13 +2,14 @@ import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import SequelizeAdapter from "@next-auth/sequelize-adapter"
 import { Sequelize } from "sequelize"
-
+import models from "../../../models/models"
 // https://sequelize.org/master/manual/getting-started.html#connecting-to-a-database
 const sequelize = new Sequelize({
     dialect: 'sqlite',
-    storage: '../../maindb.db'
+    storage: "./maindb.db"
 });
 
+sequelize.sync();
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 
@@ -36,7 +37,11 @@ export default NextAuth({
     }
   },
   
-  adapter: SequelizeAdapter(sequelize),
+  adapter: SequelizeAdapter(sequelize, {
+    models: {
+      User: models.User(sequelize)
+    }
+  }),
   secret: process.env.NEXTAUTH_SECRET,
 });
 
