@@ -1,5 +1,14 @@
 import { DataTypes } from "sequelize";
-import { models } from "@next-auth/sequelize-adapter"
+import User from "./User"
+import Poem from "./Poem"
+import Tag from "./Tag"
+import PoemTag from "./PoemTag"
+import { Sequelize } from 'sequelize';
+
+const sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: "./maindb.db"
+});
 
 const Models = {
     TestModel: (sequelize) => {
@@ -18,92 +27,28 @@ const Models = {
         });
         return model;
     },
-    User: (sequelize) => {
-        const model = sequelize.define('user', {
-            // Model attributes are defined here
-                ...models.User,
-                id: {
-                    type: DataTypes.INTEGER,
-                    autoIncrement: true,
-                    primaryKey: true,
-                }
-            }, {
-            // Other model options go here
-        });
-        model.hasMany(Models.Poem(sequelize), { allowNull: false });
-        return model;
-    },
-    Poem: (sequelize) => {
-        const model = sequelize.define('poem', {
-            // Model attributes are defined here
-            title: {
-                type: DataTypes.STRING(100),
-                allowNull: false,
-                validate: {
-                    len: [1, 100],
-                },
-                unique: true
-            },
-            text: {
-                type: DataTypes.TEXT,
-                allowNull: false,
-                validate: {
-                    len: [20]
-                }
-            }
-        }, {
+    User,
+    Poem,
+    Tag,
+    PoemTag,
+    Final: () => {
+        const tag = Tag(sequelize);
+        const user = User(sequelize);
+        const poem = Poem(sequelize);
 
-        });
-        // model.hasMany(Models.Poem(sequelize), { foreignKey: 'userId', allowNull: false  });
-        model.belongsTo(Models.User(sequelize), { as: "author", allowNull: false  });
-        model.belongsToMany(Model.Tag(sequelize), { through: 'poemtags', allowNull: true });
-        return model;
-    },
-    Tag: (sequelize) => {
-        const model = sequelize.define('tag', {
-            // Model attributes are defined here
-            name: {
-                type: DataTypes.STRING(20),
-                allowNull: true,
-                validate: {
-                    len: [1, 20],
-                    notNull: {
-                        msg: "Tag name cannot be empty.",
-                    }
-                },
-                unique: true
-            }
-        }, {
-
-        });
-        model.belongsToMany(Model.Tag(sequelize), { through: 'poemtags', allowNull: false });
-        return model;
-    },
-    PoemTag: (sequelize) => {
-        const model = sequelize.define('poemtag', {
-            // Model attributes are defined here
-            poemId: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                references: {
-                    model: 'poems',
-                    key: "id"
-                }                
-            },
-            tagId: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                references: {
-                    model: 'tags',
-                    key: "id"
-                }   
-            }
-        }, {
-
-        });
-        
-        return model;
+        tag.belongsToMany(poem, { through: 'poemtags', allowNull: false });
+        user.hasMany(poem, { allowNull: true });
+        poem.belongsTo(user, { as: "author", allowNull: false  });
+        poem.belongsToMany(tag, { through: 'poemtags', allowNull: true });
+        return {
+            Tag: tag,
+            User: user,
+            Poem: poem
+        }
     }
 }  
 
-export default Models;
+
+
+const things = Models.Final();
+export default things;

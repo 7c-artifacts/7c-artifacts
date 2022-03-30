@@ -4,7 +4,7 @@ import models from "../../models/models";
 // import { models } from '@next-auth/sequelize-adapter';
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: "./maindb.db"
+  storage: "../../maindb.db"
 });
 
 export default async function handler(req, res) {

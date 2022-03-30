@@ -9,7 +9,7 @@ const sequelize = new Sequelize({
     storage: "./maindb.db"
 });
 
-sequelize.sync();
+// sequelize.sync();
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 
@@ -37,7 +37,7 @@ export default NextAuth({
     },
     async session({ session, token, user }) {
       // Get db primary key using user.email
-      const userId = await models.User(sequelize).findOne({ where: { email: user.email } });
+      const userId = await models.User.findOne({ where: { email: user.email } });
       session.pk = userId.id;
       // session.user.image = "https://lh3.googleusercontent.com/a-/AOh14GiKSXn_dw6jzCX-JJV0HRF0vpi3uSQsm8X2ywCCYg=s50-c-k-no"
       return session;
@@ -46,7 +46,7 @@ export default NextAuth({
   
   adapter: SequelizeAdapter(sequelize, {
     models: {
-      User: models.User(sequelize)
+      User: models.User
     }
   }),
   secret: process.env.NEXTAUTH_SECRET,
