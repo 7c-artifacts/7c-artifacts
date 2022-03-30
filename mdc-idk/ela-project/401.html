@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+  <!--[if lt IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js></script><![endif]-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+    crossorigin="anonymous" />
+  <link rel="stylesheet" href="/fonts.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="/bundle-app.css" />
+  <style>
+    #code,
+    #link {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    #code {
+      overflow-x: auto;
+      overflow-y: hidden;
+      word-break: break-word;
+      letter-spacing: .05em;
+    }
+  </style>
+</head>
+
+<body class="mdc-typography n-lp">
+  <aside class="mdc-drawer mdc-drawer--modal">
+    <div class="mdc-drawer__content">
+      <nav class="mdc-list">
+        <a class="mdc-list-item mdc-list-item--activated" href="./" aria-current="page" tabindex="0">
+          <span class="mdc-list-item__ripple"></span>
+          <span class="mdc-list-item__text">Home</span>
+        </a>
+        <a class="mdc-list-item" href="./add-poem.html">
+          <span class="mdc-list-item__ripple"></span>
+          <span class="mdc-list-item__text">Add poem</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
+  <div class="mdc-drawer-scrim"></div>
+  <div class="mdc-drawer-app-content">
+    <header class="mdc-top-app-bar mdc-top-app-bar--fixed">
+      <div class="mdc-top-app-bar__row">
+        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+          <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button"
+            aria-label="Open navigation menu" title="Open navigation menu">menu</button>
+          <span class="mdc-top-app-bar__title">7C Poems</span>
+        </section>
+      </div>
+    </header>
+    <main class="main-content mdc-top-app-bar--fixed-adjust">
+      <article class="container">
+        <h1>401 Error</h1>
+        <p>You are not authorized and may not access this page.</p>
+        <p>You may go to <a href="./">the 7C Poems home page</a> or sign in.</p>
+        <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="filled_blue"
+          data-text="continue_with" data-size="large" data-logo_alignment="left" class="group-select-option">
+        </div>
+        <div class="group-select-option"><button class="mdc-button mdc-button--outlined"
+            data-open-dialog="other-device-code"><span class="mdc-button__ripple"></span><span
+              class="mdc-button__label">Or sign in using another
+              device</span></button></div>
+        <div id="g_id_onload" data-client_id="365664403134-lg5lfmlf1fvhg1ndcfdklhj06ccaq885.apps.googleusercontent.com"
+          data-context="signin" data-ux_mode="popup" data-login_uri="http://localhost:8080/ela-project/add-poem.html">
+        </div>
+      </article>
+      <div id="internetConnection"></div>
+    </main>
+    <div class="mdc-dialog" id="other-device-code">
+      <div class="mdc-dialog__container">
+        <div class="mdc-dialog__surface" aria-modal="true">
+          <div class="mdc-dialog__content">
+            <div>Go to</div>
+            <div class="mdc-typography--headline4" id="link">https://www.google.com/device</div>
+            <div>with another device and enter this code:</div>
+            <div class="mdc-typography--headline4" id="code">WWWWWWWWWWWWWWW</div>
+          </div>
+          <div class="mdc-dialog__actions">
+            <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="close">
+              <div class="mdc-button__ripple"></div>
+              <span class="mdc-button__label">Close</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="mdc-dialog__scrim"></div>
+    </div>
+  </div>
+  <!-- import the Material javascript file -->
+  <script src="/bundle-app.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</body>
+
+</html>

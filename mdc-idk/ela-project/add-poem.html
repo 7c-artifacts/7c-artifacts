@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+  <!--[if lt IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js></script><![endif]-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+    crossorigin="anonymous" />
+  <link rel="stylesheet" href="/fonts.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="/bundle-app.css" />
+  <style>
+    .submit {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .space {
+      display: inline-block;
+      width: 36px;
+      padding: 0 6px;
+    }
+
+    #searchbox {
+      margin-top: 0.5rem;
+    }
+
+    .ais-Highlight-highlighted {
+      background: #FF934F;
+      color: #000;
+    }
+
+    .ais-Pagination-list,
+    .ais-Hits-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .ais-Hits--empty {
+      margin-top: 1rem;
+    }
+
+    .ais-Pagination-item {
+      display: inline-block;
+      margin-right: 0.5rem;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+
+    .ais-Pagination-item--lastPage {
+      margin-right: 0;
+    }
+
+    .ais-Pagination-item--disabled {
+      opacity: 50%;
+      pointer-events: none;
+    }
+
+    .ais-Pagination-item--selected a:any-link {
+      font-weight: 700;
+      color: #fff;
+    }
+  </style>
+  <link rel="stylesheet" href="css/bundle.css" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/primer-markdown/4.1.0-alpha.e45cefe1/build.min.css"
+    integrity="sha512-ZxM9YJ7nRWaDDzwuTp6SQ26ukn7tMYdbd2EKDzzSDjA99Pv93TReloXCeyQSiKepinP70Tcie16+7cM+FntE0Q=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body class="mdc-typography n-lp">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+  <aside class="mdc-drawer mdc-drawer--modal">
+    <div class="mdc-drawer__content">
+      <nav class="mdc-list">
+        <a class="mdc-list-item" href="./">
+          <span class="mdc-list-item__ripple"></span>
+          <span class="mdc-list-item__text">Home</span>
+        </a>
+        <a class="mdc-list-item mdc-list-item--activated" href="./add-poem.html" aria-current="page" tabindex="0">
+          <span class="mdc-list-item__ripple"></span>
+          <span class="mdc-list-item__text">Add poem</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
+  <div class="mdc-drawer-scrim"></div>
+  <div class="mdc-drawer-app-content">
+    <header class="mdc-top-app-bar mdc-top-app-bar--fixed">
+      <div class="mdc-top-app-bar__row">
+        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+          <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button"
+            aria-label="Open navigation menu" title="Open navigation menu">menu</button>
+          <span class="mdc-top-app-bar__title">7C Poems</span>
+        </section>
+        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+          <div class="mdc-menu-surface--anchor">
+            <button class="mdc-top-app-bar__action-item mdc-icon-button" aria-label="Your profile"><img
+                src="https://lh3.googleusercontent.com/a/AATXAJzrL5mbM7W8hpFHGNU__BHUUoCidUZmRxCV3gNfgQ=s96-c"
+                style="border-radius: 50%;" draggable="false" /></button>
+            <div class="mdc-menu mdc-menu-surface">
+              <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical" tabindex="-1">
+                <h3 class="mdc-list-group__subheader">Hi, Daniel He!</h3>
+                <li class="mdc-list-item" role="menuitem" data-open-dialog="logout">
+                  <span class="mdc-list-item__ripple"></span>
+                  <span class="mdc-list-item__text">Log out</span>
+                </li>
+              </ul>
+            </div>
+          </div><button class="mdc-top-app-bar__action-item mdc-icon-button material-icons"
+            aria-label="Search on this site" href="search.html" title="Search" data-open-dialog="search">search</button>
+        </section>
+      </div>
+    </header>
+    <main class="main-content mdc-top-app-bar--fixed-adjust">
+      <form class="container">
+        <h1>Submit your poem</h1>
+        <label class="mdc-text-field mdc-text-field--outlined long">
+          <span class="mdc-notched-outline">
+            <span class="mdc-notched-outline__leading"></span>
+            <span class="mdc-notched-outline__notch">
+              <span class="mdc-floating-label">Poem name</span>
+            </span>
+            <span class="mdc-notched-outline__trailing"></span>
+          </span>
+          <input type="text" class="mdc-text-field__input" name="title" required>
+        </label>
+        <div class="group-select-option">
+          <div id="editor" class="markdown-body"></div>
+          <div style="display: none" id="content">
+            <p>Paste your poem here. Hit <code>return</code> or <code>enter</code> once to add a new paragraph, and hit
+              <code>shift+return</code> or <code>shift+enter</code> to add a line break.
+            </p>
+            <p>A new paragraph looks like this<br />and a line break looks like this.</p>
+          </div>
+          <div class="mdc-typography--caption n-lt" id="editor-save">Not saved</div>
+        </div>
+        <label class="mdc-text-field mdc-text-field--outlined long group-select-option">
+          <span class="mdc-notched-outline">
+            <span class="mdc-notched-outline__leading"></span>
+            <span class="mdc-notched-outline__notch">
+              <span class="mdc-floating-label">Add up to 15 tags</span>
+            </span>
+            <span class="mdc-notched-outline__trailing"></span>
+          </span>
+          <input type="text" class="mdc-text-field__input" name="tags" placeholder="Separate each tag with a space.">
+        </label>
+        <span class="mdc-form-field group-select-option">
+          <div class="mdc-checkbox">
+            <input type="checkbox" class="mdc-checkbox__native-control" id="license-disclaimer"
+              name="license-disclaimer" required />
+            <div class="mdc-checkbox__background">
+              <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+                <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" />
+              </svg>
+              <div class="mdc-checkbox__mixedmark"></div>
+            </div>
+            <div class="mdc-checkbox__ripple"></div>
+          </div><label for="license-disclaimer">I agree to license this poem under <a
+              href="https://creativecommons.org/publicdomain/zero/1.0"><abbr class="n-op">CC0</abbr></a>. I am giving up
+            my copyright and allowing reusers to distribute, remix, adapt, and build upon this poem in any medium or
+            format, even for commercial purposes.</label>
+        </span>
+        <button class="mdc-button mdc-button--raised submit long" type="submit">
+          <span class="mdc-button__ripple"></span>
+          <i class="mdc-button__icon material-icons" aria-hidden="true">send</i>
+          <span class="mdc-button__label">Submit</span>
+        </button>
+      </form>
+      <div class="mdc-snackbar mdc-snackbar--leading" data-check-form>
+        <div class="mdc-snackbar__surface">
+          <div class="mdc-snackbar__label">
+            There are invalid fields. Please check everything and try again.
+          </div>
+        </div>
+      </div>
+      <div class="mdc-dialog" id="logout">
+        <div class="mdc-dialog__container">
+          <div class="mdc-dialog__surface" aria-modal="true">
+            <div class="mdc-dialog__content">Are you sure you want to log out?</div>
+            <div class="mdc-dialog__actions"><button type="button" class="mdc-button mdc-dialog__button"
+                data-mdc-dialog-action="cancel"><span class="mdc-button__ripple"></span><span
+                  class="mdc-button__label">Cancel</span></button><button type="button"
+                class="mdc-button mdc-dialog__button" data-mdc-dialog-action="logout"><span
+                  class="mdc-button__ripple"></span><span class="mdc-button__label">Log out</span></button></div>
+          </div>
+        </div>
+        <div class="mdc-dialog__scrim"></div>
+      </div>
+      <div id="internetConnection"></div>
+    </main>
+    <footer>
+      <div class="container">
+        <div class="mdc-typography--headline3"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 286.4 166.9"
+            style="enable-background:new 0 0 286.4 166.9;height:1em !important" xml:space="preserve">
+            <style type="text/css">
+              .logo-a {
+                fill-rule: evenodd;
+                clip-rule: evenodd
+              }
+            </style>
+            <path fill="#fff" d="M66.3,131.6c32.6,2.1,63.5-36,125.4-45.1c26-5.3,67.7-3.3,82.6,23.1c10.1-12.4,12.1-18.5,12.1-18.5
+         S281,77.8,253,73.8c-27.7-3.9-58.5-0.4-92.6,14c-33.2,14-69.8,21.9-100.8,13.2c-22.9-6.4-45.8-22.1-45-40.3v-3.1
+         c-4.1,8.4-9,38.9,6.7,55.4C32.7,124.9,47.5,130.4,66.3,131.6" />
+            <path fill="#fff" d="M11,110.8c3.5,13.8,10.6,21.7,19.4,27.4c23.5,15.3,66.7-4.1,66.7-4.1s-33,32-61.7,31
+         c-9.5-0.3-14.9-4.1-16.9-6.8C16.4,155.6,9.4,126,11,110.8" />
+            <path fill="#fff" d="M39.7,82.1c-12.2-7.7-20.4-21.4-20.8-37.7C9.6,48,2.8,52.8,0,57.7c-0.2-7,8-17.6,20.5-27.4
+         C23.6,18.3,30.6,7.7,40.1,0c-3.2,6.2-5.1,13.2-5.4,20.6c1.5-0.9,3.1-1.8,4.7-2.7C49.6,12.4,59.1,9,66.6,7.8
+         c-1.8,0.6-3.7,1.5-5.5,2.5c-10.7,5.8-19.5,16.3-23.8,27.3c4,11.9,12.5,21.5,23.6,27.1c-11.8-1.6-25.4-4.5-28.1-9.3
+         C33.6,65.5,36.3,74.5,39.7,82.1" />
+            <path fill="#fff" d="M175.9,150.9c0-8.7-6.2-13.2-11.1-15.8l-5.2-2.8c-3.9-2-7.2-5.4-7.2-9c0-3.9,2.8-7.3,8-7.3
+         c5.7,0,9.1,5.8,10.4,9.8c0.7,0.8,2.7,0.7,3.1-0.2c0-5.3-0.8-9.5-1.4-11.3c-0.9-0.2-1.7-0.3-2.7-0.6c-3.2-0.9-6.4-1.3-9-1.3
+         c-11.4,0-18.3,6.1-18.3,15c0.1,7.8,6.2,12.5,11.9,15.4c4.7,2.4,10.7,6.1,10.7,12.5c0,3.9-2.7,8-8.5,8c-6.7,0-12-7.2-13.6-12.4
+         c-0.6-0.9-2.4-0.8-3,0.2c0,5.4,1,11,2.5,12.8c1.7,0.9,6.1,3,13.4,3C167.9,166.9,175.9,160.6,175.9,150.9" />
+            <path class="logo-a" fill="#fff" d="M203.7,147.9c2.8,0,3.4,0.2,3.8,1.4l2.1,6.8c0.9,2.9,1.5,4.8,1.5,5.3c0,0.5-0.3,1-2.1,1.3l-2.5,0.4
+         c-0.9,0.6-0.7,2.3,0.2,2.8c3.6-0.2,6.7-0.2,10.6-0.2c4.1,0,8.4,0.1,12.1,0.2c0.7-0.5,0.6-2.4,0.1-2.8l-3-0.5c-2.9-0.5-3.6-2.3-5.3-7
+         l-10.7-30.9c-2-5.6-2.9-8.5-3.5-10.8c-0.3-1.2-0.8-1.6-1.8-1.6c-0.2,0-3.1,3.9-6.9,4.7c0.2,2.3-1.2,5-3.1,10l-7.1,19.2
+         c-2.1,5.7-3.5,9.4-4.9,12.6c-1.3,3.1-2.9,3.7-4.8,3.9l-2.1,0.2c-0.6,0.6-0.6,2.3,0.2,2.8c3.6,0,5.4-0.2,8.1-0.2
+         c3.3,0.1,6.5,0.1,9.2,0.2c0.8-0.4,0.6-2.2,0.2-2.8l-2.4-0.4c-2.2-0.4-2.8-0.9-2.8-1.3c0-0.6,0.1-1.3,0.6-2.8l2.9-9.1
+         c0.5-1.5,0.7-1.6,2.6-1.6H203.7z M196.5,143.7c-2,0-2.4-0.2-1.7-2.4l2-5.9c1.2-3.6,2.4-6.9,3.2-8.7c0.7,1.7,1.7,4.9,2.8,8.3l2,6.4
+         c0.7,2,0.2,2.3-1.6,2.3H196.5z" />
+            <path fill="#fff" d="M264.9,150.9c0-8.7-6.2-13.2-11.1-15.8l-5.2-2.8c-3.9-2-7.2-5.4-7.2-9c0-3.9,2.8-7.3,8-7.3
+         c5.7,0,9.1,5.8,10.4,9.8c0.7,0.8,2.7,0.7,3.1-0.2c0-5.3-0.8-9.5-1.4-11.3c-0.9-0.2-1.7-0.3-2.7-0.6c-3.2-0.9-6.4-1.3-9-1.3
+         c-11.4,0-18.3,6.1-18.3,15c0.1,7.8,6.2,12.5,11.9,15.4c4.7,2.4,10.7,6.1,10.7,12.5c0,3.9-2.7,8-8.5,8c-6.7,0-12-7.2-13.6-12.4
+         c-0.6-0.9-2.4-0.8-3,0.2c0,5.4,1,11,2.5,12.8c1.7,0.9,6.1,3,13.4,3C256.9,166.9,264.9,160.6,264.9,150.9" />
+          </svg> 7C Poems</div>
+        <p class="mdc-typography--subtitle1">Displaying poems from 7C ELA students since 2022.</p>
+        <p class="mdc-typography--body2">This is made by Anvay Mathur, Dan<sub>iel</sub> He, Tim Xiang, (insert more
+          names), and other anonymous contributors. Poems are written by students in 7C.</p>
+        <p class="mdc-typography--body2">Contact the developers at <a
+            href="mailto:mathur47349@sas.edu.sg">mathur47349@sas.edu.sg</a> and the teachers at their respective emails
+          or on Google Classroom.</p>
+        <p class="mdc-typography--body2">All content is licensed under <img
+            style="height:1em!important;vertical-align:middle"
+            src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img
+            style="height:1em!important;vertical-align:middle"
+            src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img
+            style="height:1em!important;vertical-align:middle"
+            src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1"> <a
+            href="https://creativecommons.org/licenses/by-sa/4.0/"><abbr
+              title="Creative Commons Attribution-ShareAlike 4.0 International License" class="n-op">CC BY-SA
+              4.0</abbr></a>. You are legally obliged to attribute all content and release all derivative works under a
+          similar license.</p>
+        <p class="mdc-typography--body2">Design, code, and all other elements of this website except for poems are
+          copyright © 2022 by Anvay Mathur</p>
+      </div>
+    </footer>
+    <div class="mdc-dialog" id="search">
+      <div class="mdc-dialog__container">
+        <div class="mdc-dialog__surface" aria-modal="true">
+          <h2 class="mdc-dialog__title">Search</h2>
+          <div class="mdc-dialog__content">
+            <div id="searchbox"></div>
+            <div class="mdc-typography--caption group-select-option">Search powered by <svg viewBox="0 0 485 120"
+                xmlns="http://www.w3.org/2000/svg" style="height:1.25em;vertical-align:-0.3em" role="img" alt="Algolia">
+                <title>Algolia</title>
+                <g fill="none">
+                  <path
+                    d="M15.8-.001h88.4c8.7 0 15.8 7.065 15.8 15.8v88.405c0 8.7-7.065 15.795-15.8 15.795H15.8c-8.7 0-15.8-7.06-15.8-15.795V15.759C0 7.064 7.06-.001 15.8-.001"
+                    fill="#5468FF" />
+                  <path
+                    d="M72.505 26.788v-4.115a5.209 5.209 0 0 0-5.21-5.205H55.15a5.209 5.209 0 0 0-5.21 5.205v4.225c0 .47.435.8.91.69a37.966 37.966 0 0 1 10.57-1.49c3.465 0 6.895.47 10.21 1.38.44.11.875-.215.875-.69zM39.22 32.173l-2.075-2.075a5.206 5.206 0 0 0-7.365 0l-2.48 2.475a5.185 5.185 0 0 0 0 7.355l2.04 2.04c.33.325.805.25 1.095-.075a39.876 39.876 0 0 1 3.975-4.66 37.68 37.68 0 0 1 4.7-4c.364-.22.4-.73.11-1.06zm22.164 13.065v17.8c0 .51.55.875 1.02.62l15.825-8.19c.36-.18.47-.62.29-.98-3.28-5.755-9.37-9.685-16.405-9.94-.365 0-.73.29-.73.69zm0 42.88c-13.195 0-23.915-10.705-23.915-23.88 0-13.175 10.72-23.875 23.915-23.875 13.2 0 23.916 10.7 23.916 23.875s-10.68 23.88-23.916 23.88zm0-57.8c-18.74 0-33.94 15.18-33.94 33.92 0 18.745 15.2 33.89 33.94 33.89s33.94-15.18 33.94-33.925c0-18.745-15.165-33.885-33.94-33.885zm177.83 64.86c-23.365.109-23.365-18.856-23.365-21.876l-.04-71.045 14.254-2.26v70.61c0 1.715 0 12.56 9.15 12.595v11.975l.001.001zm-57.78-11.611c4.374 0 7.62-.255 9.88-.69V68.392a29.196 29.196 0 0 0-3.43-.695 33.742 33.742 0 0 0-4.956-.365c-1.57 0-3.175.11-4.775.365-1.605.22-3.065.655-4.34 1.275-1.275.62-2.335 1.495-3.1 2.62-.8 1.13-1.165 1.785-1.165 3.495 0 3.345 1.165 5.28 3.28 6.55 2.115 1.275 4.995 1.93 8.606 1.93zm-1.24-51.685c4.7 0 8.674.585 11.884 1.75 3.206 1.165 5.796 2.8 7.69 4.875 1.935 2.11 3.245 4.915 4.046 7.9.84 2.985 1.24 6.26 1.24 9.86v36.62c-2.185.47-5.506 1.015-9.95 1.67-4.446.655-9.44.985-14.986.985-3.68 0-7.07-.365-10.095-1.055-3.065-.69-5.65-1.82-7.84-3.385-2.15-1.565-3.825-3.57-5.065-6.04-1.205-2.48-1.825-5.97-1.825-9.61 0-3.495.69-5.715 2.045-8.12 1.38-2.4 3.24-4.365 5.575-5.895 2.37-1.53 5.065-2.62 8.165-3.275 3.1-.655 6.345-.985 9.695-.985 1.57 0 3.21.11 4.96.29 1.715.185 3.575.515 5.545.985v-2.33c0-1.635-.185-3.2-.585-4.655a10.012 10.012 0 0 0-2.045-3.895c-.985-1.13-2.255-2.005-3.86-2.62-1.605-.62-3.65-1.095-6.09-1.095-3.28 0-6.27.4-9.005.875-2.735.47-4.995 1.02-6.71 1.635l-1.71-11.68c1.785-.62 4.445-1.24 7.875-1.855 3.425-.66 7.11-.95 11.045-.95h.001zm281.51 51.285c4.375 0 7.615-.255 9.875-.695v-14.48c-.8-.22-1.93-.475-3.425-.695a33.813 33.813 0 0 0-4.96-.365c-1.565 0-3.17.11-4.775.365-1.6.22-3.06.655-4.335 1.275-1.28.62-2.335 1.495-3.1 2.62-.805 1.13-1.165 1.785-1.165 3.495 0 3.345 1.165 5.28 3.28 6.55 2.15 1.31 4.995 1.93 8.605 1.93zm-1.205-51.645c4.7 0 8.674.58 11.884 1.745 3.205 1.165 5.795 2.8 7.69 4.875 1.895 2.075 3.245 4.915 4.045 7.9.84 2.985 1.24 6.26 1.24 9.865v36.615c-2.185.47-5.505 1.015-9.95 1.675-4.445.655-9.44.98-14.985.98-3.68 0-7.07-.365-10.094-1.055-3.065-.69-5.65-1.82-7.84-3.385-2.15-1.565-3.825-3.57-5.065-6.04-1.205-2.475-1.825-5.97-1.825-9.61 0-3.495.695-5.715 2.045-8.12 1.38-2.4 3.24-4.365 5.575-5.895 2.37-1.525 5.065-2.62 8.165-3.275 3.1-.655 6.345-.98 9.7-.98 1.565 0 3.205.11 4.955.29s3.575.51 5.54.985v-2.33c0-1.64-.18-3.205-.58-4.66a9.977 9.977 0 0 0-2.045-3.895c-.985-1.13-2.255-2.005-3.86-2.62-1.606-.62-3.65-1.09-6.09-1.09-3.28 0-6.27.4-9.005.87-2.735.475-4.995 1.02-6.71 1.64l-1.71-11.685c1.785-.62 4.445-1.235 7.875-1.855 3.425-.62 7.105-.945 11.045-.945zm-42.8-6.77c4.774 0 8.68-3.86 8.68-8.63 0-4.765-3.866-8.625-8.68-8.625-4.81 0-8.675 3.86-8.675 8.625 0 4.77 3.9 8.63 8.675 8.63zm7.18 70.425h-14.326v-61.44l14.325-2.255v63.695h.001zm-25.116 0c-23.365.11-23.365-18.855-23.365-21.875l-.04-71.045 14.255-2.26v70.61c0 1.715 0 12.56 9.15 12.595v11.975zm-46.335-31.445c0-6.155-1.35-11.285-3.974-14.85-2.625-3.605-6.305-5.385-11.01-5.385-4.7 0-8.386 1.78-11.006 5.385-2.625 3.6-3.904 8.695-3.904 14.85 0 6.225 1.315 10.405 3.94 14.01 2.625 3.64 6.305 5.425 11.01 5.425 4.7 0 8.385-1.82 11.01-5.425 2.624-3.64 3.934-7.785 3.934-14.01zm14.58-.035c0 4.805-.69 8.44-2.114 12.41-1.42 3.965-3.425 7.35-6.01 10.155-2.59 2.8-5.69 4.985-9.336 6.515-3.644 1.525-9.26 2.4-12.065 2.4-2.81-.035-8.385-.835-11.995-2.4-3.61-1.565-6.71-3.715-9.295-6.515-2.59-2.805-4.594-6.19-6.054-10.155-1.456-3.97-2.185-7.605-2.185-12.41s.654-9.43 2.114-13.36c1.46-3.93 3.5-7.28 6.125-10.08 2.625-2.805 5.76-4.955 9.33-6.48 3.61-1.53 7.585-2.255 11.885-2.255 4.305 0 8.275.76 11.92 2.255 3.65 1.525 6.786 3.675 9.336 6.48 2.584 2.8 4.59 6.15 6.05 10.08 1.53 3.93 2.295 8.555 2.295 13.36h-.001zm-107.284 0c0 5.965 1.31 12.59 3.935 15.355 2.625 2.77 6.014 4.15 10.175 4.15 2.26 0 4.41-.325 6.414-.945 2.005-.62 3.606-1.35 4.886-2.22v-35.34c-1.02-.22-5.286-1.095-9.41-1.2-5.175-.15-9.11 1.965-11.88 5.345-2.736 3.39-4.12 9.32-4.12 14.855zm39.625 28.095c0 9.72-2.48 16.815-7.476 21.33-4.99 4.51-12.61 6.77-22.89 6.77-3.755 0-11.555-.73-17.79-2.11l2.295-11.285c5.215 1.09 12.105 1.385 15.715 1.385 5.72 0 9.805-1.165 12.245-3.495 2.445-2.33 3.645-5.785 3.645-10.375v-2.33c-1.42.69-3.28 1.385-5.575 2.115-2.295.69-4.955 1.055-7.95 1.055-3.935 0-7.51-.62-10.75-1.86-3.245-1.235-6.055-3.055-8.35-5.46-2.295-2.4-4.12-5.42-5.395-9.025-1.275-3.605-1.935-10.045-1.935-14.775 0-4.44.695-10.01 2.046-13.725 1.384-3.71 3.35-6.915 6.014-9.57 2.626-2.655 5.835-4.695 9.59-6.19 3.755-1.49 8.16-2.435 12.935-2.435 4.635 0 8.9.58 13.055 1.275 4.155.69 7.69 1.415 10.57 2.215v56.49h.001z"
+                    fill="#FFF" />
+                </g>
+              </svg></div>
+            <div id="hits"></div>
+            <div id="pagination" class="group-select-option"></div>
+          </div>
+          <div class="mdc-dialog__actions">
+            <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="close">
+              <div class="mdc-button__ripple"></div>
+              <span class="mdc-button__label">Close</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="mdc-dialog__scrim"></div>
+    </div>
+  </div>
+  <!-- import the Material javascript file -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/4.12.2/algoliasearch-lite.umd.min.js"
+    integrity="sha512-aUksXi1ua+fMpWz/FJG/6GlPF3o0ZUftQZWr1OS0CfHo40WQoYUVJA78VQq1kFSzN1Yzekmd3gKIBr1J2IEfHw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/instantsearch.js/4.39.1/instantsearch.production.min.js"
+    integrity="sha512-o7gek7s7hqL6CToN0VhxmeX5I8SyRzHUz4PzQLenqJTge4ZZuip9Mu4veMXsK/H7FjZDex0F0nHtjVQCsqzjBQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    const search = instantsearch({
+      indexName: 'demo_ecommerce',
+      searchClient: algoliasearch('B1G2GM9NG0', 'aadef574be1f9252bb48d4ea09b5cfe5'),
+    });
+    const renderSearchBox = (renderOptions, isFirstRender) => {
+      const { query, refine } = renderOptions;
+      const container = document.querySelector('#searchbox');
+      if (isFirstRender) {
+        container.innerHTML = `<label class="long mdc-text-field mdc-text-field--outlined mdc-text-field--with-leading-icon"><span class=mdc-notched-outline><span class=mdc-notched-outline__leading></span><span class=mdc-notched-outline__notch><span class=mdc-floating-label>Search query…</span></span><span class=mdc-notched-outline__trailing></span></span><i class="material-icons mdc-text-field__icon mdc-text-field__icon--leading">search</i><input class=mdc-text-field__input></label>`
+        container.querySelector('input').addEventListener('input', event => {
+          refine(event.target.value);
+        });
+      }
+      container.querySelector('input').value = query;
+    };
+    const customSearchBox = instantsearch.connectors.connectSearchBox(
+      renderSearchBox
+    );
+    search.addWidgets([
+      customSearchBox({
+        container: document.querySelector('#searchbox'),
+      }),
+      instantsearch.widgets.hits({
+        container: '#hits',
+        templates: {
+          item: `
+      <div class="group-select-option">
+        <div class="mdc-typography--headline5">
+          {{#helpers.highlight}}{ "attribute": "name" }{{/helpers.highlight}}
+        </div>
+        <div class="mdc-typography--body2">
+          {{#helpers.highlight}}{ "attribute": "description" }{{/helpers.highlight}}
+        </div>
+      </div>
+    `,
+        },
+      }),
+      instantsearch.widgets.pagination({
+        container: '#pagination',
+      }),
+    ]);
+    search.start();
+  </script>
+  <script src="/bundle-prosemirror.js"></script>
+  <script src="/bundle-app.js"></script>
+  <script>
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    function amorpm(hour) {
+      if (hour < 13) {
+        return [hour, 'A.M.'];
+      } else {
+        return [hour - 12, 'P.M.'];
+      }
+    }
+    function savework() {
+      let now = new Date();
+      document.getElementById('editor-save').innerHTML = 'Saved ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear() + ', at ' + amorpm(now.getHours())[0] + ':' + now.getMinutes().toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) + ':' + now.getSeconds().toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) + ' <abbr>' + amorpm(now.getHours())[1] + '</abbr>'
+    }
+    savework();
+    setInterval(savework, 10000);
+  </script>
+</body>
+
+</html>
