@@ -8,6 +8,10 @@ To test it on your own computer, make sure you have [npm](https://npmjs.com), [y
 ```bash
 gh repo clone FryingggPannn/7c-poems
 ```
+Navigate to that file using
+```bash
+cd 7c-poems
+```
 Then install all required dependencies using
 ```bash
 yarn
