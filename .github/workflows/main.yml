@@ -25,7 +25,8 @@ jobs:
       - name: Google Chat Notification
         uses: nakamuraos/google-chat-notifications@v2.0.1
         with:
-          title: ${{ github.event.commits[0].message }} by ${{ github.event.pusher.name }}
+          title: ${{ github.event.commits[0].message }}
+          subtitle: ${{ github.event.pusher.name }}
           webhookUrl: https://chat.googleapis.com/v1/spaces/AAAAt82xNeY/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=6IE7MFXJvxPXjJ5fkN7uSXmuEgY2XMaSNS2rhzkuVyE%3D
           status: ${{ job.status }}
         if: always()
