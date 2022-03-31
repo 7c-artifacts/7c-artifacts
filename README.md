@@ -16,10 +16,14 @@ Then install all required dependencies using
 ```bash
 yarn
 ```
-and start a development server with
+
+Then, install a PostgreSQL server names "postgres" without any credentials. This can be done using [Postgres.app](https://postgresapp.com/) on Mac. 
+
+Start a development server with
 ```bash
 yarn dev
 ```
+
 Then the website will be available at <https://localhost:3000>.
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.

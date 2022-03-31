@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { DataTypes } from "sequelize";
 
 export default (sequelize) => {
