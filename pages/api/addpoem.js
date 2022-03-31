@@ -1,12 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { Sequelize } from 'sequelize';
-import models from "../../models/models";
+import Models from "../../models/models";
 import { getSession } from 'next-auth/react';
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: "./maindb.db"
-});
+import sequelize from "../../components/client"
 
+const models = Models(sequelize);
 export default async function handler(req, res) {
     if (req.method === 'POST') {
         const {text, title, tags} = req.body;
@@ -16,6 +13,7 @@ export default async function handler(req, res) {
             res.end();
             return;
         }
+        await sequelize.sync();
         let error = [];
         
         const Poem = models.Poem;
@@ -24,35 +22,43 @@ export default async function handler(req, res) {
 
         const poem = Poem.build({
             text,
-            title
+            title,
+            userId: session.pk
         })
-        await poem.setAuthor(await Poem.findByPk(session.id));
-        
+        console.log("\tBuilt poem!")
+
+        // const user = await models.User.findByPk(session.pk);
+        // console.log(user);
+        // await poem.setUser(user);
+        console.log("\tSet author!")
         let taglist = [];
         const tag = models.Tag;
-        await sequelize.sync();
+        
         for (let i = 0; i < tags.length; i++) {
-            taglist.push(tag.findOrCreate({where: {name: tags[i].name}}));
+            taglist.push(tag.findOrCreate({where: {name: tags[i].text}}));
         }
         try {
             taglist = await Promise.all(taglist);
-        } catch {
+        } catch(e) {
+            console.log(e);
             error.push("Invalid tag");
             res.status(401).json({error});
             res.end();
             return;
         }
         
-        poem.setTags(...tagslist);
-        const valid = await poem.validate();
-        Object.values(valid).forEach((v, i) => {
-            error.push(`Invalid field '${i}': ` + v);
-        });
-        if (error.length > 0) {
+        poem.setTags(taglist);
+        try {
+            const valid = await poem.validate();
+        } catch (e) {
+            Object.values(e).forEach((v, i) => {
+                error.push(`Invalid field '${i}': ` + v);
+            });
             res.status(401).json({error});
             res.end();
             return;
         }
+        
         await poem.save()
         
         const timeend = Date.now();

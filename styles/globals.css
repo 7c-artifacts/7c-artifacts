@@ -20,6 +20,21 @@ a {
 }
  */
 
+.output a, .output a:visited {
+  cursor: pointer;
+  text-decoration-line: underline;
+  color: #1fb2a6;
+}
+
+.output a:hover {
+  color: #198f85;
+}
+
+.output a:focus, .output a:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
 .editor-toolbar {
   background-color: white;
   opacity: 1;
@@ -90,7 +105,7 @@ a {
   color: var(--tw-prose-quotes);
   border-left-width: 0.25rem;
   border-left-color: var(--tw-prose-quote-borders);
-  quotes: "\201C""\201D""\2018""\2019";
+  quotes: "\201C" "\201D" "\2018" "\2019";
   margin-top: 1.6em;
   margin-bottom: 1.6em;
   padding-left: 1em;

@@ -17,7 +17,7 @@ export default (sequelize) => {
             type: DataTypes.TEXT,
             allowNull: false,
             validate: {
-                len: [20]
+                len: [20, Infinity]
             }
         }
     }, {

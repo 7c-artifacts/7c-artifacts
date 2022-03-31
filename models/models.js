@@ -5,10 +5,7 @@ import Tag from "./Tag"
 import PoemTag from "./PoemTag"
 import { Sequelize } from 'sequelize';
 
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: "./maindb.db"
-});
+
 
 const Models = {
     TestModel: (sequelize) => {
@@ -31,14 +28,14 @@ const Models = {
     Poem,
     Tag,
     PoemTag,
-    Final: () => {
+    Final: (sequelize) => {
         const tag = Tag(sequelize);
         const user = User(sequelize);
         const poem = Poem(sequelize);
 
         tag.belongsToMany(poem, { through: 'poemtags', allowNull: false });
         user.hasMany(poem, { allowNull: true });
-        poem.belongsTo(user, { as: "author", allowNull: false  });
+        poem.belongsTo(user, { allowNull: false  });
         poem.belongsToMany(tag, { through: 'poemtags', allowNull: true });
         return {
             Tag: tag,
@@ -50,5 +47,5 @@ const Models = {
 
 
 
-const things = Models.Final();
-export default things;
+
+export default Models.Final;

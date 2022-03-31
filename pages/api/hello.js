@@ -1,10 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { Sequelize } from 'sequelize';
+import sequelize from "../../components/client"
 import models from "../../models/models";
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: "../../maindb.db"
-});
 
 export default async function handler(req, res) {
   await sequelize.sync();
