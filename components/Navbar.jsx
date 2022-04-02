@@ -53,9 +53,9 @@ function Navbar() {
             <ul className="menu menu-horizontal p-0 mx-1">
                 <li><Link href="/">Home</Link></li>
             </ul>
-            <ul className="menu menu-horizontal p-0 mx-1">
+            {session?.user ? <ul className="menu menu-horizontal p-0 mx-1">
                 <li><Link href="/submit">Submit</Link></li>
-            </ul>
+            </ul> : <></>}
             </div>
             <div className="navbar-end">
             {loginInsert}
