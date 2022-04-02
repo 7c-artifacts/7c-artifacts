@@ -1,5 +1,13 @@
 import { Sequelize } from "sequelize";
 
-const sequelize = new Sequelize('postgres://localhost:5432/postgres') // Example for postgres
+var sequelize = new Sequelize(process.env.MYSQL_USERDB, process.env.MYSQL_USERDB, process.env.MYSQL_PASS, {
+    host: "remotemysql.com",
+    dialect: "mysql",
+    port: 3306,
+    define: {
+        paranoid: true
+    }
+});
 sequelize.sync({  });
 export default sequelize;
+
