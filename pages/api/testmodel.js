@@ -4,7 +4,7 @@ import models from "../../models/models";
 // import { models } from '@next-auth/sequelize-adapter';
 
 export default async function handler(req, res) {
-  await sequelize.sync();
+
   const TestModel = models.TestModel(sequelize)
   
   const time = Date.now();

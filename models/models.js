@@ -1,14 +1,19 @@
-import { DataTypes } from "sequelize";
-import User from "./User"
-import Poem from "./Poem"
-import Tag from "./Tag"
-import PoemTag from "./PoemTag"
-import Session from "./Session";
-import Account from "./Account";
-import VerificationToken from "./VerificationToken";
-import { Sequelize } from 'sequelize';
+const { DataTypes, Sequelize } = require("sequelize")
+const User = require("./User");
+const Poem = require("./Poem");
+const Tag = require("./Tag");
+const PoemTag = require("./PoemTag");
+const Session = require("./Session");
+const Account = require("./Account");
+const VerificationToken = require("./VerificationToken");
 
-
+console.log("\tCreating connection to SQL db!")
+var sequelize = new Sequelize(process.env.MYSQL_USERDB, process.env.MYSQL_USERDB, process.env.MYSQL_PASS, {
+    host: "remotemysql.com",
+    dialect: "mysql",
+    port: 3306
+});
+// sequelize.sync({  });
 
 const Models = {
     TestModel: (sequelize) => {
@@ -60,4 +65,4 @@ const Models = {
 
 
 
-export default Models.Final;
+module.exports = {models: Models.Final(sequelize), sequelize: sequelize};

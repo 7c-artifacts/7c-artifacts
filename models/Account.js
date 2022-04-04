@@ -1,8 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { models } from "@next-auth/sequelize-adapter"
-import { DataTypes } from "sequelize";
+const { models } = require("@next-auth/sequelize-adapter");
+const { DataTypes } = require("sequelize");
 
-export default (sequelize) => {
+module.exports =  (sequelize) => {
     delete models.Account.userId;
     const model = sequelize.define('account', {
         // Model attributes are defined here

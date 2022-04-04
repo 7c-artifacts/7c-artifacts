@@ -4,7 +4,6 @@ import models from "../../models/models";
 
 
 export default async function handler(req, res) {
-  await sequelize.sync();
   const TestModel = models.TestModel(sequelize)
 
   const time = Date.now();

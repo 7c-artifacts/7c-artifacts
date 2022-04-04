@@ -1,9 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import Models from "../../models/models";
 import { getSession } from 'next-auth/react';
-import sequelize from "../../components/client"
 
-const models = Models(sequelize);
+const {models, sequelize} = require("../../models/models");
+
 export default async function handler(req, res) {
     if (req.method === 'POST') {
         const {text, title, tags} = req.body;
@@ -11,9 +10,10 @@ export default async function handler(req, res) {
         if (!session) {
             res.status(403).json({error: ["Incorrect account or not signed in"]});
             res.end();
+            // sequelize.close();
             return;
         }
-        await sequelize.sync();
+
         let error = [];
         
         const Poem = models.Poem;
@@ -44,18 +44,20 @@ export default async function handler(req, res) {
             error.push("Invalid tag");
             res.status(401).json({error});
             res.end();
+            // sequelize.close();
             return;
         }
         
         poem.setTags(taglist);
         try {
-            const valid = await poem.validate();
+            await poem.validate();
         } catch (e) {
             Object.values(e).forEach((v, i) => {
                 error.push(`Invalid field '${i}': ` + v);
             });
             res.status(401).json({error});
             res.end();
+            // sequelize.close();
             return;
         }
         
@@ -65,4 +67,5 @@ export default async function handler(req, res) {
 
         res.status(200).json({ time: timeend - time, poem });
     }
+    // sequelize.close();
 }

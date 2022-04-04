@@ -1,11 +1,9 @@
 import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import SequelizeAdapter from "@next-auth/sequelize-adapter"
-import sequelize from "../../../components/client"
-import Models from "../../../models/models"
+const {models, sequelize} = require("../../../models/models");
 // https://sequelize.org/master/manual/getting-started.html#connecting-to-a-database
 
-const models = Models(sequelize);
 
 // sequelize.sync();
 // For more information on each option (and a full list of options) go to
@@ -49,7 +47,7 @@ export default NextAuth({
       VerificationToken: models.VerificationToken,
       Account: models.Account,
     },
-    synchronize: true
+
   }),
   session: {
     // Use JSON Web Tokens for session instead of database sessions.

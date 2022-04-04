@@ -1,9 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
-import Poem from "./Poem"
-import { models } from "@next-auth/sequelize-adapter"
-import { DataTypes } from "sequelize";
+const { models } = require("@next-auth/sequelize-adapter");
+const { DataTypes } = require("sequelize");
 
-export default (sequelize) => {
+module.exports = (sequelize) => {
     const model = sequelize.define('user', {
         // Model attributes are defined here
             ...models.User,

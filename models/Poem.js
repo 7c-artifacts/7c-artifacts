@@ -1,8 +1,7 @@
-import User from "./User"
-import { DataTypes } from "sequelize";
-import Tag from "./Tag"
+const { models } = require("@next-auth/sequelize-adapter");
+const { DataTypes } = require("sequelize");
 
-export default (sequelize) => {
+module.exports = (sequelize) => {
     const model = sequelize.define('poem', {
         // Model attributes are defined here
         title: {
