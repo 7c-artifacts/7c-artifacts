@@ -21,7 +21,7 @@ const Post = ({ session }) => {
     );
     console.log(poemerror, profileerror, profiledata, poemdata);
     
-    if (session?.user && profiledata && poemdata) {
+    if (session?.user && (profiledata?.user !== undefined || profiledata?.user !== null) && poemdata?.poems?.length > 0 && profiledata?.user && poemdata?.poems) {
         return (
             <div>
                 <Head>
