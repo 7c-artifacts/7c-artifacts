@@ -40,7 +40,7 @@ export default async function handler(req, res) {
         try {
             taglist = await Promise.all(taglist);
         } catch(e) {
-            console.log(e);
+
             error.push("Invalid tag");
             res.status(401).json({error});
             res.end();
@@ -52,8 +52,9 @@ export default async function handler(req, res) {
         try {
             await poem.validate();
         } catch (e) {
-            Object.values(e).forEach((v, i) => {
-                error.push(`Invalid field '${i}': ` + v);
+
+            e.errors.forEach((v, i) => {
+                error.push(`Invalid field '${v.path}': ` + v.message);
             });
             res.status(401).json({error});
             res.end();

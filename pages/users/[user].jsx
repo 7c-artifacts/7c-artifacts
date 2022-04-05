@@ -20,73 +20,7 @@ const Post = ({ session }) => {
         fetcher
     );
     console.log(poemerror, profileerror, profiledata, poemdata);
-    return (
-        <div className="bg-base-300 p-4 min-h-[100vh] pb-2">
-            <div className="lg:columns-4 md:columns-3 sm:columns-2 gap-2 thingy pb-2">
-                <div className="card break-inside-avoid-column card-normal bg-base-100 col-span-3 row-span-4 flex-shrink-0 overflow-visible shadow-xl w-100 mb-2 svelte-1n6ue57">
-                    <figure className="px-10 pt-10">
-                        <div className="avatar">
-                            <div className="w-24 rounded-full animate-pulse neutral-content">
-                                
-                            </div>
-                        </div>
-                    </figure>
-
-                    <div className="card-body place-items-center items-center text-center">
-                        <div class="w-36 neutral-content h-6 rounded-md animate-pulse"></div>
-                        <p className="text-base-content text-md">
-                        <div class="w-24 neutral-content h-6 rounded-md animate-pulse"></div>
-                        </p>
-                        <p className="text-sm text-opacity-80 text-base-content">
-                        <div class="w-24 neutral-content h-6 rounded-md animate-pulse"></div>
-                        </p>
-                    </div>
-                </div>
-                {[0,1,2,3,4,5,6,7,8,9,10].map((ite, i) => {
-                    return (
-                        <div
-                            style={{
-                                border: "5px solid transparent",
-                                breakInside: "avoid",
-                            }}
-                            key={i}
-                        >
-                            <div className="card break-inside-avoid-column w-100 bg-base-200 shadow-xl mb-2">
-                                <div className="card-body">
-                                    <h2 className="card-title">
-                                    <div class="w-36 neutral-content h-6 rounded-md animate-pulse"></div>
-                                    </h2>
-                                    <div class="w-24 neutral-content h-6 rounded-md animate-pulse"></div>
-                                    <div className="card-actions justify-end mt-2 gap-0">
-                                        {[1,2,3].map((ite2, i) => {
-                                            return (
-                                                <div
-                                                    className="badge badge-outline w-12 neutral-content h-6 rounded-md animate-pulse"
-                                                    style={{
-                                                        margin: "2px",
-                                                    }}
-                                                    key={i}
-                                                >
-                                                    
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                    <div className="card-actions justify-end mt-2">
-                                        <a
-                                            
-                                            className="btn btn-sm w-24 h-6 rounded-md animate-pulse"
-                                        >
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    );
-                })}
-            </div>
-        </div>
-    )
+    
     if (session?.user && profiledata && poemdata) {
         return (
             <div>
@@ -114,9 +48,9 @@ const Post = ({ session }) => {
                                 <p className="text-sm text-opacity-80 text-base-content">
                                     Has{" "}
                                     <span className="font-bold">
-                                        {poemdata.length}
+                                        {poemdata.poems.length}
                                     </span>{" "}
-                                    poem{poemdata.length == 1 ? "" : "s"}.
+                                    poem{poemdata.poems.length == 1 ? "" : "s"}.
                                 </p>
                             </div>
                         </div>
@@ -152,7 +86,7 @@ const Post = ({ session }) => {
                                             </div>
                                             <div className="card-actions justify-end mt-2">
                                                 <a
-                                                    href={"/poems/" + ite._id}
+                                                    href={"/poems/" + ite.id}
                                                     className="btn btn-sm"
                                                 >
                                                     Go to Poem
@@ -170,7 +104,80 @@ const Post = ({ session }) => {
             </div>
         );
     } else if (profiledata == undefined || poemdata == undefined) {
-        
+        return (
+            <div>
+                <Head>
+                        <title>7C Poems</title>
+                    </Head>
+                    <Navbar />
+            <div className="bg-base-300 p-4 min-h-[100vh] pb-2">
+                <div className="lg:columns-4 md:columns-3 sm:columns-2 gap-2 thingy pb-2">
+                    <div className="card break-inside-avoid-column card-normal bg-base-100 col-span-3 row-span-4 flex-shrink-0 overflow-visible shadow-xl w-100 mb-2 svelte-1n6ue57">
+                        <figure className="px-10 pt-10">
+                            <div className="avatar">
+                                <div className="w-24 rounded-full animate-pulse bg-neutral">
+                                    
+                                </div>
+                            </div>
+                        </figure>
+    
+                        <div className="card-body place-items-center items-center text-center">
+                            <div class="w-36 bg-neutral h-6 rounded-md animate-pulse"></div>
+                            <p className="text-base-content text-md">
+                            <div class="w-24 bg-neutral h-6 rounded-md animate-pulse"></div>
+                            </p>
+                            <p className="text-sm text-opacity-80 text-base-content">
+                            <div class="w-24 bg-neutral h-6 rounded-md animate-pulse"></div>
+                            </p>
+                        </div>
+                    </div>
+                    {[0,1,2,3,4,5,6,7,8,9,10].map((ite, i) => {
+                        return (
+                            <div
+                                style={{
+                                    border: "5px solid transparent",
+                                    breakInside: "avoid",
+                                }}
+                                key={i}
+                            >
+                                <div className="card break-inside-avoid-column w-100 bg-base-200 shadow-xl mb-2">
+                                    <div className="card-body">
+                                        <h2 className="card-title">
+                                        <div class="w-60 bg-neutral h-6 rounded-md animate-pulse"></div>
+                                        </h2>
+                                        <div class="w-40 bg-neutral h-6 rounded-md animate-pulse"></div>
+                                        <div className="card-actions justify-end mt-2 gap-0">
+                                            {[1,2,3].map((ite2, i) => {
+                                                return (
+                                                    <div
+                                                        className="badge w-12 bg-neutral h-6 rounded-md animate-pulse"
+                                                        style={{
+                                                            margin: "2px",
+                                                        }}
+                                                        key={i}
+                                                    >
+                                                        
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                        <div className="card-actions justify-end mt-2">
+                                            <a
+                                                
+                                                className="btn btn-sm w-24 h-6 rounded-md bg-neutral animate-pulse"
+                                            >
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+            <Footer />
+            </div>
+        )
     } else if (profileerror) {
         return (
             <div>

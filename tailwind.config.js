@@ -7,6 +7,9 @@ module.exports = {
       extend: {},
     },
     plugins: [require("daisyui"), require('@tailwindcss/typography')],
+    daisyui: {
+      themes: ["dark"]
+    }
   }// scroll down and hover on the place holder image
   
   // i officially love tailwind
