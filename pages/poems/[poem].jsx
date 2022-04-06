@@ -55,19 +55,19 @@ const Post = ({ session }) => {
                     </Head>
                     <Navbar />
             <div className="p-4 min-h-[100vh] bg-base-200">
-            <div class="w-[40vw] bg-neutral h-[67px] mt-[10px] mb-[10px] rounded-md animate-pulse"></div>
-            <div class="w-[25vw] bg-neutral h-[32px] mb-[18px] rounded-md animate-pulse"></div>
-            <div class="w-[95%] bg-neutral h-[18px] mt-[12px] mb-[6px] rounded-md animate-pulse"></div>
-            <div class="w-[97%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
-            <div class="w-[87%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
-            <div class="w-[94%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
-            <div class="w-[93%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
-            <div class="w-[47%] bg-neutral h-[18px] mb-[18px] rounded-md animate-pulse"></div>
-            <div class="w-[93%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
-            <div class="w-[89%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
-            <div class="w-[97%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
-            <div class="w-[95%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
-            <div class="w-[63%] bg-neutral h-[18px] mb-[18px] rounded-md animate-pulse"></div>
+            <div className="w-[40vw] bg-neutral h-[67px] mt-[10px] mb-[10px] rounded-md animate-pulse"></div>
+            <div className="w-[25vw] bg-neutral h-[32px] mb-[18px] rounded-md animate-pulse"></div>
+            <div className="w-[95%] bg-neutral h-[18px] mt-[12px] mb-[6px] rounded-md animate-pulse"></div>
+            <div className="w-[97%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
+            <div className="w-[87%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
+            <div className="w-[94%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
+            <div className="w-[93%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
+            <div className="w-[47%] bg-neutral h-[18px] mb-[18px] rounded-md animate-pulse"></div>
+            <div className="w-[93%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
+            <div className="w-[89%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
+            <div className="w-[97%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
+            <div className="w-[95%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
+            <div className="w-[63%] bg-neutral h-[18px] mb-[18px] rounded-md animate-pulse"></div>
 
             </div>
             <Footer />
