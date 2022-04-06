@@ -26,6 +26,11 @@ a {
   color: #1fb2a6;
 }
 
+.protection {
+  border: 10px solid transparent; 
+  break-inside: avoid;
+}
+
 .output a:hover {
   color: #198f85;
 }

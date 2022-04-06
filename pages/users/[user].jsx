@@ -31,6 +31,7 @@ const Post = ({ session }) => {
 
                 <div className="bg-base-300 p-4 min-h-[100vh] pb-2">
                     <div className="lg:columns-4 md:columns-3 sm:columns-2 gap-2 thingy pb-2">
+                        <div className="protection">
                         <div className="card break-inside-avoid-column card-normal bg-base-100 col-span-3 row-span-4 flex-shrink-0 overflow-visible shadow-xl w-100 mb-2 svelte-1n6ue57">
                             <figure className="px-10 pt-10">
                                 <div className="avatar">
@@ -54,13 +55,11 @@ const Post = ({ session }) => {
                                 </p>
                             </div>
                         </div>
+                        </div>
                         {poemdata.poems.map((ite, i) => {
                             return (
                                 <div
-                                    style={{
-                                        border: "5px solid transparent",
-                                        breakInside: "avoid",
-                                    }}
+                                    className="protection"
                                     key={i}
                                 >
                                     <div className="card break-inside-avoid-column w-100 bg-base-200 shadow-xl mb-2">
