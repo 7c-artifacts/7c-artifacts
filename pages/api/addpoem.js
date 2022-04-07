@@ -47,8 +47,11 @@ export default async function handler(req, res) {
             // sequelize.close();
             return;
         }
+        taglist = taglist.map((v) =>{
+            return v[0];
+        });
+        console.log(taglist);
         
-        poem.setTags(taglist);
         try {
             await poem.validate();
         } catch (e) {
@@ -63,6 +66,7 @@ export default async function handler(req, res) {
         }
         
         await poem.save()
+        await poem.setTags(taglist);
         
         const timeend = Date.now();
 

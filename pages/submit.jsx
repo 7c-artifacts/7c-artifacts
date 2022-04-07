@@ -10,6 +10,8 @@ import Draft, { EditorState, ContentState, Modifier } from 'draft-js'
 import { WithContext as ReactTags } from 'react-tag-input';
 import { getSession } from 'next-auth/react'
 
+
+
 const Editor = dynamic(
   () => {return import('react-draft-wysiwyg').then(mod => mod.Editor)},
   { ssr: false }
@@ -65,6 +67,8 @@ const HomePage = (props) => {
   };
 
   const handleAddition = tag => {
+    tag.id = tag.id.toLocaleLowerCase();
+    tag.text = tag.text.toLocaleLowerCase();
     const newVal = [...tags, tag];
     if (newVal.length < 15 && tag.text.length < 21) {
       setTags(newVal);
@@ -119,7 +123,7 @@ const HomePage = (props) => {
         setError(json.error.join("<br />"));
       } else {
         setError(null);
-        router.push("/users/" + props.session.id)
+        router.push("/users/" + props.session.pk);
       }
       console.log(json);
     }).catch(err => {
@@ -173,6 +177,7 @@ const HomePage = (props) => {
                 }}>
                   <h1>{input}</h1>
                   <h2 className="mb-2">By {props.session.user.name}</h2>
+                  <h4 className="mb-2">Published on {new Date().toLocaleString()}</h4>
                   <div className="mb-2">
                   {tags.map(val => {
                     console.log(val);

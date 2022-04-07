@@ -6,6 +6,8 @@ import { getSession } from "next-auth/react";
 import Head from "next/head";
 import useSWR from "swr";
 
+
+function parseISOString(s) { var b = s.split(/\D+/); return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6])); }
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const Post = ({ session }) => {
@@ -31,11 +33,12 @@ const Post = ({ session }) => {
                 }}>
                 <h1>{poemdata.poem.title}</h1>
                     <h2 className="mb-2">By <a className="link" href={"/users/" + poemdata.poem.user.id}>{poemdata.poem.user.name}</a></h2>
+                    <h4 className="mb-2">Published on {parseISOString(poemdata.poem.createdAt).toLocaleString()}</h4>
                     <div className="mb-2">
                     {poemdata.poem.tags.map((val, i) => {
                         console.log(val);
                         return (
-                        <div className="badge badge-primary mr-3" key={i}>{val.text}</div>
+                        <div className="badge badge-primary mr-3" key={i}>{val.name}</div>
                         );
                     })}
                     </div>
