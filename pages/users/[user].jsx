@@ -1,60 +1,56 @@
-import { useRouter } from "next/router";
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
-import Restricted from "../../components/Restricted";
-import { getSession } from "next-auth/react";
-import Head from "next/head";
-import useSWR from "swr";
+import { useRouter } from 'next/router';
+import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
+import Restricted from '../../components/Restricted';
+import { getSession } from 'next-auth/react';
+import Head from 'next/head';
+import useSWR from 'swr';
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+const fetcher = url => fetch(url).then(res => res.json());
 
 const Post = ({ session }) => {
-    const router = useRouter();
-    const { user } = router.query;
-    const { data: poemdata, error: poemerror } = useSWR(
-        `/api/users/${user}/poems`,
-        fetcher
-    );
-    const { data: profiledata, error: profileerror } = useSWR(
-        `/api/users/${user}/profile`,
-        fetcher
-    );
-    console.log(poemerror, profileerror, profiledata, poemdata);
-    
-    if (session?.user && (profiledata?.user !== undefined || profiledata?.user !== null) && poemdata?.poems?.length > 0 && profiledata?.user && poemdata?.poems) {
-        return (
-            <div>
-                <Head>
-                    <title>7C Poems</title>
-                </Head>
-                <Navbar />
+	const router = useRouter();
+	const { user } = router.query;
+	const { data: poemdata, error: poemerror } = useSWR(
+		`/api/users/${user}/poems`,
+		fetcher
+	);
+	const { data: profiledata, error: profileerror } = useSWR(
+		`/api/users/${user}/profile`,
+		fetcher
+	);
+	console.log(poemerror, profileerror, profiledata, poemdata);
 
-                <div className="bg-base-300 p-4 min-h-[100vh] pb-2">
-                    <div className="lg:columns-4 md:columns-3 sm:columns-2 gap-2 thingy pb-2">
-                        <div className="protection">
-                        <div className="card break-inside-avoid-column card-normal bg-base-100 col-span-3 row-span-4 flex-shrink-0 overflow-visible shadow-xl w-100 mb-2 svelte-1n6ue57">
-                            <figure className="px-10 pt-10">
-                                <div className="avatar">
-                                    <div className="w-24 rounded-full">
-                                        <img src={profiledata.user.image} />
-                                    </div>
+	if (
+		session?.user &&
+		(profiledata?.user !== undefined || profiledata?.user !== null) &&
+		poemdata?.poems?.length > 0 &&
+		profiledata?.user &&
+		poemdata?.poems
+	) {
+		return (
+			<div>
+				<Head>
+					<title>7C Poems</title>
+				</Head>
+				<Navbar />
+                    <div>
+                        <div>
+                            <div>
+                                <div className="card-body place-items-center items-center text-center">
+                                    <h2 className="card-title">{profiledata.user.name}</h2>
+                                    <p className="text-base-content text-md">
+                                        {profiledata.user.email}
+                                    </p>
+                                    <p className="text-sm text-opacity-80 text-base-content">
+                                        Has{" "}
+                                        <span className="font-bold">
+                                            {poemdata.poems.length}
+                                        </span>{" "}
+                                        poem{poemdata.poems.length == 1 ? "" : "s"}.
+                                    </p>
                                 </div>
-                            </figure>
-
-                            <div className="card-body place-items-center items-center text-center">
-                                <h2 className="card-title">{profiledata.user.name}</h2>
-                                <p className="text-base-content text-md">
-                                    {profiledata.user.email}
-                                </p>
-                                <p className="text-sm text-opacity-80 text-base-content">
-                                    Has{" "}
-                                    <span className="font-bold">
-                                        {poemdata.poems.length}
-                                    </span>{" "}
-                                    poem{poemdata.poems.length == 1 ? "" : "s"}.
-                                </p>
                             </div>
-                        </div>
                         </div>
                         {poemdata.poems.map((ite, i) => {
                             return (
@@ -97,8 +93,6 @@ const Post = ({ session }) => {
                             );
                         })}
                     </div>
-                </div>
-
                 <Footer />
             </div>
         );
@@ -234,11 +228,11 @@ const Post = ({ session }) => {
 export default Post;
 
 export async function getServerSideProps(context) {
-    const sess = await getSession(context);
+	const sess = await getSession(context);
 
-    return {
-        props: {
-            session: sess,
-        },
-    };
+	return {
+		props: {
+			session: sess
+		}
+	};
 }
