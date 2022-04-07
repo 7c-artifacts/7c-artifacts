@@ -78,6 +78,7 @@ const Post = ({ session }) => {
                                                 <a
                                                     href={"/poems/" + ite.id}
                                                     target="_blank"
+                                                    rel="noreferrer"
                                                     className="btn btn-sm"
                                                 >
                                                     Go to Poem

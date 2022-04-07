@@ -91,6 +91,7 @@ const Post = ({ session }) => {
                                                 <a
                                                     href={"/poems/" + ite.id}
                                                     target="_blank"
+                                                    rel="noreferrer"
                                                     className="btn btn-sm"
                                                 >
                                                     Go to Poem
@@ -126,12 +127,12 @@ const Post = ({ session }) => {
                         </figure>
     
                         <div className="card-body place-items-center items-center text-center">
-                            <div class="w-36 bg-neutral h-6 rounded-md animate-pulse"></div>
+                            <div className="w-36 bg-neutral h-6 rounded-md animate-pulse"></div>
                             <p className="text-base-content text-md">
-                            <div class="w-24 bg-neutral h-6 rounded-md animate-pulse"></div>
+                            <div className="w-24 bg-neutral h-6 rounded-md animate-pulse"></div>
                             </p>
                             <p className="text-sm text-opacity-80 text-base-content">
-                            <div class="w-24 bg-neutral h-6 rounded-md animate-pulse"></div>
+                            <div className="w-24 bg-neutral h-6 rounded-md animate-pulse"></div>
                             </p>
                         </div>
                     </div>
@@ -145,9 +146,9 @@ const Post = ({ session }) => {
                                 <div className="card break-inside-avoid-column w-100 bg-base-200 shadow-xl mb-2">
                                     <div className="card-body">
                                         <h2 className="card-title">
-                                        <div class="w-60 bg-neutral h-6 rounded-md animate-pulse"></div>
+                                        <div className="w-60 bg-neutral h-6 rounded-md animate-pulse"></div>
                                         </h2>
-                                        <div class="w-40 bg-neutral h-6 rounded-md animate-pulse"></div>
+                                        <div className="w-40 bg-neutral h-6 rounded-md animate-pulse"></div>
                                         <div className="card-actions justify-end mt-2 gap-0">
                                             {[1,2,3].map((ite2, i) => {
                                                 return (
