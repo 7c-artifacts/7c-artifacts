@@ -13,12 +13,33 @@ export default async function handler(req, res) {
             // sequelize.close();
             return;
         }
+        if (!text || !title) {
+            res.status(401).json({error: ["Missing text or title"]});
+            res.end();
+            // sequelize.close();
+            return;
+        }
+        const Poem = models.Poem;
+        const time = Date.now();
+        const existingPoemsWithName = await Poem.findAll({
+            attributes: ["title"],
+            where: {
+                userId: session.pk,
+                title: title
+            }
+        })
 
+        if (existingPoemsWithName.length > 0) {
+            res.status(401).json({error: ["Title already exists"]});
+            res.end();
+            // sequelize.close();
+            return;
+        }
         let error = [];
         
-        const Poem = models.Poem;
+        
 
-        const time = Date.now();
+        
 
         const poem = Poem.build({
             text,

@@ -34,7 +34,6 @@ if (process.env.NODE_ENV === "development") {
 
 console.log("\tCreating connection to SQL db!")
 
-// sequelize.sync({  });
 
 const Models = {
     TestModel: (sequelize) => {

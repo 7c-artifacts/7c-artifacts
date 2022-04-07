@@ -4,29 +4,38 @@ import Footer from '../../components/Footer';
 import Restricted from '../../components/Restricted';
 import { getSession } from 'next-auth/react';
 import Head from 'next/head';
-import useSWR from 'swr';
+import useSWRInfinite from 'swr/infinite';
 
 const fetcher = url => fetch(url).then(res => res.json());
 
 const Post = ({ session }) => {
 	const router = useRouter();
 	const { user } = router.query;
-	const { data: poemdata, error: poemerror } = useSWR(
-		`/api/users/${user}/poems`,
-		fetcher
+	const { data, error, size, setSize, isValidating, mutate } = useSWRInfinite(
+        (index) => {
+            return `/api/poems?p=${index + 1}`;
+        }, fetcher
 	);
-	const { data: profiledata, error: profileerror } = useSWR(
-		`/api/users/${user}/profile`,
-		fetcher
-	);
-	console.log(poemerror, profileerror, profiledata, poemdata);
-
+    const poems = undefined;
+    console.log("DATA", data);
+    if (data) {
+        poems = {poems: []};
+        for (let i = 0; i < data.length; i++) {
+            poems.count = data[i].poems.count
+            for (let j = 0; j < data[i].poems.rows.length; j++) {
+                poems.poems.push(data[i].poems.rows[j]);
+            }
+        }
+        
+    }
+    console.log("POEMS", poems);
+    const isLoadingInitialData = !data && !error;
+    const isLoadingMore =
+      isLoadingInitialData ||
+      (size > 0 && data && typeof data[size - 1] === "undefined");
+    const isRefreshing = isValidating && data && data.length === size;
 	if (
-		session?.user &&
-		(profiledata?.user !== undefined || profiledata?.user !== null) &&
-		poemdata?.poems?.length > 0 &&
-		profiledata?.user &&
-		poemdata?.poems
+		session?.user && (poems?.poems !== undefined || poems?.poems !== null) && poems?.poems
 	) {
 		return (
 			<div>
@@ -35,32 +44,10 @@ const Post = ({ session }) => {
 				</Head>
 				<Navbar />
                 <div className="bg-base-300 p-4 min-h-[100vh] pb-2">
+                <h1 className="text-5xl mb-2">Poems</h1>
                 <div className="lg:columns-4 md:columns-3 sm:columns-2 gap-2 thingy pb-2">
-                    <div className="protection">
-                    <div className="card break-inside-avoid-column card-normal bg-base-100 col-span-3 row-span-4 flex-shrink-0 overflow-visible shadow-xl w-100 mb-2 svelte-1n6ue57">
-                    <figure className="px-10 pt-10">
-                            <div className="avatar">
-                            <div className="w-24 rounded-full">
-                                <img src={profiledata.user.image} />
-                            </div>
-                            </div>
-                        </figure>
-                                <div className="card-body place-items-center items-center text-center">
-                                    <h2 className="card-title">{profiledata.user.name}</h2>
-                                    <p className="text-base-content text-md">
-                                        {profiledata.user.email}
-                                    </p>
-                                    <p className="text-sm text-opacity-80 text-base-content">
-                                        Has{" "}
-                                        <span className="font-bold">
-                                            {poemdata.poems.length}
-                                        </span>{" "}
-                                        poem{poemdata.poems.length == 1 ? "" : "s"}.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        {poemdata.poems.map((ite, i) => {
+                        {poems.poems.map((ite, i) => {
+                            console.log(ite);
                             return (
                                 <div
                                     className="protection"
@@ -71,7 +58,7 @@ const Post = ({ session }) => {
                                             <h2 className="card-title">
                                                 {ite.title}
                                             </h2>
-                                            <p>By {profiledata.user.name}</p>
+                                            <p>By {ite.user.name}</p>
                                             <div className="card-actions justify-end mt-2 gap-0">
                                                 {ite.tags.map((ite2, i) => {
                                                     return (
@@ -102,11 +89,19 @@ const Post = ({ session }) => {
                             );
                         })}
                     </div>
+                    <button
+          disabled={isLoadingMore || isRefreshing || poems.poems.length >= Number(poems.count)}
+          className={"btn btn-primary" + (isLoadingMore ? " loading" : "")}
+          onClick={() => setSize(size + 1)}
+        >
+          {isLoadingMore ? "Loading..." : (poems.poems.length >= Number(poems.count) ? "No more poems" : (isRefreshing ? "Refreshing..." : "Load more"))}
+        </button>
                     </div>
                 <Footer />
             </div>
         );
-    } else if (profiledata == undefined || poemdata == undefined) {
+    
+    } else if (poems == undefined) {
         return (
             <div>
                 <Head>
@@ -114,29 +109,10 @@ const Post = ({ session }) => {
                     </Head>
                     <Navbar />
             <div className="bg-base-300 p-4 min-h-[100vh] pb-2">
+            <h1 className="text-5xl mb-2">Poems</h1>
                 <div className="lg:columns-4 md:columns-3 sm:columns-2 gap-2 thingy pb-2">
-                    <div className="protection">
-                    <div className="card break-inside-avoid-column card-normal bg-base-100 col-span-3 row-span-4 flex-shrink-0 overflow-visible shadow-xl w-100 mb-2 svelte-1n6ue57">
-                        <figure className="px-10 pt-10">
-                            <div className="avatar">
-                                <div className="w-24 rounded-full animate-pulse bg-neutral">
-                                    
-                                </div>
-                            </div>
-                        </figure>
-    
-                        <div className="card-body place-items-center items-center text-center">
-                            <div class="w-36 bg-neutral h-6 rounded-md animate-pulse"></div>
-                            <p className="text-base-content text-md">
-                            <div class="w-24 bg-neutral h-6 rounded-md animate-pulse"></div>
-                            </p>
-                            <p className="text-sm text-opacity-80 text-base-content">
-                            <div class="w-24 bg-neutral h-6 rounded-md animate-pulse"></div>
-                            </p>
-                        </div>
-                    </div>
-                    </div>
-                    {[0,1,2,3,4,5,6,7,8,9,10].map((ite, i) => {
+                    
+                    {[0,1,2,3,4,5,6].map((ite, i) => {
                         return (
                             <div
                                 className="protection"
@@ -145,9 +121,9 @@ const Post = ({ session }) => {
                                 <div className="card break-inside-avoid-column w-100 bg-base-200 shadow-xl mb-2">
                                     <div className="card-body">
                                         <h2 className="card-title">
-                                        <div class="w-60 bg-neutral h-6 rounded-md animate-pulse"></div>
+                                        <div className="w-60 bg-neutral h-6 rounded-md animate-pulse"></div>
                                         </h2>
-                                        <div class="w-40 bg-neutral h-6 rounded-md animate-pulse"></div>
+                                        <div className="w-40 bg-neutral h-6 rounded-md animate-pulse"></div>
                                         <div className="card-actions justify-end mt-2 gap-0">
                                             {[1,2,3].map((ite2, i) => {
                                                 return (
@@ -180,7 +156,7 @@ const Post = ({ session }) => {
             <Footer />
             </div>
         )
-    } else if (profileerror) {
+    } else if (error) {
         return (
             <div>
                 <Head>
@@ -200,7 +176,8 @@ const Post = ({ session }) => {
                 <Footer />
             </div>
         );
-    } else if (profiledata.user == null) {
+    } else if (poems.poems == null || poems.poems.length <= 0) {
+        console.log(poems);
         return (
             <div>
                 <Head>

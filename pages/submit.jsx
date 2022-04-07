@@ -25,6 +25,7 @@ const HomePage = (props) => {
   const [editorState, setEditorState] = useState(()=> EditorState.createEmpty());
   const [htmlData, setHtmlData] = useState("");
   const [error, setError] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (!localStorage.getItem("7cpoems-submit-editor-data")) localStorage.setItem("7cpoems-submit-editor-data", "")
@@ -106,6 +107,8 @@ const HomePage = (props) => {
   };
 
   function submit() {
+    setError(null);
+    setSubmitting(true)
     fetch("/api/addpoem", {
       method: "POST",
       credentials: 'include',
@@ -122,12 +125,17 @@ const HomePage = (props) => {
       if (json.error) {
         setError(json.error.join("<br />"));
       } else {
+        localStorage.setItem("7cpoems-submit-editor-data", "");
+        localStorage.setItem("7cpoems-submit-tags", "[]");
+        localStorage.setItem("7cpoems-submit-title", "");
         setError(null);
         router.push("/users/" + props.session.pk);
       }
       console.log(json);
+      setSubmitting(false);
     }).catch(err => {
       setError(err);
+      setSubmitting(false);
     })
   }
   
@@ -195,7 +203,7 @@ const HomePage = (props) => {
               </div>
               
               <br />
-              <button className="btn btn-primary" onClick={submit}>Submit</button>
+              <button className={"btn btn-primary" + (submitting ? " loading" : "")} {...(submitting ? {disabled: true} : {disabled: false})} onClick={submit}>{submitting ? "Submitting..." : "Submit"}</button>
               { error !== null ? (
               <div className="alert alert-error shadow-lg mt-3">
                 <div>

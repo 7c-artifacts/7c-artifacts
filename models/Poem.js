@@ -9,8 +9,7 @@ module.exports = (sequelize) => {
             allowNull: false,
             validate: {
                 len: [1, 100],
-            },
-            unique: true
+            }
         },
         text: {
             type: DataTypes.TEXT,

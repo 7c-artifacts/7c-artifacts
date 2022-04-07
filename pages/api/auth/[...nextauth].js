@@ -47,7 +47,7 @@ export default NextAuth({
       VerificationToken: models.VerificationToken,
       Account: models.Account,
     },
-
+    synchronize: false
   }),
   session: {
     // Use JSON Web Tokens for session instead of database sessions.
