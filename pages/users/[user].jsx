@@ -34,9 +34,17 @@ const Post = ({ session }) => {
 					<title>7C Poems</title>
 				</Head>
 				<Navbar />
-                    <div>
-                        <div>
-                            <div>
+                <div className="bg-base-300 p-4 min-h-[100vh] pb-2">
+                <div className="lg:columns-4 md:columns-3 sm:columns-2 gap-2 thingy pb-2">
+                    <div className="protection">
+                    <div className="card break-inside-avoid-column card-normal bg-base-100 col-span-3 row-span-4 flex-shrink-0 overflow-visible shadow-xl w-100 mb-2 svelte-1n6ue57">
+                    <figure className="px-10 pt-10">
+                            <div className="avatar">
+                            <div className="w-24 rounded-full">
+                                <img src={profiledata.user.image} />
+                            </div>
+                            </div>
+                        </figure>
                                 <div className="card-body place-items-center items-center text-center">
                                     <h2 className="card-title">{profiledata.user.name}</h2>
                                     <p className="text-base-content text-md">
@@ -92,6 +100,7 @@ const Post = ({ session }) => {
                                 </div>
                             );
                         })}
+                    </div>
                     </div>
                 <Footer />
             </div>
