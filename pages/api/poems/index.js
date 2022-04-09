@@ -30,12 +30,26 @@ export default async function handler(req, res) {
     const poems = await Poem.findAndCountAll({
         limit: 5,
         offset: page * 5 - 5,
-        include: [models.Tag, models.User],
+        include: [
+            {
+                model: models.Tag,
+                attributes: {
+                    exclude: ["createdAt", "updatedAt"]
+                },
+                through: {
+                    attributes: []
+                }
+            }, {
+                model: models.User,
+                attributes: {
+                    exclude: ["createdAt", "updatedAt", "image", "emailVerified"]
+                },
+            }],
         attributes: {
             exclude: ["text"]
         },
-        distinct:true
-
+        distinct:true,
+        order: [["createdAt", 'DESC']],
     });
     const timeend = Date.now();
 

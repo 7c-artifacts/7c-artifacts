@@ -6,65 +6,68 @@ import { getSession } from "next-auth/react";
 import Head from "next/head";
 import useSWR from "swr";
 import Link from "next/link";
+import { titleCase } from "title-case";
 
+function parseISOString(s) {
+    var b = s.split(/\D+/);
+    return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
+}
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const Post = ({ session }) => {
     const router = useRouter();
-    const { user } = router.query;
-    const { data: poemdata, error: poemerror } = useSWR(
-        `/api/users/${user}/poems`,
-        fetcher
-    );
-    const { data: profiledata, error: profileerror } = useSWR(
-        `/api/users/${user}/profile`,
-        fetcher
-    );
-    console.log(poemerror, profileerror, profiledata, poemdata);
+    const { tag } = router.query;
+    const { data: tagdata, error } = useSWR(`/api/tags/${tag}`, fetcher);
 
     if (
         session?.user &&
-        (profiledata?.user !== undefined || profiledata?.user !== null) &&
-        poemdata?.poems?.length > 0 &&
-        profiledata?.user &&
-        poemdata?.poems
+        (tagdata?.tag !== undefined || tagdata?.tag !== null) &&
+        tagdata?.tag
     ) {
+        console.log(tagdata);
         return (
             <div>
                 <Head>
                     <title>7C Poems</title>
                 </Head>
                 <Navbar />
+
                 <div className="bg-base-300 p-4 min-h-[100vh] pb-2">
                     <div className="lg:columns-4 md:columns-3 sm:columns-2 gap-2 thingy pb-2">
                         <div className="protection">
                             <div className="card break-inside-avoid-column card-normal bg-base-100 col-span-3 row-span-4 flex-shrink-0 overflow-visible shadow-xl w-100 mb-2 svelte-1n6ue57">
-                                <figure className="px-10 pt-10">
-                                    <div className="avatar">
-                                        <div className="w-24 rounded-full">
-                                            <img src={profiledata.user.image} />
-                                        </div>
-                                    </div>
-                                </figure>
                                 <div className="card-body place-items-center items-center text-center">
                                     <h2 className="card-title">
-                                        {profiledata.user.name}
+                                        {titleCase(tagdata.tag.name)}
                                     </h2>
                                     <p className="text-base-content text-md">
-                                        {profiledata.user.email}
-                                    </p>
-                                    <p className="text-sm text-opacity-80 text-base-content">
                                         Has{" "}
                                         <span className="font-bold">
-                                            {poemdata.poems.length}
+                                            {tagdata.tag.poems.length}
                                         </span>{" "}
                                         poem
-                                        {poemdata.poems.length == 1 ? "" : "s"}.
+                                        {tagdata.tag.poems.length == 1
+                                            ? ""
+                                            : "s"}
+                                        .
+                                    </p>
+                                    <p className="text-sm text-opacity-80 text-base-content">
+                                        
+                                        First used on{" "}
+                                        {parseISOString(
+                                            tagdata.tag.createdAt
+                                        ).toLocaleString()}{" "}
+                                        by{" "}
+                                        {
+                                            tagdata.tag.poems[
+                                                tagdata.tag.poems.length - 1
+                                            ].user.name
+                                        }
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        {poemdata.poems.map((ite, i) => {
+                        {tagdata.tag.poems.map((ite, i) => {
                             return (
                                 <div className="protection" key={i}>
                                     <div className="card break-inside-avoid-column w-100 bg-base-200 shadow-xl mb-2">
@@ -72,44 +75,37 @@ const Post = ({ session }) => {
                                             <h2 className="card-title">
                                                 {ite.title}
                                             </h2>
-                                            <p>By {profiledata.user.name}</p>
+                                            <p>By <Link href={`/users/${ite.userId}`} passHref><a className="link" target="_blank" rel="noopener noreferrer">{ite.user.name}</a></Link></p>
                                             <div className="card-actions justify-end mt-2 gap-0">
                                                 {ite.tags.map((ite2, i) => {
                                                     return (
-                                                        <div
-                                                            className="badge badge-outline"
-                                                            style={{
-                                                                margin: "2px",
-                                                            }}
-                                                            key={i}
+                                                        <div className="badge badge-outline"
+                                                        style={{
+                                                            margin: "2px",
+                                                        }}
+                                                        key={ite2.id}>
+                                                        <Link
+                                                            passHref
+                                                            href={`/tags/${ite2.id}`}
                                                         >
-                                                            <Link
-                                                                passHref
-                                                                href={`/tags/${ite2.id}`}
-                                                            >
-                                                                <a
-                                                                    target="_blank"
-                                                                    rel="noopener noreferrer"
-                                                                >
-                                                                    {ite2.name}
-                                                                </a>
-                                                            </Link>
+                                                            <a>
+                                                                {ite2.name}
+                                                            </a>
+                                                        </Link>
                                                         </div>
                                                     );
                                                 })}
                                             </div>
                                             <div className="card-actions justify-end mt-2">
+                                                
                                                 <Link
                                                     href={"/poems/" + ite.id}
                                                     passHref
                                                 >
-                                                    <a
-                                                        target="_blank"
-                                                        rel="noreferrer"
-                                                        className="btn btn-sm"
-                                                    >
-                                                        Go to Poem
-                                                    </a>
+                                                    <a target="_blank"
+                                                    rel="noreferrer"
+                                                    className="btn btn-sm">Go to Poem</a>
+
                                                 </Link>
                                             </div>
                                         </div>
@@ -122,7 +118,7 @@ const Post = ({ session }) => {
                 <Footer />
             </div>
         );
-    } else if (profiledata == undefined || poemdata == undefined) {
+    } else if (tagdata == undefined) {
         return (
             <div>
                 <Head>
@@ -133,14 +129,8 @@ const Post = ({ session }) => {
                     <div className="lg:columns-4 md:columns-3 sm:columns-2 gap-2 thingy pb-2">
                         <div className="protection">
                             <div className="card break-inside-avoid-column card-normal bg-base-100 col-span-3 row-span-4 flex-shrink-0 overflow-visible shadow-xl w-100 mb-2 svelte-1n6ue57">
-                                <figure className="px-10 pt-10">
-                                    <div className="avatar">
-                                        <div className="w-24 rounded-full animate-pulse bg-neutral"></div>
-                                    </div>
-                                </figure>
-
                                 <div className="card-body place-items-center items-center text-center">
-                                    <div className="w-36 bg-neutral h-6 rounded-md animate-pulse"></div>
+                                    <div className="w-36 bg-neutral h-6 rounded-md animate-pulse mb-[20px]"></div>
                                     <p className="text-base-content text-md">
                                         <div className="w-24 bg-neutral h-6 rounded-md animate-pulse"></div>
                                     </p>
@@ -185,7 +175,7 @@ const Post = ({ session }) => {
                 <Footer />
             </div>
         );
-    } else if (profileerror) {
+    } else if (error) {
         return (
             <div>
                 <Head>
@@ -203,7 +193,7 @@ const Post = ({ session }) => {
                 <Footer />
             </div>
         );
-    } else if (profiledata.user == null) {
+    } else if (tagdata?.tag == null) {
         return (
             <div>
                 <Head>
@@ -214,9 +204,7 @@ const Post = ({ session }) => {
                     <div className="hero-content text-center">
                         <div className="max-w-md">
                             <h1 className="text-5xl font-bold">Sorry.</h1>
-                            <p className="py-6">
-                                That user doesn&apos;t exist.
-                            </p>
+                            <p className="py-6">That tag doesn&apos;t exist.</p>
                         </div>
                     </div>
                 </div>

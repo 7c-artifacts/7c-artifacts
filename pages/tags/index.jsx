@@ -1,3 +1,4 @@
+import { titleCase } from "title-case";
 import { useRouter } from 'next/router';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
@@ -5,7 +6,7 @@ import Restricted from '../../components/Restricted';
 import { getSession } from 'next-auth/react';
 import Head from 'next/head';
 import useSWRInfinite from 'swr/infinite';
-import Link from 'next/link';
+import Link from "next/link";
 
 const fetcher = url => fetch(url).then(res => res.json());
 
@@ -14,29 +15,29 @@ const Post = ({ session }) => {
 	const { user } = router.query;
 	const { data, error, size, setSize, isValidating, mutate } = useSWRInfinite(
         (index) => {
-            return `/api/poems?p=${index + 1}`;
+            return `/api/tags?p=${index + 1}`;
         }, fetcher
 	);
-    const poems = undefined;
+    const tags = undefined;
     console.log("DATA", data);
     if (data) {
-        poems = {poems: []};
+        tags = {tags: []};
         for (let i = 0; i < data.length; i++) {
-            poems.count = data[i].poems.count
-            for (let j = 0; j < data[i].poems.rows.length; j++) {
-                poems.poems.push(data[i].poems.rows[j]);
+            tags.count = data[i].tags.count
+            for (let j = 0; j < data[i].tags.rows.length; j++) {
+                tags.tags.push(data[i].tags.rows[j]);
             }
         }
         
     }
-    console.log("POEMS", poems);
+    console.log("TAGS", tags);
     const isLoadingInitialData = !data && !error;
     const isLoadingMore =
       isLoadingInitialData ||
       (size > 0 && data && typeof data[size - 1] === "undefined");
     const isRefreshing = isValidating && data && data.length === size;
 	if (
-		session?.user && (poems?.poems !== undefined || poems?.poems !== null) && poems?.poems
+		session?.user && (tags?.tags !== undefined || tags?.tags !== null) && tags?.tags
 	) {
 		return (
 			<div>
@@ -45,9 +46,9 @@ const Post = ({ session }) => {
 				</Head>
 				<Navbar />
                 <div className="bg-base-300 p-4 min-h-[100vh] pb-2">
-                <h1 className="text-5xl mb-2">Poems</h1>
+                <h1 className="text-5xl mb-2">Tags</h1>
                 <div className="lg:columns-4 md:columns-3 sm:columns-2 gap-2 thingy pb-2">
-                        {poems.poems.map((ite, i) => {
+                        {tags.tags.map((ite, i) => {
                             console.log(ite);
                             return (
                                 <div
@@ -57,43 +58,17 @@ const Post = ({ session }) => {
                                     <div className="card break-inside-avoid-column w-100 bg-base-200 shadow-xl mb-2">
                                         <div className="card-body">
                                             <h2 className="card-title">
-                                                {ite.title}
+                                                {titleCase(ite.name)}
                                             </h2>
-                                            <p>By <Link href={`/users/${ite.userId}`} passHref><a className="link" target="_blank" rel="noopener noreferrer">{ite.user.name}</a></Link></p>
-                                            <div className="card-actions justify-end mt-2 gap-0">
-                                                {ite.tags.map((ite2, i) => {
-                                                    return (
-                                                        <div
-                                                            className="badge badge-outline"
-                                                            style={{
-                                                                margin: "2px",
-                                                            }}
-                                                            key={i}
-                                                        >
-                                                            <Link
-                                                                passHref
-                                                                href={`/tags/${ite2.id}`}
-                                                            >
-                                                                <a
-                                                                    target="_blank"
-                                                                    rel="noopener noreferrer"
-                                                                >
-                                                                    {ite2.name}
-                                                                </a>
-                                                            </Link>
-                                                        </div>
-                                                    );
-                                                })}
-                                            </div>
+                                            <p>With {ite.poems_count} poem{ite.poems_count == 1 ? "" : "s"} posted</p>
                                             <div className="card-actions justify-end mt-2">
                                                 <Link
-                                                    href={"/poems/" + ite.id}
+                                                    href={"/tags/" + ite.id}
                                                     passHref
                                                 >
                                                     <a target="_blank"
                                                     rel="noreferrer"
-                                                    className="btn btn-sm">Go to Poem</a>
-
+                                                    className="btn btn-sm">View Poems with Tag</a>
                                                 </Link>
                                             </div>
                                         </div>
@@ -103,18 +78,18 @@ const Post = ({ session }) => {
                         })}
                     </div>
                     <button
-          disabled={isLoadingMore || isRefreshing || poems.poems.length >= Number(poems.count)}
+          disabled={isLoadingMore || isRefreshing || tags.tags.length >= Number(tags.count)}
           className={"btn btn-primary" + (isLoadingMore ? " loading" : "")}
           onClick={() => setSize(size + 1)}
         >
-          {isLoadingMore ? "Loading..." : (poems.poems.length >= Number(poems.count) ? "No more poems" : (isRefreshing ? "Refreshing..." : "Load more"))}
+          {isLoadingMore ? "Loading..." : (tags.tags.length >= Number(tags.count) ? "No more tags" : (isRefreshing ? "Refreshing..." : "Load more"))}
         </button>
                     </div>
                 <Footer />
             </div>
         );
     
-    } else if (poems == undefined) {
+    } else if (tags == undefined) {
         return (
             <div>
                 <Head>
@@ -122,7 +97,7 @@ const Post = ({ session }) => {
                     </Head>
                     <Navbar />
             <div className="bg-base-300 p-4 min-h-[100vh] pb-2">
-            <h1 className="text-5xl mb-2">Poems</h1>
+            <h1 className="text-5xl mb-2">Tags</h1>
                 <div className="lg:columns-4 md:columns-3 sm:columns-2 gap-2 thingy pb-2">
                     
                     {[0,1,2,3,4,5,6].map((ite, i) => {
@@ -137,21 +112,6 @@ const Post = ({ session }) => {
                                         <div className="w-60 bg-neutral h-6 rounded-md animate-pulse"></div>
                                         </h2>
                                         <div className="w-40 bg-neutral h-6 rounded-md animate-pulse"></div>
-                                        <div className="card-actions justify-end mt-2 gap-0">
-                                            {[1,2,3].map((ite2, i) => {
-                                                return (
-                                                    <div
-                                                        className="badge w-12 bg-neutral h-6 animate-pulse"
-                                                        style={{
-                                                            margin: "2px",
-                                                        }}
-                                                        key={i}
-                                                    >
-                                                        
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
                                         <div className="card-actions justify-end mt-2">
                                             <a
                                                 
@@ -189,8 +149,8 @@ const Post = ({ session }) => {
                 <Footer />
             </div>
         );
-    } else if (poems.poems == null || poems.poems.length <= 0) {
-        console.log(poems);
+    } else if (tags.tags == null || tags.tags.length <= 0) {
+        console.log(tags);
         return (
             <div>
                 <Head>
@@ -202,7 +162,7 @@ const Post = ({ session }) => {
                         <div className="max-w-md">
                             <h1 className="text-5xl font-bold">Sorry.</h1>
                             <p className="py-6">
-                                No poems exist.
+                                No tags exist.
                             </p>
                         </div>
                     </div>

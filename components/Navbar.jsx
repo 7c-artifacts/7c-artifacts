@@ -27,7 +27,7 @@ function Navbar() {
                         </label>
                         <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
                             <h1 className="pl-4 pt-2 pb-2 text-xl">Hi, {session.user.name.split(" ")[0]}.</h1>
-                            <li><a href={"/users/" + session.pk}>Your Account</a></li>
+                            <li><Link href={"/users/" + session.pk}>Your Account</Link></li>
                             <li><a onClick={() => {signOut()}}>Logout</a></li>
 
                         </ul>
@@ -58,6 +58,9 @@ function Navbar() {
             </ul> : <></>}
             {session?.user ? <ul className="menu menu-horizontal p-0 mx-1">
                 <li><Link href="/poems">Poems</Link></li>
+            </ul> : <></>}
+            {session?.user ? <ul className="menu menu-horizontal p-0 mx-1">
+                <li><Link href="/tags">Tags</Link></li>
             </ul> : <></>}
             </div>
             <div className="navbar-end">

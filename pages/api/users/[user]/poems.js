@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   const Poem = models.Poem;
   
   const time = Date.now();
-  const poems = await Poem.findAll({where: {userId: req.query.user}, include: models.Tag});
+  const poems = await Poem.findAll({where: {userId: req.query.user}, attributes: {exclude: "text"}, include: models.Tag});
   const timeend = Date.now();
 
   res.status(200).json({ time: timeend - time, poems: poems });

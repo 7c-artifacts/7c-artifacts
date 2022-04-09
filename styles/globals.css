@@ -20,18 +20,19 @@ a {
 }
  */
 
-.output a, .output a:visited {
+.output a :not(.ignoreLink), .output a:visited :not(.ignoreLink) {
   cursor: pointer;
   text-decoration-line: underline;
   color: #1fb2a6;
 }
+
 
 .protection {
   border: 10px solid transparent; 
   break-inside: avoid;
 }
 
-.output a:hover {
+.output a:hover :not(.ignoreLink) {
   color: #198f85;
 }
 

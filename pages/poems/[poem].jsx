@@ -5,21 +5,24 @@ import Restricted from "../../components/Restricted";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import useSWR from "swr";
+import Link from "next/link";
 
-
-function parseISOString(s) { var b = s.split(/\D+/); return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6])); }
+function parseISOString(s) {
+    var b = s.split(/\D+/);
+    return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
+}
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const Post = ({ session }) => {
     const router = useRouter();
     const { poem } = router.query;
-    const { data: poemdata, error } = useSWR(
-        `/api/poems/${poem}`,
-        fetcher
-    );
+    const { data: poemdata, error } = useSWR(`/api/poems/${poem}`, fetcher);
 
-    
-    if (session?.user && (poemdata?.poem !== undefined || poemdata?.poem !== null) && poemdata?.poem) {
+    if (
+        session?.user &&
+        (poemdata?.poem !== undefined || poemdata?.poem !== null) &&
+        poemdata?.poem
+    ) {
         console.log(poemdata);
         return (
             <div>
@@ -27,25 +30,59 @@ const Post = ({ session }) => {
                     <title>7C Poems</title>
                 </Head>
                 <Navbar />
-                <div className="output p-4 min-h-[100vh] bg-base-200" style={{
-                    maxWidth: "none !important",
-                    overflowWrap: "break-word"
-                }}>
-                <h1>{poemdata.poem.title}</h1>
-                    <h2 className="mb-2">By <a className="link" href={"/users/" + poemdata.poem.user.id}>{poemdata.poem.user.name}</a></h2>
-                    <h4 className="mb-2">Published on {parseISOString(poemdata.poem.createdAt).toLocaleString()}</h4>
+                <div
+                    className="output p-4 min-h-[100vh] bg-base-200"
+                    style={{
+                        maxWidth: "none !important",
+                        overflowWrap: "break-word",
+                    }}
+                >
+                    <h1>{poemdata.poem.title}</h1>
+
+                    <h2 className="mb-2">
+                        By{" "}
+                        <Link href={`/users/${poemdata.poem.user.id}`} passHref>
+                            <a
+                                className="link"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                {poemdata.poem.user.name}
+                            </a>
+                        </Link>
+                    </h2>
+                    <h4 className="mb-2">
+                        Published on{" "}
+                        {parseISOString(
+                            poemdata.poem.createdAt
+                        ).toLocaleString()}
+                    </h4>
                     <div className="mb-2">
-                    {poemdata.poem.tags.map((val, i) => {
-                        console.log(val);
-                        return (
-                        <div className="badge badge-primary mr-3" key={i}>{val.name}</div>
-                        );
-                    })}
+                        {poemdata.poem.tags.map((val, i) => {
+                            console.log(val);
+                            return (
+                                <div
+                                    className="badge badge-primary mr-3"
+                                    key={i}
+                                >
+                                    <Link passHref href={`/tags/${val.id}`}>
+                                        <a
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="ignoreLink"
+                                        >
+                                            {val.name}
+                                        </a>
+                                    </Link>
+                                </div>
+                            );
+                        })}
                     </div>
-                    <div dangerouslySetInnerHTML={{__html: poemdata.poem.text}} className="mt-3 thing">
-                    </div>
+                    <div
+                        dangerouslySetInnerHTML={{ __html: poemdata.poem.text }}
+                        className="mt-3 thing"
+                    ></div>
                 </div>
-                
 
                 <Footer />
             </div>
@@ -54,28 +91,39 @@ const Post = ({ session }) => {
         return (
             <div>
                 <Head>
-                        <title>7C Poems</title>
-                    </Head>
-                    <Navbar />
-            <div className="p-4 min-h-[100vh] bg-base-200">
-            <div className="w-[40vw] bg-neutral h-[67px] mt-[10px] mb-[10px] rounded-md animate-pulse"></div>
-            <div className="w-[25vw] bg-neutral h-[32px] mb-[18px] rounded-md animate-pulse"></div>
-            <div className="w-[95%] bg-neutral h-[18px] mt-[12px] mb-[6px] rounded-md animate-pulse"></div>
-            <div className="w-[97%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
-            <div className="w-[87%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
-            <div className="w-[94%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
-            <div className="w-[93%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
-            <div className="w-[47%] bg-neutral h-[18px] mb-[18px] rounded-md animate-pulse"></div>
-            <div className="w-[93%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
-            <div className="w-[89%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
-            <div className="w-[97%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
-            <div className="w-[95%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
-            <div className="w-[63%] bg-neutral h-[18px] mb-[18px] rounded-md animate-pulse"></div>
-
+                    <title>7C Poems</title>
+                </Head>
+                <Navbar />
+                <div className="p-4 min-h-[100vh] bg-base-200">
+                    <div className="w-[40vw] bg-neutral h-[67px] mt-[10px] mb-[10px] rounded-md animate-pulse"></div>
+                    <div className="w-[25vw] bg-neutral h-[32px] mb-[10px] rounded-md animate-pulse"></div>
+                    <div className="w-[16vw] bg-neutral h-[26px] mb-[5px] rounded-md animate-pulse"></div>
+                    {[1, 2, 3].map((ite2, i) => {
+                        return (
+                            <div
+                                className="badge w-24 bg-neutral h-6 animate-pulse"
+                                style={{
+                                    margin: "3px",
+                                }}
+                                key={i}
+                            ></div>
+                        );
+                    })}
+                    <div className="w-[95%] bg-neutral h-[18px] mt-[12px] mb-[6px] rounded-md animate-pulse"></div>
+                    <div className="w-[97%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
+                    <div className="w-[87%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
+                    <div className="w-[94%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
+                    <div className="w-[93%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
+                    <div className="w-[47%] bg-neutral h-[18px] mb-[18px] rounded-md animate-pulse"></div>
+                    <div className="w-[93%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
+                    <div className="w-[89%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
+                    <div className="w-[97%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
+                    <div className="w-[95%] bg-neutral h-[18px] mb-[6px] rounded-md animate-pulse"></div>
+                    <div className="w-[63%] bg-neutral h-[18px] mb-[18px] rounded-md animate-pulse"></div>
+                </div>
+                <Footer />
             </div>
-            <Footer />
-            </div>
-        )
+        );
     } else if (error) {
         return (
             <div>
@@ -87,9 +135,7 @@ const Post = ({ session }) => {
                     <div className="hero-content text-center">
                         <div className="max-w-md">
                             <h1 className="text-5xl font-bold">Error.</h1>
-                            <p className="py-6">
-                                Sorry! Check console.
-                            </p>
+                            <p className="py-6">Sorry! Check console.</p>
                         </div>
                     </div>
                 </div>
@@ -116,8 +162,7 @@ const Post = ({ session }) => {
                 <Footer />
             </div>
         );
-    }
-    else {
+    } else {
         return (
             <div>
                 <Head>
