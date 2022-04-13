@@ -14,10 +14,12 @@ const fetcher = url => fetch(url).then(res => res.json());
 const Post = ({ session }) => {
 	const router = useRouter();
 	const { user } = router.query;
+	const [searchInput, setSearchInput] = useState("");
+	const [query, setQuery] = useState("");
     const [sort, setSort] = useState("most")
 	const { data, error, size, setSize, isValidating, mutate } = useSWRInfinite(
         (index) => {
-            return `/api/tags?p=${index + 1}&sort=${sort}`;
+            return `/api/tags?p=${index + 1}&sort=${sort}&query=${encodeURIComponent(query)}`;
         }, fetcher
 	);
     const tags = undefined;
@@ -86,6 +88,7 @@ const Post = ({ session }) => {
         >
           {isLoadingMore ? "Loading..." : (tags.tags.length >= Number(tags.count) ? "No more tags" : (isRefreshing ? "Refreshing..." : "Load more"))}
         </button>
+									<br />
         <div className="btn-group mt-2" onChange={(e) => {
                         if (e.target.value == "new") {
                             setSort("new");
@@ -106,6 +109,19 @@ const Post = ({ session }) => {
                         <input type="radio" name="options" data-title="Sort by old" value="old" className="btn" {...(sort == "old" ? {checked: true} : {checked: false})} />
                         <input type="radio" name="options" data-title="Sort by most popular" value="most" className="btn" {...(sort == "most" ? {checked: true} : {checked: false})} />
                         <input type="radio" name="options" data-title="Sort by least popular" value="least" className="btn" {...(sort == "least" ? {checked: true} : {checked: false})} />
+					
+                    </div>
+									<br />
+                    <div class="form-control w-full max-w-xl">
+											
+                        <label class="label">
+                            <span class="label-text">Enter your search query here:</span>
+                            <span class="label-text-alt">This searches against poem titles only.</span>
+                        </label>
+											<div class="input-group">
+                        <input type="text" value={searchInput} placeholder="Type here" class="input input-bordered w-full max-w-xl" onChange={(e)=> {setSearchInput(e.target.value)}} />
+												<button className="btn" onClick={() => {setQuery(searchInput)}}>Query</button>
+												</div>
                     </div>
                     </div>
                 <Footer />

@@ -13,10 +13,12 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 const Post = ({ session }) => {
     const router = useRouter();
     const [sort, setSort] = useState("new");
+		const [searchInput, setSearchInput] = useState("");
+		const [query, setQuery] = useState("");
     const { user } = router.query;
     const { data, error, size, setSize, isValidating, mutate } = useSWRInfinite(
         (index) => {
-            return `/api/poems?p=${index + 1}&sort=${sort}`;
+            return `/api/poems?p=${index + 1}&sort=${sort}&query=${encodeURIComponent(query)}`;
         },
         fetcher
     );
@@ -141,6 +143,7 @@ const Post = ({ session }) => {
                             ? "Refreshing..."
                             : "Load more"}
                     </button>
+									<br />
                     <div className="btn-group mt-2" onChange={(e) => {
                         if (e.target.value == "new") {
                             setSort("new");
@@ -153,12 +156,17 @@ const Post = ({ session }) => {
                         <input type="radio" name="options" data-title="Sort by new" value="new" className="btn"  {...(sort == "new" ? {checked: true} : {checked: false})} />
                         <input type="radio" name="options" data-title="Sort by old" value="old" className="btn" {...(sort == "old" ? {checked: true} : {checked: false})} />
                     </div>
-                    <div class="form-control w-full max-w-xs">
+									<br />
+                    <div class="form-control w-full max-w-xl">
+											
                         <label class="label">
                             <span class="label-text">Enter your search query here:</span>
-                            <span class="label-text-alt">This searches against poem titles, tag names, and usernames.</span>
+                            <span class="label-text-alt">This searches against poem titles only.</span>
                         </label>
-                        <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
+											<div class="input-group">
+                        <input type="text" value={searchInput} placeholder="Type here" class="input input-bordered w-full max-w-xl" onChange={(e)=> {setSearchInput(e.target.value)}} />
+												<button className="btn" onClick={() => {setQuery(searchInput)}}>Query</button>
+												</div>
                     </div>
                 </div>
                 <Footer />

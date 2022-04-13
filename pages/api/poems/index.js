@@ -45,12 +45,12 @@ export default async function handler(req, res) {
                     title: {
                         [Op.like]: `%${query.replace(/\%/g, "")}%`
                     },
-                    '$tags.name$': {
-                        [Op.like]: `%${query.replace(/\%/g, "")}%`
-                    },
-                    '$user.name$': {
-                        [Op.like]: `%${query.replace(/\%/g, "")}%`
-                    }
+                    // '$tags.name$': {
+                    //     [Op.like]: `%${query.replace(/\%/g, "")}%`
+                    // },
+                    // '$user.name$': {
+                    //     [Op.like]: `%${query.replace(/\%/g, "")}%`
+                    // }
                 }
             }
         };
@@ -91,9 +91,9 @@ export default async function handler(req, res) {
         // group : ['poem.id', 'tags.id', 'user.id'],
         includeIgnoreAttributes : true,
         distinct : true,
-        subQuery: false,
+        // subQuery: false,
         ...where,
-        separate: true
+        // separate: true
     });
 
     // poems.count = poems.count.length;

@@ -177,6 +177,7 @@ const HomePage = (props) => {
 					          options: ['bold', 'italic', 'underline', 'strikethrough'],
 					        }
                 }}/>
+                Press return to add a new paragraph and shift+return to add a new line. (Please submit poems on desktop.)
               </div>
               <br />
               <ReactTags
