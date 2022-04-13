@@ -25,7 +25,7 @@ const Post = ({ session }) => {
     if (
         session?.user &&
         (profiledata?.user !== undefined || profiledata?.user !== null) &&
-        poemdata?.poems?.length > 0 &&
+        poemdata?.poems?.length >= 0 &&
         profiledata?.user &&
         poemdata?.poems
     ) {
@@ -224,6 +224,7 @@ const Post = ({ session }) => {
             </div>
         );
     } else {
+        console.log("restricted?", profiledata, )
         return (
             <div>
                 <Head>

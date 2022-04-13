@@ -116,7 +116,7 @@ const Post = ({ session }) => {
 											
                         <label className="label">
                             <span className="label-text">Enter your search query here:</span>
-                            <span className="label-text-alt">This searches against poem titles only.</span>
+                            <span className="label-text-alt">This searches against tag names only.</span>
                         </label>
 											<div className="input-group">
                         <input type="text" value={searchInput} placeholder="Type here" className="input input-bordered w-full max-w-xl" onChange={(e)=> {setSearchInput(e.target.value)}} />
