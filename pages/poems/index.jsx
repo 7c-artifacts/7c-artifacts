@@ -157,14 +157,14 @@ const Post = ({ session }) => {
                         <input type="radio" name="options" data-title="Sort by old" value="old" className="btn" {...(sort == "old" ? {checked: true} : {checked: false})} />
                     </div>
 									<br />
-                    <div class="form-control w-full max-w-xl">
+                    <div className="form-control w-full max-w-xl">
 											
-                        <label class="label">
-                            <span class="label-text">Enter your search query here:</span>
-                            <span class="label-text-alt">This searches against poem titles only.</span>
+                        <label className="label">
+                            <span className="label-text">Enter your search query here:</span>
+                            <span className="label-text-alt">This searches against poem titles only.</span>
                         </label>
-											<div class="input-group">
-                        <input type="text" value={searchInput} placeholder="Type here" class="input input-bordered w-full max-w-xl" onChange={(e)=> {setSearchInput(e.target.value)}} />
+											<div className="input-group">
+                        <input type="text" value={searchInput} placeholder="Type here" className="input input-bordered w-full max-w-xl" onChange={(e)=> {setSearchInput(e.target.value)}} />
 												<button className="btn" onClick={() => {setQuery(searchInput)}}>Query</button>
 												</div>
                     </div>
