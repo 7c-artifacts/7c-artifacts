@@ -1,6 +1,6 @@
 # 7C Poems
 
-This is a website made to display poems as a sharing website and resource for students in Singapore American School. It’s made using React, TypeScript, and Next.js, bootstrapped with `create-next-app`.
+This is a website made to display poems as a sharing website and resource for students in Singapore American School. It’s made using React, Tailwind.css, DaisyUI, and Next.js, bootstrapped with `create-next-app`.
 
 ## Testing locally
 
@@ -16,16 +16,32 @@ Then install all required dependencies using
 ```bash
 yarn
 ```
-
-Then, install a PostgreSQL server names "postgres" without any credentials. This can be done using [Postgres.app](https://postgresapp.com/) on Mac. 
+To setup the database, use a MySQL database (install locally if required or use production database). Sqlite is not supported because of concurrent row saving which doesn't work in sqlite.
 
 Start a development server with
 ```bash
 yarn dev
 ```
 
-Then the website will be available at <https://localhost:3000>.
+Then, the website will be available at <https://localhost:3000>.
 
+## Environment variables
+
+There are 6 enviornment variables required. Create a .env file at the root of your environment with this:
+```
+GOOGLE_ID=__INSERT_GOOGLE_OAUTH_ID__
+GOOGLE_SECRET=__INSERT_GOOGLE_OAUTH_SECRET__
+NEXTAUTH_SECRET=__INSERT_NEXT_AUTH_SECURITY_SECRET__
+NEXTAUTH_URL=__INSERT_PAGE_URL__ # Locally, insert https://localhost:3000/
+MYSQL_PASS=__INSERT_MYSQL_PASSWORD__
+MYSQL_USERDB=__INSERT_MYSQL_USER_AND_DB__ # DB name and username should be the same in production
+```
+
+## Stack
+
+This website uses Next.js and React. For frontend, we use Tailwind.css and DaisyUI. For our database, we use MySQL and the Sequelize ORM. 
+
+# Bootstrapped README
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
 [API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
