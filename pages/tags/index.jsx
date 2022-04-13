@@ -7,15 +7,17 @@ import { getSession } from 'next-auth/react';
 import Head from 'next/head';
 import useSWRInfinite from 'swr/infinite';
 import Link from "next/link";
+import { useState } from "react";
 
 const fetcher = url => fetch(url).then(res => res.json());
 
 const Post = ({ session }) => {
 	const router = useRouter();
 	const { user } = router.query;
+    const [sort, setSort] = useState("most")
 	const { data, error, size, setSize, isValidating, mutate } = useSWRInfinite(
         (index) => {
-            return `/api/tags?p=${index + 1}`;
+            return `/api/tags?p=${index + 1}&sort=${sort}`;
         }, fetcher
 	);
     const tags = undefined;
@@ -84,6 +86,27 @@ const Post = ({ session }) => {
         >
           {isLoadingMore ? "Loading..." : (tags.tags.length >= Number(tags.count) ? "No more tags" : (isRefreshing ? "Refreshing..." : "Load more"))}
         </button>
+        <div className="btn-group mt-2" onChange={(e) => {
+                        if (e.target.value == "new") {
+                            setSort("new");
+                            setSize(1);
+                        } else if (e.target.value == "old") {
+                            setSort("old");
+                            setSize(1);
+                        } else if (e.target.value == "most") {
+                            setSort("most");
+                            setSize(1);
+                        } else if (e.target.value == "least") {
+                            setSort("least");
+                            setSize(1);
+                        }
+                        
+                    }}>
+                        <input type="radio" name="options" data-title="Sort by new" value="new" className="btn"  {...(sort == "new" ? {checked: true} : {checked: false})} />
+                        <input type="radio" name="options" data-title="Sort by old" value="old" className="btn" {...(sort == "old" ? {checked: true} : {checked: false})} />
+                        <input type="radio" name="options" data-title="Sort by most popular" value="most" className="btn" {...(sort == "most" ? {checked: true} : {checked: false})} />
+                        <input type="radio" name="options" data-title="Sort by least popular" value="least" className="btn" {...(sort == "least" ? {checked: true} : {checked: false})} />
+                    </div>
                     </div>
                 <Footer />
             </div>

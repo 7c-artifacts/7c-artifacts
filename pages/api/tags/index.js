@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 const {models, sequelize} = require("../../../models/models");
+const { Op } = require("sequelize");
 import { getSession } from "next-auth/react";
 
 function getPage(page) {
@@ -26,26 +27,23 @@ export default async function handler(req, res) {
     const Tag = models.Tag;
     const page = getPage(req.query.p)
     const time = Date.now();
-    // let tags = await Tag.findAll({
-    //     limit: 5,
-    //     offset: page * 5 - 5,
-    //     group: sequelize.col("tag.id"),
-    //     attributes: {
-    //         exclude: ['createdAt', 'updatedAt'],
-    //         include: []
-    //     },
-    //     order: [
-    //         // sequelize.fn("max", sequelize.col("tag.id"))
-    //     ],
-    //     include: [
-    //         {
-    //             model: models.Poem, attributes: [
-    //                 [sequelize.fn("COUNT", sequelize.col("poems.id")), "num_stories"]
-    //             ],
-    //         }
-    //     ],
-    //     // includeIgnoreAttributes:false,
-    // });
+    let sort = req.query.sort;
+    let query = req.query.query;
+    if (sort == "new") sort = [['createdAt', 'DESC']];
+    else if (sort == "old") sort = [['createdAt', 'ASC']];
+    else if (sort == "most") sort = [[sequelize.literal('poems_count'), 'DESC']];
+    else if (sort == "least") sort = [[sequelize.literal('poems_count'), 'ASC']];
+    else sort = [[sequelize.literal('poems_count'), 'DESC']];
+    let where = {};
+    if (query) {
+        where = {
+            where: {
+                name: {
+                    [Op.like]: `%${query.replace(/\%/g, "")}%`
+                }
+            }
+        };
+    }
 
     const tags = await Tag.findAndCountAll({
         include : [
@@ -55,13 +53,14 @@ export default async function handler(req, res) {
             include: ['tag.id', [sequelize.fn('COUNT', sequelize.col('poems.id')), 'poems_count']],
             exclude: ['createdAt', 'updatedAt']
         },
-        order: [[sequelize.literal('poems_count'), 'DESC']],
+        order: sort,
         group : ['tag.id'],
         includeIgnoreAttributes : false,
         distinct : true,
         limit: 12,
         offset: page * 12 - 12,
-        subQuery: false
+        subQuery: false,
+        ...where
     });
 
     tags.count = tags.count.length;
@@ -75,6 +74,6 @@ export default async function handler(req, res) {
     // });
     // tags.count = count;
 
-    res.status(200).json({ time: timeend - time, tags: tags });
+    res.status(200).json({ time: timeend - time, tags: tags, length: tags.rows.length });
     // sequelize.close();
 }

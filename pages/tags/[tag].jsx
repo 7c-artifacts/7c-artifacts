@@ -18,7 +18,19 @@ const Post = ({ session }) => {
     const router = useRouter();
     const { tag } = router.query;
     const { data: tagdata, error } = useSWR(`/api/tags/${tag}`, fetcher);
-
+    let namething = <></>;
+    if (tagdata?.tag?.poems?.length > 0) {
+        namething = (<>First used on{" "}
+        {parseISOString(
+            tagdata.tag.createdAt
+        ).toLocaleString()}{" "}
+        by{" "}
+        {
+            tagdata.tag.poems[
+                tagdata.tag.poems.length - 1
+            ].user.name
+        }</>)
+    } 
     if (
         session?.user &&
         (tagdata?.tag !== undefined || tagdata?.tag !== null) &&
@@ -53,16 +65,7 @@ const Post = ({ session }) => {
                                     </p>
                                     <p className="text-sm text-opacity-80 text-base-content">
                                         
-                                        First used on{" "}
-                                        {parseISOString(
-                                            tagdata.tag.createdAt
-                                        ).toLocaleString()}{" "}
-                                        by{" "}
-                                        {
-                                            tagdata.tag.poems[
-                                                tagdata.tag.poems.length - 1
-                                            ].user.name
-                                        }
+                                        {namething}
                                     </p>
                                 </div>
                             </div>

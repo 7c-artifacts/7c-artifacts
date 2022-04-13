@@ -4,19 +4,21 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Restricted from '../components/Restricted'
 import { useRouter } from 'next/router'
-import { useState, useEffect } from "react"
+import { useState, useEffect, useLayoutEffect } from "react"
 import { stateToHTML } from 'draft-js-export-html';
 import Draft, { EditorState, ContentState, Modifier } from 'draft-js'
 import { WithContext as ReactTags } from 'react-tag-input';
 import { getSession } from 'next-auth/react'
 
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
-
+// {initialData: {tags: {rows: []}}, }
 const Editor = dynamic(
   () => {return import('react-draft-wysiwyg').then(mod => mod.Editor)},
   { ssr: false }
 )
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import useSWR from 'swr'
 
 const HomePage = (props) => {
   const router = useRouter();
@@ -26,7 +28,16 @@ const HomePage = (props) => {
   const [htmlData, setHtmlData] = useState("");
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [tagInput, setTagInput] = useState("")
+  // const [suggestions, setSuggestions] = useState({tags: {rows: []}});
 
+  const {data: suggestions, error: err} = useSWR(`/api/tags?query=${tagInput}`, fetcher, {fallbackData: {tags: {rows: []}}});
+  // console.log([...suggestions.tags.rows, ...data.tags.rows].length, data.tags.rows.length, suggestions.tags.rows.length)
+  // if (data && data !== suggestions) {
+  //   setSuggestions({tags: {rows: [...suggestions.tags.rows, ...data.tags.rows]}});
+  //   setSuggestions({tags: {rows: suggestions.tags.rows.filter((item, i, ar) => ar.indexOf(item) === i)}});
+  // }
+  
   useEffect(() => {
     if (!localStorage.getItem("7cpoems-submit-editor-data")) localStorage.setItem("7cpoems-submit-editor-data", "")
     if (!localStorage.getItem("7cpoems-submit-tags")) localStorage.setItem("7cpoems-submit-tags", "[]")
@@ -70,11 +81,13 @@ const HomePage = (props) => {
   const handleAddition = tag => {
     tag.id = tag.id.toLocaleLowerCase();
     tag.text = tag.text.toLocaleLowerCase();
+    if (tag.text[tag.text.length - 1] === "s") alert("Don't use plural words! If this is not plural or this tag is already used, ignore this error.");
     const newVal = [...tags, tag];
     if (newVal.length < 15 && tag.text.length < 21) {
       setTags(newVal);
       saveTags(newVal);
     }
+    setTagInput("");
   };
 	const handlePastedText = (text, html, editorState) => {
 		if (html) {
@@ -138,6 +151,7 @@ const HomePage = (props) => {
       setSubmitting(false);
     })
   }
+
   
   if (props.session) {
     return (
@@ -174,7 +188,19 @@ const HomePage = (props) => {
                 inputFieldPosition="bottom"
                 placeholder="Add up to 15 tags maximum"
                 maxLength={20}
+                handleInputChange={(e) => {
+                  setTagInput(e);
+                }}
+                suggestions={suggestions.tags.rows.map(v => ({ id: v.name, text: v.name }))}
+                minQueryLength={0}
+                classNames={
+                  {
+                    suggestions: "menu bg-base-100 menu-compact w-56 shadow-xl p-2 rounded-box suggs mt-3"
+                  }
+                }
+                
               />
+       
               <br />
               <h2 className="text-3xl">Preview (note that all links will open in another tab when posted)</h2>
               <br />

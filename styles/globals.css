@@ -211,3 +211,7 @@ a {
 .thingy {
   grid-template-rows: masonry;
 }
+
+.suggs> ul li span {
+  display: block;
+}
