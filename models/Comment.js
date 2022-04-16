@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
             type: DataTypes.TEXT,
             allowNull: false,
             validate: {
-                len: [20, Infinity]
+                len: [20, 3000]
             }
         }
     }, {

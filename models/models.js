@@ -6,6 +6,7 @@ const PoemTag = require("./PoemTag");
 const Session = require("./Session");
 const Account = require("./Account");
 const VerificationToken = require("./VerificationToken");
+const Comment = require("./Comment");
 
 
 let sequelize;
@@ -59,6 +60,7 @@ const Models = {
     Session,
     Account,
     VerificationToken,
+    Comment,
     Final: (sequelize) => {
         const tag = Tag(sequelize);
         const user = User(sequelize);
@@ -66,11 +68,16 @@ const Models = {
         const session = Session(sequelize);
         const verificationtoken = VerificationToken(sequelize);
         const account = Account(sequelize);
-        
+        const comment = Comment(sequelize);
+
         tag.belongsToMany(poem, { through: 'poemtags', allowNull: false });
         user.hasMany(poem, { allowNull: true });
         poem.belongsTo(user, { allowNull: false  });
         poem.belongsToMany(tag, { through: 'poemtags', allowNull: true });
+        poem.hasMany(comment, { allowNull: true });
+        comment.belongsTo(poem, { allowNull: false });
+        comment.belongsTo(user, { allowNull: false });
+        
         return {
             Tag: tag,
             User: user,
