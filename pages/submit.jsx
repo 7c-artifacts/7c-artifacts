@@ -81,12 +81,14 @@ const HomePage = (props) => {
   const handleAddition = tag => {
     tag.id = tag.id.toLocaleLowerCase();
     tag.text = tag.text.toLocaleLowerCase();
-    if (tag.text[tag.text.length - 1] === "s") alert("Don't use plural words! If this is not plural or this tag is already used, ignore this error.");
+    // if (tag.text[tag.text.length - 1] === "s") alert("Don't use plural words! If this is not plural or this tag is already used, ignore this error.");
     const newVal = [...tags, tag];
-    if (newVal.length < 15 && tag.text.length < 21) {
+    if (newVal.length <= 15 && tag.text.length < 21) {
       setTags(newVal);
       saveTags(newVal);
-    }
+    } else {
+			alert("Too many tags! You can only have 15.")
+		}
     setTagInput("");
   };
 	const handlePastedText = (text, html, editorState) => {
@@ -175,7 +177,11 @@ const HomePage = (props) => {
 					        options: ['inline', 'blockType', 'list', 'link', 'embedded', 'emoji', 'image', 'remove', 'history'],
 					        inline: {
 					          options: ['bold', 'italic', 'underline', 'strikethrough'],
-					        }
+					        },
+				blockType: {
+    inDropdown: true,
+    options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'Blockquote'],
+  },
                 }}/>
                 Press return to add a new paragraph and shift+return to add a new line. (Please submit poems on desktop.)
               </div>
