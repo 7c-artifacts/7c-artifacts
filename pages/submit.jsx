@@ -14,7 +14,7 @@ import Draft, {
 } from "draft-js";
 import { WithContext as ReactTags } from "react-tag-input";
 import { getSession } from "next-auth/react";
-import DOMPurify from "dompurify";
+import { sanitize } from "../components/purify";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -356,7 +356,7 @@ const HomePage = (props) => {
                                     </div>
                                     <div
                                         dangerouslySetInnerHTML={{
-                                            __html: DOMPurify.sanitize(
+                                            __html: sanitize(
                                                 htmlData,
                                                 { ADD_TAGS: ["iframe"] }
                                             ),

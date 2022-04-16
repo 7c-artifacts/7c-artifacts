@@ -7,7 +7,7 @@ import Head from "next/head";
 import useSWR from "swr";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import DOMPurify from "dompurify";
+import { sanitize } from "../../components/purify";
 
 function parseISOString(s) {
     var b = s.split(/\D+/);
@@ -189,7 +189,7 @@ const Post = ({ session }) => {
                     </div>
                     <div
                         dangerouslySetInnerHTML={{
-                            __html: DOMPurify.sanitize(poemdata.poem.text, {
+                            __html: sanitize(poemdata.poem.text, {
                                 ADD_TAGS: ["iframe"],
                             }),
                         }}
@@ -301,7 +301,7 @@ const Post = ({ session }) => {
                                                           "break-word",
                                                   }}
                                                   dangerouslySetInnerHTML={{
-                                                      __html: DOMPurify.sanitize(
+                                                      __html: sanitize(
                                                           val.text,
                                                           {
                                                               ADD_TAGS: [
