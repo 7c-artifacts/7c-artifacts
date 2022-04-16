@@ -274,7 +274,7 @@ const Post = ({ session }) => {
                         {comments
                             ? comments.comments.map((val) => {
                                   return (
-                                      <div className="card w-100 bg-base-100 shadow-xl mb-4">
+                                      <div className="card w-100 bg-base-100 shadow-xl mb-4" key={val.id}>
                                           <div className="card-body">
                                               <h2 className="card-title">
                                                   <div className="avatar">
