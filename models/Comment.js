@@ -14,7 +14,7 @@ module.exports = (sequelize) => {
     }, {
 
     });
-    // model.hasMany(Models.Poem(sequelize), { foreignKey: 'userId', allowNull: false  });
+
     
     return model;
 }

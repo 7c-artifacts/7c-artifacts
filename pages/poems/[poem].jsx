@@ -7,6 +7,7 @@ import Head from "next/head";
 import useSWR from "swr";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import DOMPurify from "dompurify";
 
 function parseISOString(s) {
     var b = s.split(/\D+/);
@@ -15,9 +16,11 @@ function parseISOString(s) {
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const Editor = dynamic(
-    () => { return import('react-draft-wysiwyg').then(mod => mod.Editor) },
+    () => {
+        return import("react-draft-wysiwyg").then((mod) => mod.Editor);
+    },
     { ssr: false }
-)
+);
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useState } from "react";
 import { EditorState } from "draft-js";
@@ -25,34 +28,104 @@ import { stateToHTML } from "draft-js-export-html";
 
 const Post = ({ session }) => {
     const router = useRouter();
+    function html(k) {
+        return stateToHTML(k.getCurrentContent(), {
+            blockRenderers: {
+                atomic: (block) => {
+                    let key = block.getEntityAt(0);
+                    let type = k.getCurrentContent().getEntity(key).type;
+                    if (type === "EMBEDDED_LINK") {
+                        console.log("embedded link");
+                        let data = k
+                            .getCurrentContent()
+                            .getEntity(key)
+                            .getData();
+                        console.log(data);
+                        return (
+                            "<div><iframe src=" +
+                            data.src +
+                            ' height="' +
+                            data.height +
+                            '" width="' +
+                            data.width +
+                            '" frameborder="0" allow="encrypted-media" allowfullscreen></iframe></div>'
+                        );
+                    }
+                },
+            },
+        });
+    }
     const { poem } = router.query;
     const { data: poemdata, error } = useSWR(`/api/poems/${poem}`, fetcher);
-    const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
+    const { data: comments, error: commenterror } = useSWR(
+        `/api/poems/${poem}/comments`,
+        fetcher
+    );
+    const [editorState, setEditorState] = useState(() =>
+        EditorState.createEmpty()
+    );
+    const [cError, setCError] = useState(null);
+    const [submitting, setSubmitting] = useState(false);
     const [htmlData, setHtmlData] = useState("");
 
     function onChange(k) {
         setEditorState(k);
-        var data = stateToHTML(k.getCurrentContent());
+        var data = html(k);
         setHtmlData(data);
-        localStorage.setItem("7cpoems-submit-editor-data", data);
+        // localStorage.setItem("7cpoems-submit-editor-data", data);
     }
 
     const handlePastedText = (text, html, editorState) => {
         if (html) {
-            const blocksFromHTML = Draft.convertFromHTML(html.replace(/<b/g, '<p').replace(/<\/b/, '</p'));
+            const blocksFromHTML = Draft.convertFromHTML(
+                html.replace(/<b/g, "<p").replace(/<\/b/, "</p")
+            );
             let contentState = Modifier.replaceWithFragment(
                 editorState.getCurrentContent(),
                 editorState.getSelection(),
-                ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap).getBlockMap()
-            )
+                ContentState.createFromBlockArray(
+                    blocksFromHTML.contentBlocks,
+                    blocksFromHTML.entityMap
+                ).getBlockMap()
+            );
 
-            onChange(EditorState.push(editorState, contentState, 'insert-fragment'))
+            onChange(
+                EditorState.push(editorState, contentState, "insert-fragment")
+            );
             return true;
         } else {
             return false;
         }
     };
-
+    function commentSubmit() {
+        setCError(null);
+        setSubmitting(true);
+        fetch("/api/poems/" + poemdata.poem.id + "/comment", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                text: htmlData,
+            }),
+        })
+            .then((result) => result.json())
+            .then((json) => {
+                if (json.error) {
+                    setCError(json.error.join("<br />"));
+                } else {
+                    setCError(null);
+                    router.reload();
+                }
+                console.log(json);
+                setSubmitting(false);
+            })
+            .catch((err) => {
+                setCError(err);
+                setSubmitting(false);
+            });
+    }
 
     if (
         session?.user &&
@@ -115,7 +188,11 @@ const Post = ({ session }) => {
                         })}
                     </div>
                     <div
-                        dangerouslySetInnerHTML={{ __html: poemdata.poem.text }}
+                        dangerouslySetInnerHTML={{
+                            __html: DOMPurify.sanitize(poemdata.poem.text, {
+                                ADD_TAGS: ["iframe"],
+                            }),
+                        }}
                         className="mt-3 thing"
                     ></div>
                     <br />
@@ -123,34 +200,122 @@ const Post = ({ session }) => {
                     <div className="comments">
                         <div className="card w-100 bg-base-100 shadow-xl mb-4 overflow-visible">
                             <div className="card-body">
-                                <h2 className="card-title mb-2">Submit a Comment</h2>
-                                <Editor editorState={editorState} handlePastedText={handlePastedText} onEditorStateChange={onChange} toolbar={{
-                                    options: ['inline', 'list', 'link', 'embedded', 'emoji', 'image', 'remove', 'history'],
-                                    inline: {
-                                        options: ['bold', 'italic', 'underline', 'strikethrough'],
-                                    }
-                                }} />
+                                <h2 className="card-title mb-2">
+                                    Submit a Comment
+                                </h2>
+                                <Editor
+                                    editorState={editorState}
+                                    handlePastedText={handlePastedText}
+                                    onEditorStateChange={onChange}
+                                    toolbar={{
+                                        options: [
+                                            "inline",
+                                            "list",
+                                            "link",
+                                            "embedded",
+                                            "image",
+                                            "remove",
+                                            "history",
+                                        ],
+                                        inline: {
+                                            options: [
+                                                "bold",
+                                                "italic",
+                                                "underline",
+                                                "strikethrough",
+                                            ],
+                                        },
+                                    }}
+                                />
+                                {cError !== null ? (
+                                    <div className="alert alert-error shadow-lg mt-3">
+                                        <div>
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="stroke-current flex-shrink-0 h-6 w-6"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                />
+                                            </svg>
+                                            <span>
+                                                Error!{" "}
+                                                <span
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: cError,
+                                                    }}
+                                                ></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                ) : null}
                                 <div className="card-actions justify-end mt-2">
-                                    <button className="btn btn-primary">Post</button>
+                                    <button
+                                        className={
+                                            "btn btn-primary" +
+                                            (submitting ? " loading" : "")
+                                        }
+                                        {...(submitting
+                                            ? { disabled: true }
+                                            : { disabled: false })}
+                                        onClick={commentSubmit}
+                                    >
+                                        {submitting ? "Posting..." : "Post"}
+                                    </button>
                                 </div>
                             </div>
-
                         </div>
 
-                        <div className="card w-100 bg-base-100 shadow-xl mb-4">
-                            <div className="card-body">
-                                <h2 className="card-title"><div className="avatar">
-                                    <div className="w-8 rounded-full">
-                                        <img src="https://lh3.googleusercontent.com/a-/AOh14GglVHH-jcg2QCNX7Ukc_-DfNpjC6FPL9vz4oSFDwg=s96-c" />
-                                    </div>
-                                </div>Anvay Mathur</h2>
-                                <p className="whitespace-pre-wrap" style={{ overflowWrap: "break-word", }}>{`Hm. Interesting idea. I think this could go somewhere... How about x? Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sed tristique nulla. Vivamus varius euismod ipsum, nec eleifend nulla porttitor sit amet. Nam at commodo felis. Cras ultrices, eros non consectetur ullamcorper, tortor mauris facilisis nulla, vitae tempor est elit id nulla. Sed quis dui non odio molestie sagittis id eget lectus. Curabitur sit amet nulla suscipit, tempus orci a, vestibulum elit. Vivamus neque nisi, eleifend vitae molestie a, dapibus quis erat. Aliquam sit amet tempus sem, ac vestibulum eros. Aenean a lobortis ex.
-
-Nulla euismod diam tortor. Morbi tristique fermentum dolor eu tristique. Nunc interdum dapibus ullamcorper. Quisque eget leo at lacus scelerisque accumsan. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce pharetra elementum sapien non imperdiet. Vivamus venenatis, quam ac malesuada aliquet, nibh turpis iaculis purus, placerat posuere libero lacus vel ante. Duis non ornare odio. In hac habitasse platea dictumst. Quisque sed nibh ipsum. Morbi congue sem non feugiat pretium. Aliquam facilisis porta felis non rhoncus.`}
-                                </p>
-                            </div>
-                        </div>
-
+                        {comments
+                            ? comments.comments.map((val) => {
+                                  return (
+                                      <div className="card w-100 bg-base-100 shadow-xl mb-4">
+                                          <div className="card-body">
+                                              <h2 className="card-title">
+                                                  <div className="avatar">
+                                                      <div className="w-8 rounded-full">
+                                                          <img
+                                                              src={
+                                                                  val.user.image
+                                                              }
+                                                          />
+                                                      </div>
+                                                  </div>
+                                                  {val.user.name}
+                                              </h2>
+                                              <h5 className="font-light">
+                                                  At{" "}
+                                                  {parseISOString(
+                                                      val.createdAt
+                                                  ).toLocaleString()}
+                                              </h5>
+                                              <div
+                                                  className="whitespace-pre-wrap"
+                                                  style={{
+                                                      overflowWrap:
+                                                          "break-word",
+                                                  }}
+                                                  dangerouslySetInnerHTML={{
+                                                      __html: DOMPurify.sanitize(
+                                                          val.text,
+                                                          {
+                                                              ADD_TAGS: [
+                                                                  "iframe",
+                                                              ],
+                                                          }
+                                                      ),
+                                                  }}
+                                              ></div>
+                                          </div>
+                                      </div>
+                                  );
+                              })
+                            : null}
                     </div>
                 </div>
 

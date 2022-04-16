@@ -60,9 +60,9 @@ export default async function handler(req, res) {
     // here be dragons lol
     const poems = await Poem.findAndCountAll({
         // groupedLimit: 5,
-        limit: 5,
+        limit: 10,
         // raw: true,
-        offset: page * 5 - 5,
+        offset: page * 10 - 10,
         include: [
             {
                 model: models.Tag,

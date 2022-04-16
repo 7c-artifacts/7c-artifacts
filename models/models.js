@@ -18,7 +18,14 @@ if (process.env.NODE_ENV === "development") {
         sequelize = new Sequelize(process.env.MYSQL_USERDB, process.env.MYSQL_USERDB, process.env.MYSQL_PASS, {
             host: "remotemysql.com",
             dialect: "mysql",
-            port: 3306
+            port: 3306,
+            charset: 'utf8mb4',
+            dialectOptions: {
+                // collate: 'utf8mb4_unicode_ci',
+                charset: 'utf8mb4'
+
+            },
+
         });
         global._sequelize = sequelize;
     }
@@ -28,10 +35,17 @@ if (process.env.NODE_ENV === "development") {
     sequelize = new Sequelize(process.env.MYSQL_USERDB, process.env.MYSQL_USERDB, process.env.MYSQL_PASS, {
         host: "remotemysql.com",
         dialect: "mysql",
-        port: 3306
+        port: 3306,
+        charset: 'utf8mb4',
+        dialectOptions: {
+            // collate: 'utf8mb4_unicode_ci',
+            charset: 'utf8mb4'
+        },
     });
   }
-  
+  sequelize.query('SET CHARSET utf8mb4')
+
+
 
 console.log("\tCreating connection to SQL db!")
 
@@ -77,14 +91,16 @@ const Models = {
         poem.hasMany(comment, { allowNull: true });
         comment.belongsTo(poem, { allowNull: false });
         comment.belongsTo(user, { allowNull: false });
-        
+        user.hasMany(comment, { allowNull: true });
+        // comment.sync({force: true})
         return {
             Tag: tag,
             User: user,
             Poem: poem,
             Session: session,
             VerificationToken: verificationtoken,
-            Account: account
+            Account: account,
+            Comment: comment,
         }
     }
 }  
