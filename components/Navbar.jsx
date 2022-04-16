@@ -6,7 +6,21 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 
 function Navbar() {
     const {data: session, error} = useSWR("/api/auth/session", fetcher);
-    
+    const nav = (
+			<>
+			<ul className="menu menu-horizontal p-0 mx-1">
+                <li><Link href="/">Home</Link></li>
+            </ul>
+            {session?.user ? <ul className="menu menu-horizontal p-0 mx-1">
+                <li><Link href="/submit">Submit</Link></li>
+            </ul> : <></>}
+            {session?.user ? <ul className="menu menu-horizontal p-0 mx-1">
+                <li><Link href="/poems">Poems</Link></li>
+            </ul> : <></>}
+            {session?.user ? <ul className="menu menu-horizontal p-0 mx-1">
+                <li><Link href="/tags">Tags</Link></li>
+            </ul> : <></>}</>
+		)
     let loginInsert = <></>;
     if (!session) {
         loginInsert = (
@@ -26,7 +40,7 @@ function Navbar() {
                             </div>
                         </label>
                         <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-                            <h1 className="pl-4 pt-2 pb-2 text-xl">Hi, {session.user.name.split(" ")[0]}.</h1>
+                            <h1 className="pl-4 pt-2 pb-2 text-xl">Hi, {session.user.name}.</h1>
                             <li><Link href={"/users/" + session.pk}>Your Account</Link></li>
                             <li><a onClick={() => {signOut()}}>Logout</a></li>
 
@@ -47,22 +61,23 @@ function Navbar() {
     return (
         <div className="navbar bg-primary text-primary-content backdrop-filter backdrop-blur-lg sticky top-0 z-10 bg-opacity-80 border-b border-gray-600 h-[59px]">
             <div className="navbar-start">
-                <Link href="/"><a className="btn btn-ghost normal-case text-xl">7C Poems</a></Link>
+							<div className="dropdown">
+      <label tabIndex="0" className="btn btn-ghost lg:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+      </label>
+      <ul tabIndex="0" className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-100y">
+        {nav}
+      </ul>
+    </div>
+							<Link href="/"><a className="btn btn-ghost normal-case text-xl">7C Poems</a></Link>
+
+                
+            
+            <div className="navbar-center hidden lg:flex ">
+           {nav}
             </div>
-            <div className="navbar-center flex ">
-            <ul className="menu menu-horizontal p-0 mx-1">
-                <li><Link href="/">Home</Link></li>
-            </ul>
-            {session?.user ? <ul className="menu menu-horizontal p-0 mx-1">
-                <li><Link href="/submit">Submit</Link></li>
-            </ul> : <></>}
-            {session?.user ? <ul className="menu menu-horizontal p-0 mx-1">
-                <li><Link href="/poems">Poems</Link></li>
-            </ul> : <></>}
-            {session?.user ? <ul className="menu menu-horizontal p-0 mx-1">
-                <li><Link href="/tags">Tags</Link></li>
-            </ul> : <></>}
-            </div>
+							</div>
+
             <div className="navbar-end">
             {loginInsert}
             </div>
