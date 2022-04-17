@@ -16,7 +16,7 @@ function Names(props) {
     if (props.withoutP) {
         return (
             <>
-                {props.by ? props.by : "By"} {props.users.map((user) => <Link href={`/users/${user.id}`} passHref>
+                {props.by ? props.by : "By"} {props.users.map((user) => <Link href={`/users/${user.id}`} passHref key={user.id}>
                                 <a
                                     className="link"
                                     target="_blank"
@@ -30,7 +30,7 @@ function Names(props) {
     }
     return (
         <p>
-            {props.by ? props.by : "By"} {props.users.map((user) => <Link href={`/users/${user.id}`} passHref>
+            {props.by ? props.by : "By"} {props.users.map((user) => <Link href={`/users/${user.id}`} passHref key={user.id}>
                             <a
                                 className="link"
                                 target="_blank"
