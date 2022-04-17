@@ -25,6 +25,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useState } from "react";
 import { EditorState } from "draft-js";
 import { stateToHTML } from "draft-js-export-html";
+import Names from "../../components/Names";
 
 const Post = ({ session }) => {
     const router = useRouter();
@@ -149,16 +150,7 @@ const Post = ({ session }) => {
                     <h1>{poemdata.poem.title}</h1>
 
                     <h2 className="mb-2">
-                        By{" "}
-                        <Link href={`/users/${poemdata.poem.user.id}`} passHref>
-                            <a
-                                className="link"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                {poemdata.poem.user.name}
-                            </a>
-                        </Link>
+                    <Names users={poemdata.poem.users} withoutP={true} />
                     </h2>
                     <h4 className="mb-2">
                         Published on{" "}

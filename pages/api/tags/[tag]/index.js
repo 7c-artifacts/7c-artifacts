@@ -31,7 +31,7 @@ export default async function handler(req, res) {
                 include: [
                     {
                         model: models.User,
-                        attributes: ["name"],
+                        attributes: ["name", "id"],
                     },
                     {
                         model: models.Tag,

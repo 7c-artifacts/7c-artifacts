@@ -7,6 +7,7 @@ import Head from "next/head";
 import useSWRInfinite from "swr/infinite";
 import Link from "next/link";
 import { useState } from "react";
+import Names from "../../components/Names";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -63,21 +64,7 @@ const Post = ({ session }) => {
                                             <h2 className="card-title">
                                                 {ite.title}
                                             </h2>
-                                            <p>
-                                                By{" "}
-                                                <Link
-                                                    href={`/users/${ite.userId}`}
-                                                    passHref
-                                                >
-                                                    <a
-                                                        className="link"
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                    >
-                                                        {ite.user.name}
-                                                    </a>
-                                                </Link>
-                                            </p>
+                                            <Names users={ite.users} />
                                             <div className="card-actions justify-end mt-2 gap-0">
                                                 {ite.tags.map((ite2, i) => {
                                                     return (

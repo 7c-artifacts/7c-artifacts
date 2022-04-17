@@ -85,14 +85,15 @@ const Models = {
         const comment = Comment(sequelize);
 
         tag.belongsToMany(poem, { through: 'poemtags', allowNull: false });
-        user.hasMany(poem, { allowNull: true });
-        poem.belongsTo(user, { allowNull: false  });
+        user.belongsToMany(poem, { allowNull: true, through: 'userpoems' });
+        poem.belongsToMany(user, { allowNull: false, through: 'userpoems'   });
         poem.belongsToMany(tag, { through: 'poemtags', allowNull: true });
         poem.hasMany(comment, { allowNull: true });
         comment.belongsTo(poem, { allowNull: false });
         comment.belongsTo(user, { allowNull: false });
         user.hasMany(comment, { allowNull: true });
-        // comment.sync({force: true})
+        // poem.sync({force: true})
+        // sequelize.sync({force: true})
         return {
             Tag: tag,
             User: user,

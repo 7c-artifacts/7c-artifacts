@@ -5,7 +5,7 @@ const {models, sequelize} = require("../../models/models");
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {
-        const {text, title, tags} = req.body;
+        const {text, title, tags, users} = req.body;
         const session = await getSession({ req });
         if (!session) {
             res.status(403).json({error: ["Incorrect account or not signed in"]});
@@ -23,10 +23,13 @@ export default async function handler(req, res) {
         const time = Date.now();
         const existingPoemsWithName = await Poem.findAll({
             attributes: ["title"],
+            include: [models.User],
+            ignoreIncludeAttributes: false,
             where: {
-                userId: session.pk,
+                '$users.id$': session.pk,
                 title: title
-            }
+            },
+            // subQuery: false
         })
 
         if (existingPoemsWithName.length > 0) {
@@ -39,22 +42,24 @@ export default async function handler(req, res) {
         
         
 
-        
+
 
         const poem = Poem.build({
             text,
             title,
-            userId: session.pk
+            // userId: session.pk
         })
         console.log("\tBuilt poem!")
 
-        // const user = await models.User.findByPk(session.pk);
-        // console.log(user);
-        // await poem.setUser(user);
+        const user = await models.User.findByPk(session.pk);
+        console.log(user);
+        
+
         console.log("\tSet author!")
         let taglist = [];
         const tag = models.Tag;
         
+        console.log("\tTags");
         for (let i = 0; i < tags.length; i++) {
             taglist.push(tag.findOrCreate({where: {name: tags[i].text}}));
         }
@@ -73,6 +78,7 @@ export default async function handler(req, res) {
         });
         console.log(taglist);
         
+        console.log("\tvalidate");
         try {
             await poem.validate();
         } catch (e) {
@@ -85,9 +91,31 @@ export default async function handler(req, res) {
             // sequelize.close();
             return;
         }
-        
+        console.log("Get collaborators");
+        let collab = [];
+        for (let i = 0; i < users.length; i++) {
+            collab.push(models.User.findByPk(users[i]));
+        }
+        try {
+            collab = await Promise.all(collab);
+        } catch(e) {
+            error.push("Invalid user");
+            res.status(401).json({error});
+            res.end();
+            return;
+        }
+
+        if (collab.indexOf(null) !== -1) {
+            error.push("Invalid user");
+            res.status(401).json({error});
+            res.end();
+            return;
+        }
+
+        console.log("Save")
         await poem.save()
         await poem.setTags(taglist);
+        await poem.setUsers([user, ...collab]);
         
         const timeend = Date.now();
 

@@ -78,7 +78,8 @@ export default async function handler(req, res) {
             }, {
                 model: models.User,
                 attributes: {
-                    exclude: ["createdAt", "updatedAt", "image", "emailVerified"]
+                    exclude: ["createdAt", "updatedAt", "image", "emailVerified"],
+                    include: ["id", "name"]
                 },
                 // right: true
                 // required: true

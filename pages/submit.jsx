@@ -27,6 +27,7 @@ const Editor = dynamic(
 );
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import useSWR from "swr";
+import Names from "../components/Names";
 
 const HomePage = (props) => {
     const router = useRouter();
@@ -39,6 +40,9 @@ const HomePage = (props) => {
     const [error, setError] = useState(null);
     const [submitting, setSubmitting] = useState(false);
     const [tagInput, setTagInput] = useState("");
+
+    const [collab, setCollab] = useState([]);
+    const [collabInput, setCollabInput] = useState("");
     // const [suggestions, setSuggestions] = useState({tags: {rows: []}});
 
     function html(k) {
@@ -70,9 +74,14 @@ const HomePage = (props) => {
     }
 
     const { data: suggestions, error: err } = useSWR(
-        `/api/tags?query=${tagInput}`,
+        `/api/tags?query=${encodeURIComponent(tagInput)}`,
         fetcher,
         { fallbackData: { tags: { rows: [] } } }
+    );
+    const { data: users, error: userserr } = useSWR(
+        `/api/users?query=${encodeURIComponent(tagInput)}`,
+        fetcher,
+        { fallbackData: { users: [] } }
     );
     // console.log([...suggestions.tags.rows, ...data.tags.rows].length, data.tags.rows.length, suggestions.tags.rows.length)
     // if (data && data !== suggestions) {
@@ -203,6 +212,7 @@ const HomePage = (props) => {
                 title: input,
                 email: props.session.user.email,
                 tags: tags,
+                users: collab.map(user => Number(user.id))
             }),
         })
             .then((result) => result.json())
@@ -318,6 +328,62 @@ const HomePage = (props) => {
                                         "menu bg-base-100 menu-compact w-56 shadow-xl p-2 rounded-box suggs mt-3",
                                 }}
                             />
+<br/>
+                            <ReactTags
+                                tags={collab}
+                                handleDelete={(i) => {
+                                    const newVal = collab.filter(
+                                        (tag, index) => index !== i
+                                    );
+                                    setCollab(newVal);
+                                }}
+                                handleAddition={async (tag) => {
+                                    let data = await fetch("/api/users?query=" + encodeURIComponent(tag.text));
+                                    data = await data.json();
+
+                                    if (data.users.length == 1) {
+                                        if (data.users[0].id == props.session.pk) {
+                                            alert("You can't add yourself as a collaborator");
+                                            setCollabInput("");
+                                            return;
+                                        }
+                                        tag.text = data.users[0].name;
+                                        tag.name = data.users[0].name;
+                                        tag.id = String(data.users[0].id);
+                                        const newVal = [...collab, tag];
+                                        setCollab(newVal);
+                                    } else {
+                                        alert("No user found with the name " + tag.text);
+                                    }
+                                    
+                                    setCollabInput("");
+                                }}
+                                handleDrag={(tag, currPos, newPos) => {
+                                    const newTags = collab.slice();
+                            
+                                    newTags.splice(currPos, 1);
+                                    newTags.splice(newPos, 0, tag);
+                            
+                                    // re-render
+                                    setCollab(newTags);
+                                }}
+                                // handleTagClick={handleTagClick}
+                                inputFieldPosition="bottom"
+                                placeholder="Add collaborators"
+                                handleInputChange={(e) => {
+                                    setCollabInput(e);
+                                }}
+                                suggestions={users.users.map((v) => ({
+                                    id: String(v.id),
+                                    text: v.name,
+                                    name: v.name
+                                }))}
+                                minQueryLength={0}
+                                classNames={{
+                                    suggestions:
+                                        "menu bg-base-100 menu-compact w-56 shadow-xl p-2 rounded-box suggs mt-3",
+                                }}
+                            />
 
                             <br />
                             <h2 className="text-3xl">
@@ -335,7 +401,7 @@ const HomePage = (props) => {
                                 >
                                     <h1>{input}</h1>
                                     <h2 className="mb-2">
-                                        By {props.session.user.name}
+                                        {<Names withoutP={true} users={[{id: props.session.pk, name: props.session.user.name}, ...collab]} />}
                                     </h2>
                                     <h4 className="mb-2">
                                         Published on{" "}
@@ -356,10 +422,9 @@ const HomePage = (props) => {
                                     </div>
                                     <div
                                         dangerouslySetInnerHTML={{
-                                            __html: sanitize(
-                                                htmlData,
-                                                { ADD_TAGS: ["iframe"] }
-                                            ),
+                                            __html: sanitize(htmlData, {
+                                                ADD_TAGS: ["iframe"],
+                                            }),
                                         }}
                                     ></div>
                                 </div>

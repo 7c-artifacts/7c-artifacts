@@ -7,6 +7,7 @@ import Head from "next/head";
 import useSWR from "swr";
 import Link from "next/link";
 import { titleCase } from "title-case";
+import Names from "../../components/Names";
 
 function parseISOString(s) {
     var b = s.split(/\D+/);
@@ -24,12 +25,9 @@ const Post = ({ session }) => {
         {parseISOString(
             tagdata.tag.createdAt
         ).toLocaleString()}{" "}
-        by{" "}
-        {
-            tagdata.tag.poems[
+        <Names users={tagdata.tag.poems[
                 tagdata.tag.poems.length - 1
-            ].user.name
-        }</>)
+            ].users} by="by" /></>)
     } 
     if (
         session?.user &&
@@ -78,7 +76,7 @@ const Post = ({ session }) => {
                                             <h2 className="card-title">
                                                 {ite.title}
                                             </h2>
-                                            <p>By <Link href={`/users/${ite.userId}`} passHref><a className="link" target="_blank" rel="noopener noreferrer">{ite.user.name}</a></Link></p>
+                                            <Names users={ite.users} />
                                             <div className="card-actions justify-end mt-2 gap-0">
                                                 {ite.tags.map((ite2, i) => {
                                                     return (

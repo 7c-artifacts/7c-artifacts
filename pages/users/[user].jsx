@@ -6,6 +6,7 @@ import { getSession } from "next-auth/react";
 import Head from "next/head";
 import useSWR from "swr";
 import Link from "next/link";
+import Names from "../../components/Names";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -65,6 +66,7 @@ const Post = ({ session }) => {
                             </div>
                         </div>
                         {poemdata.poems.map((ite, i) => {
+                            console.log(ite);
                             return (
                                 <div className="protection" key={i}>
                                     <div className="card break-inside-avoid-column w-100 bg-base-200 shadow-xl mb-2">
@@ -72,7 +74,7 @@ const Post = ({ session }) => {
                                             <h2 className="card-title">
                                                 {ite.title}
                                             </h2>
-                                            <p>By {profiledata.user.name}</p>
+                                            <Names users={ite.users} />
                                             <div className="card-actions justify-end mt-2 gap-0">
                                                 {ite.tags.map((ite2, i) => {
                                                     return (
