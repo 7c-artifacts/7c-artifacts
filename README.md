@@ -1,4 +1,4 @@
-# 7C Poems
+# 7C Artifacts
 
 This is a website made to display poems as a sharing website and resource for students in Singapore American School. It’s made using React, Tailwind.css, DaisyUI, and Next.js, bootstrapped with `create-next-app`.
 
@@ -65,8 +65,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Bugs and feature requests
 
-If you find a problem with 7C Poems or want to request a new feature, use the issue feature. Search for issues similar to your request first—if nothing matches them, create a new issue.
+If you find a problem with 7C Artifacts or want to request a new feature, use the issue feature. Search for issues similar to your request first—if nothing matches them, create a new issue.
 
 ## Copyright and license
 
-7C Poems is copyright 2022 by the contributors. Code is licensed under Apache-2.0.
+7C Artifacts is copyright 2022 by the contributors. Code is licensed under Apache-2.0.
