@@ -1,6 +1,6 @@
 # 7C Artifacts
 
-This is a website made to display poems as a sharing website and resource for students in Singapore American School. It’s made using React, Tailwind.css, DaisyUI, and Next.js, bootstrapped with `create-next-app`.
+This is a website made to display artifacts as a sharing website and resource for students in Singapore American School. It’s made using React, Tailwind.css, DaisyUI, and Next.js, bootstrapped with `create-next-app`.
 
 ## Testing locally
 
@@ -41,7 +41,7 @@ MYSQL_USERDB=__INSERT_MYSQL_USER_AND_DB__ # DB name and username should be the s
 
 This website uses Next.js and React. For frontend, we use Tailwind.css and DaisyUI. For our database, we use MySQL and the Sequelize ORM. 
 
-# Bootstrapped README
+## Bootstrapped README
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
 [API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
