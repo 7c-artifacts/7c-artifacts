@@ -46,7 +46,7 @@ const Post = ({ session }) => {
 		return (
 			<div>
 				<Head>
-					<title>7C Poems</title>
+					<title>7C Artifacts</title>
 				</Head>
 				<Navbar />
                 <div className="bg-base-300 p-4 min-h-[100vh] pb-2">
@@ -64,7 +64,7 @@ const Post = ({ session }) => {
                                             <h2 className="card-title">
                                                 {titleCase(ite.name)}
                                             </h2>
-                                            <p>With {ite.poems_count} poem{ite.poems_count == 1 ? "" : "s"} posted</p>
+                                            <p>With {ite.poems_count} artifact{ite.poems_count == 1 ? "" : "s"} posted</p>
                                             <div className="card-actions justify-end mt-2">
                                                 <Link
                                                     href={"/tags/" + ite.id}
@@ -72,7 +72,7 @@ const Post = ({ session }) => {
                                                 >
                                                     <a target="_blank"
                                                     rel="noreferrer"
-                                                    className="btn btn-sm">View Poems with Tag</a>
+                                                    className="btn btn-sm">View Artifacts with Tag</a>
                                                 </Link>
                                             </div>
                                         </div>
@@ -132,7 +132,7 @@ const Post = ({ session }) => {
         return (
             <div>
                 <Head>
-                        <title>7C Poems</title>
+                        <title>7C Artifacts</title>
                     </Head>
                     <Navbar />
             <div className="bg-base-300 p-4 min-h-[100vh] pb-2">
@@ -172,7 +172,7 @@ const Post = ({ session }) => {
         return (
             <div>
                 <Head>
-                    <title>7C Poems</title>
+                    <title>7C Artifacts</title>
                 </Head>
                 <Navbar />
                 <div className="hero min-h-screen bg-base-200">
@@ -193,7 +193,7 @@ const Post = ({ session }) => {
         return (
             <div>
                 <Head>
-                    <title>7C Poems</title>
+                    <title>7C Artifacts</title>
                 </Head>
                 <Navbar />
                 <div className="hero min-h-screen bg-base-200">

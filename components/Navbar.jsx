@@ -15,7 +15,7 @@ function Navbar() {
                 <li><Link href="/submit">Submit</Link></li>
             </ul> : <></>}
             {session?.user ? <ul className="menu menu-horizontal p-0 mx-1">
-                <li><Link href="/poems">Poems</Link></li>
+                <li><Link href="/artifacts">Artifacts</Link></li>
             </ul> : <></>}
             {session?.user ? <ul className="menu menu-horizontal p-0 mx-1">
                 <li><Link href="/tags">Tags</Link></li>
@@ -69,7 +69,7 @@ function Navbar() {
         {nav}
       </ul>
     </div>
-							<Link href="/"><a className="btn btn-ghost normal-case text-xl">7C Poems</a></Link>
+							<Link href="/"><a className="btn btn-ghost normal-case text-xl">7C Artifacts</a></Link>
 
                 
             

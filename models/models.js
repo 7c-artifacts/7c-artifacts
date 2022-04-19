@@ -15,8 +15,8 @@ if (process.env.NODE_ENV === "development") {
     // In development mode, use a global variable so that the value
     // is preserved across module reloads caused by HMR (Hot Module Replacement).
     if (!global._sequelize) {
-        sequelize = new Sequelize(process.env.MYSQL_USERDB, process.env.MYSQL_USERDB, process.env.MYSQL_PASS, {
-            host: "remotemysql.com",
+        sequelize = new Sequelize("poems", process.env.MYSQL_USERDB, process.env.MYSQL_PASS, {
+            host: "184.168.99.253",
             dialect: "mysql",
             port: 3306,
             charset: 'utf8mb4',
@@ -32,8 +32,8 @@ if (process.env.NODE_ENV === "development") {
     sequelize = global._sequelize;
   } else {
     // In production mode, it's best to not use a global variable.
-    sequelize = new Sequelize(process.env.MYSQL_USERDB, process.env.MYSQL_USERDB, process.env.MYSQL_PASS, {
-        host: "remotemysql.com",
+    sequelize = new Sequelize("poems", process.env.MYSQL_USERDB, process.env.MYSQL_PASS, {
+        host: "184.168.99.253",
         dialect: "mysql",
         port: 3306,
         charset: 'utf8mb4',
@@ -49,7 +49,7 @@ if (process.env.NODE_ENV === "development") {
 
 console.log("\tCreating connection to SQL db!")
 
-
+// sequelize.sync()
 const Models = {
     TestModel: (sequelize) => {
         const model = sequelize.define('TestModel', {

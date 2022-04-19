@@ -79,7 +79,7 @@ const HomePage = (props) => {
         { fallbackData: { tags: { rows: [] } } }
     );
     const { data: users, error: userserr } = useSWR(
-        `/api/users?query=${encodeURIComponent(tagInput)}`,
+        `/api/users?query=${encodeURIComponent(collabInput)}`,
         fetcher,
         { fallbackData: { users: [] } }
     );
@@ -239,7 +239,7 @@ const HomePage = (props) => {
         return (
             <div>
                 <Head>
-                    <title>7C Poems</title>
+                    <title>7C Artifacts</title>
                 </Head>
                 <Navbar />
                 <div className="hero min-h-screen bg-base-200">
@@ -251,14 +251,14 @@ const HomePage = (props) => {
                             }}
                         >
                             <h1 className="text-5xl font-bold mb-5">
-                                Submit your poem
+                                Submit your artifact
                             </h1>
                             <input
                                 type="text"
                                 value={input}
                                 onInput={onChangeTitle}
                                 maxLength={100}
-                                placeholder="Type in the title of your poem"
+                                placeholder="Type in the title of your artifact"
                                 className="input input-lg input-bordered w-full  mb-3"
                             />
                             <div>
@@ -303,7 +303,7 @@ const HomePage = (props) => {
                                 />
                                 Press return to add a new paragraph and
                                 shift+return to add a new line. (Please submit
-                                poems on desktop.)
+                                artifacts on desktop if possible.)
                             </div>
                             <br />
                             <ReactTags
