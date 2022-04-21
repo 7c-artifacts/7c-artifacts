@@ -7,6 +7,7 @@ import { sanitize } from "./purify";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 function Navbar() {
+
 	const {data: session, error} = useSWR("/api/auth/session", fetcher);
 	const {data: feed, error: feederror} = useSWR("/api/users/feed", fetcher, {
 		initialData: {
@@ -36,6 +37,7 @@ function Navbar() {
 		: <></>}
 	</>
 	)
+
     let loginInsert = <></>;
     if (!session) {
 			loginInsert = (

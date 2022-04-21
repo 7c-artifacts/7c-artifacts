@@ -28,7 +28,11 @@ export default function Home() {
         <div className="text-center hero-content">
           <div className="max-w-md">
             <h1 className="mb-5 text-5xl font-bold">Welcome to 7C Artifacts.</h1>
+<<<<<<< HEAD
             <p className="mb-5">An Equitable and Interdependent Processfolio for our collective exploration of Equity and Interdependence</p>
+=======
+            <p className="mb-5">An Equitable and Interdependent Process Portfolio for our collective exploration of Equity and Interdependence</p>
+>>>>>>> 5c151cd56421e5c1332eeacd7e7acb4ba37e7e8e
             {/* <button className="btn btn-primary" onClick={() => {
               if (props.session) {
                 poem();
@@ -39,6 +43,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+<<<<<<< HEAD
       <div className="hero py-12 bg-base-100">
         <div className="flex-col hero-content lg:flex-row">
           <Image
@@ -51,12 +56,18 @@ export default function Home() {
       placeholder="blur"
       blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASABIAAD/4QCMRXhpZgAATU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAABIAAAAAQAAAEgAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAAygAwAEAAAAAQAAAAgAAAAA/+0AOFBob3Rvc2hvcCAzLjAAOEJJTQQEAAAAAAAAOEJJTQQlAAAAAAAQ1B2M2Y8AsgTpgAmY7PhCfv/CABEIAAgADAMBIgACEQEDEQH/xAAfAAABBQEBAQEBAQAAAAAAAAADAgQBBQAGBwgJCgv/xADDEAABAwMCBAMEBgQHBgQIBnMBAgADEQQSIQUxEyIQBkFRMhRhcSMHgSCRQhWhUjOxJGIwFsFy0UOSNIII4VNAJWMXNfCTc6JQRLKD8SZUNmSUdMJg0oSjGHDiJ0U3ZbNVdaSVw4Xy00Z2gONHVma0CQoZGigpKjg5OkhJSldYWVpnaGlqd3h5eoaHiImKkJaXmJmaoKWmp6ipqrC1tre4ubrAxMXGx8jJytDU1dbX2Nna4OTl5ufo6erz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAECAAMEBQYHCAkKC//EAMMRAAICAQMDAwIDBQIFAgQEhwEAAhEDEBIhBCAxQRMFMCIyURRABjMjYUIVcVI0gVAkkaFDsRYHYjVT8NElYMFE4XLxF4JjNnAmRVSSJ6LSCAkKGBkaKCkqNzg5OkZHSElKVVZXWFlaZGVmZ2hpanN0dXZ3eHl6gIOEhYaHiImKkJOUlZaXmJmaoKOkpaanqKmqsLKztLW2t7i5usDCw8TFxsfIycrQ09TV1tfY2drg4uPk5ebn6Onq8vP09fb3+Pn6/9sAQwACAwMDBAMEBQUEBgYGBgYICAcHCAgNCQoJCgkNEwwODAwODBMRFBEPERQRHhgVFRgeIx0cHSMqJSUqNTI1RUVc/9sAQwECAwMDBAMEBQUEBgYGBgYICAcHCAgNCQoJCgkNEwwODAwODBMRFBEPERQRHhgVFRgeIx0cHSMqJSUqNTI1RUVc/9oADAMBAAIRAxEAAAGs4f6T9C5+3//aAAgBAQABBQIbVMoKtt+gP//aAAgBAxEBPwHqyc2S8hMiOOS//9oACAECEQE/AenJhHj188P/2gAIAQEABj8CI95X/J4JKgOAU+XFY9A4Uoa/F//EADMQAQADAAICAgICAwEBAAACCwERACExQVFhcYGRobHB8NEQ4fEgMEBQYHCAkKCwwNDg/9oACAEBAAE/Id9MT5lyDmX1lRw11+STy3//2gAMAwEAAhEDEQAAEA//xAAzEQEBAQADAAECBQUBAQABAQkBABEhMRBBUWEgcfCRgaGx0cHh8TBAUGBwgJCgsMDQ4P/aAAgBAxEBPxAYEMKLh/N//9oACAECEQE/EHLkcqxy5+V//9oACAEBAAE/EHYKIkbSU4FJIS2yCIAFrk2vIrt//9k="
     />
+=======
+      <div className="hero min-h-screen bg-base-100">
+        <div className="flex-col hero-content lg:flex-row">
+          <img src="https://futuramo.com/blog/wp-content/uploads/2018/06/What_Motivates_People_to_Collaborate_with_Other_People.jpg" alt="Insert alt text here!" className="rounded-xl drop-shadow-xl hover:drop-shadow-2xl transition-all" style={{width: "50%"}} />
+>>>>>>> 5c151cd56421e5c1332eeacd7e7acb4ba37e7e8e
           <div className="ml-3">
             <h2 className="text-5xl font-bold">About 7C Artifacts</h2>
             <p className="py-6">This site is a place to share, explore, discuss, and cross-pollinate our ideas in pursuit of creating greater equity in our interdependent world, a way for us to play with ideas, experiment with possible solutions, and have conversations within and about, as Koh Buck Song puts it, &quot;the geometry of community.&quot;</p>
           </div>
         </div>
       </div>
+<<<<<<< HEAD
       <div className="hero py-12 bg-base-200">
         <div className="flex-col hero-content lg:flex-row-reverse">
     <Image
@@ -89,6 +100,28 @@ export default function Home() {
 								</ol></li>
 							<li>Keep an open mind, and make an effort to learn from and teach one another generously and with dignity.</li>
 							<li>NOTE: The editor should <em>never</em> be the first or only place you type content or comments. (We learned this the hard way and recommend drafting in a doc.)</li>
+=======
+      <div className="hero min-h-screen bg-base-200">
+        <div className="flex-col hero-content lg:flex-row-reverse">
+          <img src="https://blog.doist.com/wp-content/uploads/2020/07/HowToCreateGroupNorms_thumbnail.png" alt="Insert alt text here!" className="rounded-xl drop-shadow-xl hover:drop-shadow-2xl transition-all" style={{width: "50%"}} />
+          <div className="mr-3"> 
+            <h2 className="text-5xl font-bold">Norms</h2>
+            <p className="py-6">The site’s effectiveness as a tool that makes learning <i><b>together</b></i> matter is highly dependent on the ways we use it. Therefore, the following are basic norms and expectations:
+						<ol className="list-decimal list-inside mt-2" type={"1"}>
+							<li>
+							Submit artifacts that you have created.
+							</li>
+							<li>
+							Submit artifacts that you have found and want to discuss or share with credit.</li>
+							<li>Whatever artifact you submit, ALWAYS include:</li>
+								<ol type={"a"} className="list-[lower-alpha] list-inside ml-3">
+									<li>A short note explaining the link to equity and/or interdependence.</li>
+									<li>A question to the community.</li>
+								</ol>
+							<li>Keep an open mind, and make an effort to learn from and teach one another generously and with dignity.</li>
+							<li><b>Teachers are partners in your learning in this space, not evaluators or assessors.</b> We will add artifacts and respond to yours in the same ways as students. This is not a space for evaluative feedback and grading.
+</li>
+>>>>>>> 5c151cd56421e5c1332eeacd7e7acb4ba37e7e8e
 							<li>Do not spam or attempt to do malicious things on this website.</li>
 						</ol>
 						</p>
@@ -96,7 +129,11 @@ export default function Home() {
           </div>
         </div>
       </div>
+<<<<<<< HEAD
       <div className="hero py-12 bg-base-100">
+=======
+      <div className="hero min-h-screen bg-base-100">
+>>>>>>> 5c151cd56421e5c1332eeacd7e7acb4ba37e7e8e
 			  <div className="hero-content text-center w-full">
 			    <div className="w-full">
 			      <h2 className="text-5xl font-bold">FAQ</h2>
@@ -108,11 +145,16 @@ export default function Home() {
 							</div>
 							<div className="collapse-content text-left"> 
 								<p>Tags should come from 3 categories:
+<<<<<<< HEAD
 								<ul className="list-disc ml-8 my-3">
+=======
+								<ul className="list-disc list-inside ml-2 my-3">
+>>>>>>> 5c151cd56421e5c1332eeacd7e7acb4ba37e7e8e
 									<li>Concepts</li>
 									<li>Topics</li>
 									<li>Artifact descriptors</li>
 								</ul>
+<<<<<<< HEAD
 								</p>
 								<p className="mb-3">
 								<strong>Concepts</strong> are timeless ideas, like equity, power, advocacy, compassion, identity. See <a target="_blank" rel="noreferrer noopener" href="https://docs.google.com/document/d/1e4zSesMOdqPv8v4OZcVz4PCj1LX-wBJ00F6UQx9Z88s/edit" className="link link-accent font-bold">here</a> for a list if you need help (not exclusive).
@@ -120,6 +162,17 @@ export default function Home() {
 								<p className="mb-3"><strong>Topics</strong> are tied to space and time. If you use a proper noun, it’s definitely a topic, not a concept. Topics could be Ukraine, school dress code, or three-toed sloth.</p>
 								<p className="mb-3"><strong>Descriptors</strong> should tell us something about the type/form of the artifact: poem, argument, philosophical wondering, video, question, survey, website, song, short story, analysis of a text, and so on. Describe the item.</p>
 								<p>Always consult with a learning partner about these, and if you’re still unsure, ask a teacher.</p>
+=======
+
+								</p>
+								<p className="mb-3">
+								<b>Concepts</b> are timeless ideas, like equity, power, advocacy, compassion, identity. See <a target="_blank" rel="noreferrer noopener" href="https://docs.google.com/document/d/1e4zSesMOdqPv8v4OZcVz4PCj1LX-wBJ00F6UQx9Z88s/edit" className="link link-accent font-bold">here</a> for a list if you need help (not exclusive).
+								</p>
+								<p className="mb-3"><b>Topics</b> are tied to space and time. If you use a proper noun, it’s definitely a topic, not a concept. Topics could be Ukraine, school dress code, or three-toed sloth.</p>
+								<p className="mb-3"><b>Descriptors</b> should tell us something about the type/form of the artifact: poem, argument, philosophical wondering, video, question, survey, website, song, short story, analysis of a text, and so on. Describe the item.</p>
+								<p>Always consult with a learning partner about these, and if you’re still unsure, ask a teacher.</p>
+								
+>>>>>>> 5c151cd56421e5c1332eeacd7e7acb4ba37e7e8e
 							</div>
 						</div>
 						<div tabIndex="0" className="collapse collapse-arrow border border-base-300 bg-base-200 rounded-box w-full mb-2">
@@ -155,6 +208,7 @@ export default function Home() {
 								How can I delete or edit an artifact or comment?
 							</div>
 							<div className="collapse-content text-left"> 
+<<<<<<< HEAD
 You can delete an artifact by going to your user page and clicking “Delete artifact” on the poem you want to delete. Editing isn’t possible (and will not be possible). Your options are: 
 <ol className="list-decimal ml-8 my-3">
   <li>Copy what you have in the artifact before deleting it, create a new one, and paste.</li>
@@ -176,6 +230,12 @@ You can delete an artifact by going to your user page and clicking “Delete art
 							</div>
 						</div>
             <div tabIndex="0" className="collapse collapse-arrow border border-base-300 bg-base-200 rounded-box w-full mb-2">
+=======
+At this moment of time, editing isn’t possible but if you want to delete your artifact or comment, please email the developers (email at the footer). This feature may be added later on, though.
+							</div>
+						</div>
+						<div tabIndex="0" className="collapse collapse-arrow border border-base-300 bg-base-200 rounded-box w-full mb-2">
+>>>>>>> 5c151cd56421e5c1332eeacd7e7acb4ba37e7e8e
 							<input type="checkbox" /> 
 							<div className="collapse-title text-xl font-medium">
 								How can I ask another question about this website?
@@ -184,10 +244,19 @@ You can delete an artifact by going to your user page and clicking “Delete art
 Please email the developers, which their email address is below in the footer.
 							</div>
 						</div>
+<<<<<<< HEAD
 			    </div>
 			  </div>
 			</div>
       <div className="hero py-12 bg-base-200">
+=======
+						
+			    </div>
+					
+			  </div>
+			</div>
+      <div className="hero min-h-screen bg-base-200">
+>>>>>>> 5c151cd56421e5c1332eeacd7e7acb4ba37e7e8e
         <div className="flex-col hero-content text-center lg:flex-row-reverse w-full">
           <div className="w-full"> 
             <h2 className="text-5xl font-bold">Tutorial Video</h2>
