@@ -49,14 +49,15 @@ const Post = ({ session }) => {
         return (
             <div>
                 <Head>
-                    <title>7C Poems</title>
+                    <title>7C Artifacts</title>
                 </Head>
                 <Navbar />
                 <div className="bg-base-300 p-4 min-h-[100vh] pb-2">
-                    <h1 className="text-5xl mb-2">Poems</h1>
+                    <h1 className="text-5xl mb-2">Artifacts</h1>
                     <div className="lg:columns-4 md:columns-3 sm:columns-2 gap-2 thingy pb-2">
                         {poems.poems.map((ite, i) => {
                             console.log(ite);
+							console.log("ITE " + ite.title, ite);
                             return (
                                 <div className="protection" key={i}>
                                     <div className="card break-inside-avoid-column w-100 bg-base-200 shadow-xl mb-2">
@@ -92,7 +93,7 @@ const Post = ({ session }) => {
                                             </div>
                                             <div className="card-actions justify-end mt-2">
                                                 <Link
-                                                    href={"/poems/" + ite.id}
+                                                    href={"/artifacts/" + ite.id}
                                                     passHref
                                                 >
                                                     <a
@@ -100,7 +101,7 @@ const Post = ({ session }) => {
                                                         rel="noreferrer"
                                                         className="btn btn-sm"
                                                     >
-                                                        Go to Poem
+                                                        Go to Artifact
                                                     </a>
                                                 </Link>
                                             </div>
@@ -125,7 +126,7 @@ const Post = ({ session }) => {
                         {isLoadingMore
                             ? "Loading..."
                             : poems.poems.length >= Number(poems.count)
-                            ? "No more poems"
+                            ? "No more artifacts"
                             : isRefreshing
                             ? "Refreshing..."
                             : "Load more"}
@@ -148,7 +149,7 @@ const Post = ({ session }) => {
 											
                         <label className="label">
                             <span className="label-text">Enter your search query here:</span>
-                            <span className="label-text-alt">This searches against poem titles only.</span>
+                            <span className="label-text-alt">This searches against artifact titles only.</span>
                         </label>
 											<div className="input-group">
                         <input type="text" value={searchInput} placeholder="Type here" className="input input-bordered w-full max-w-xl" onChange={(e)=> {setSearchInput(e.target.value)}} />
@@ -164,11 +165,11 @@ const Post = ({ session }) => {
         return (
             <div>
                 <Head>
-                    <title>7C Poems</title>
+                    <title>7C Artifacts</title>
                 </Head>
                 <Navbar />
                 <div className="bg-base-300 p-4 min-h-[100vh] pb-2">
-                    <h1 className="text-5xl mb-2">Poems</h1>
+                    <h1 className="text-5xl mb-2">Artifacts</h1>
                     <div className="lg:columns-4 md:columns-3 sm:columns-2 gap-2 thingy pb-2">
                         {[0, 1, 2, 3, 4, 5, 6].map((ite, i) => {
                             return (
@@ -209,7 +210,7 @@ const Post = ({ session }) => {
         return (
             <div>
                 <Head>
-                    <title>7C Poems</title>
+                    <title>7C Artifacts</title>
                 </Head>
                 <Navbar />
                 <div className="hero min-h-screen bg-base-200">
@@ -228,14 +229,14 @@ const Post = ({ session }) => {
         return (
             <div>
                 <Head>
-                    <title>7C Poems</title>
+                    <title>7C Artifacts</title>
                 </Head>
                 <Navbar />
                 <div className="hero min-h-screen bg-base-200">
                     <div className="hero-content text-center">
                         <div className="max-w-md">
                             <h1 className="text-5xl font-bold">Sorry.</h1>
-                            <p className="py-6">No poems exist.</p>
+                            <p className="py-6">No artifacts exist.</p>
                         </div>
                     </div>
                 </div>

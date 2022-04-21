@@ -13,6 +13,7 @@
 import Link from "next/link";
 
 function Names(props) {
+	console.log("PROPS", props);
     if (props.withoutP) {
         return (
             <>

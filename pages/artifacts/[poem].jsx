@@ -9,6 +9,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { sanitize } from "../../components/purify";
 
+
 function parseISOString(s) {
     var b = s.split(/\D+/);
     return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
@@ -23,7 +24,7 @@ const Editor = dynamic(
 );
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useState } from "react";
-import { EditorState } from "draft-js";
+import Draft, { EditorState, Modifier, ContentState } from "draft-js";
 import { stateToHTML } from "draft-js-export-html";
 import Names from "../../components/Names";
 
@@ -137,7 +138,7 @@ const Post = ({ session }) => {
         return (
             <div>
                 <Head>
-                    <title>7C Poems</title>
+                    <title>7C Artifacts</title>
                 </Head>
                 <Navbar />
                 <div
@@ -287,7 +288,7 @@ const Post = ({ session }) => {
                                                   ).toLocaleString()}
                                               </h5>
                                               <div
-                                                  className="whitespace-pre-wrap"
+                                                  // className="whitespace-pre-wrap"
                                                   style={{
                                                       overflowWrap:
                                                           "break-word",
@@ -319,7 +320,7 @@ const Post = ({ session }) => {
         return (
             <div>
                 <Head>
-                    <title>7C Poems</title>
+                    <title>7C Artifacts</title>
                 </Head>
                 <Navbar />
                 <div className="p-4 min-h-[100vh] bg-base-200">
@@ -356,7 +357,7 @@ const Post = ({ session }) => {
         return (
             <div>
                 <Head>
-                    <title>7C Poems</title>
+                    <title>7C Artifacts</title>
                 </Head>
                 <Navbar />
                 <div className="hero min-h-screen bg-base-200">
@@ -374,7 +375,7 @@ const Post = ({ session }) => {
         return (
             <div>
                 <Head>
-                    <title>7C Poems</title>
+                    <title>7C Artifacts</title>
                 </Head>
                 <Navbar />
                 <div className="hero min-h-screen bg-base-200">
@@ -382,7 +383,7 @@ const Post = ({ session }) => {
                         <div className="max-w-md">
                             <h1 className="text-5xl font-bold">Sorry.</h1>
                             <p className="py-6">
-                                That poem doesn&apos;t exist.
+                                That artifact doesn&apos;t exist.
                             </p>
                         </div>
                     </div>
@@ -394,7 +395,7 @@ const Post = ({ session }) => {
         return (
             <div>
                 <Head>
-                    <title>7C Poems</title>
+                    <title>7C Artifacts</title>
                 </Head>
                 <Navbar session={session} />
                 <Restricted />

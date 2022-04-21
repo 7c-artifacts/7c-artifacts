@@ -42,10 +42,13 @@ export default async function handler(req, res) {
                             attributes: [],
                         },
                     },
-                ]
+                ],
+							// order: [['createdAt', 'DESC']],
             },
         ],
-        // order: sort,
+        order: [
+			    [models.Poem, 'createdAt', 'DESC']
+			  ]
     });
     const timeend = Date.now();
 

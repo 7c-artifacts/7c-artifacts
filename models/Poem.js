@@ -17,9 +17,10 @@ module.exports = (sequelize) => {
             validate: {
                 len: [20, Infinity]
             }
-        }
+        },
+			
     }, {
-
+			paranoid: true
     });
     // model.hasMany(Models.Poem(sequelize), { foreignKey: 'userId', allowNull: false  });
     

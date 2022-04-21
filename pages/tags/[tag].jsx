@@ -38,7 +38,7 @@ const Post = ({ session }) => {
         return (
             <div>
                 <Head>
-                    <title>7C Poems</title>
+                    <title>7C Artifacts</title>
                 </Head>
                 <Navbar />
 
@@ -55,7 +55,7 @@ const Post = ({ session }) => {
                                         <span className="font-bold">
                                             {tagdata.tag.poems.length}
                                         </span>{" "}
-                                        poem
+                                        artifact
                                         {tagdata.tag.poems.length == 1
                                             ? ""
                                             : "s"}
@@ -100,12 +100,12 @@ const Post = ({ session }) => {
                                             <div className="card-actions justify-end mt-2">
                                                 
                                                 <Link
-                                                    href={"/poems/" + ite.id}
+                                                    href={"/artifacts/" + ite.id}
                                                     passHref
                                                 >
                                                     <a target="_blank"
                                                     rel="noreferrer"
-                                                    className="btn btn-sm">Go to Poem</a>
+                                                    className="btn btn-sm">Go to Artifact</a>
 
                                                 </Link>
                                             </div>
@@ -123,7 +123,7 @@ const Post = ({ session }) => {
         return (
             <div>
                 <Head>
-                    <title>7C Poems</title>
+                    <title>7C Artifacts</title>
                 </Head>
                 <Navbar />
                 <div className="bg-base-300 p-4 min-h-[100vh] pb-2">
@@ -180,7 +180,7 @@ const Post = ({ session }) => {
         return (
             <div>
                 <Head>
-                    <title>7C Poems</title>
+                    <title>7C Artifacts</title>
                 </Head>
                 <Navbar />
                 <div className="hero min-h-screen bg-base-200">
@@ -198,7 +198,7 @@ const Post = ({ session }) => {
         return (
             <div>
                 <Head>
-                    <title>7C Poems</title>
+                    <title>7C Artifacts</title>
                 </Head>
                 <Navbar />
                 <div className="hero min-h-screen bg-base-200">
@@ -216,7 +216,7 @@ const Post = ({ session }) => {
         return (
             <div>
                 <Head>
-                    <title>7C Poems</title>
+                    <title>7C Artifacts</title>
                 </Head>
                 <Navbar session={session} />
                 <Restricted />

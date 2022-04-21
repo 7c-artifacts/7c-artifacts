@@ -29,7 +29,7 @@ const Home = (props) => {
             </>
           ) : ""}
           <h1 className="text-5xl font-bold">Sign in</h1>
-          <p className="py-6">Please sign in to the 7C Poems site using your <b>SAS email</b>. Thanks!</p>
+          <p className="py-6">Please sign in to the 7C Artifacts site using your <b>SAS email</b>. Thanks!</p>
 
           <button className="btn btn-primary" onClick={() => signIn("google", {callbackUrl: router.query.callbackUrl})}>
             Sign in with Google
