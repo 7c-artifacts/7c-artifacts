@@ -12,10 +12,11 @@ const Comment = require("./Comment");
 let sequelize;
 
 if (process.env.NODE_ENV === "development") {
+    console.log("\tPASSWORD", process.env.DB_CREDS.split("|")[1]);
     // In development mode, use a global variable so that the value
     // is preserved across module reloads caused by HMR (Hot Module Replacement).
     if (!global._sequelize) {
-        sequelize = new Sequelize("poems", process.env.MYSQL_USERDB, process.env.MYSQL_PASS, {
+        sequelize = new Sequelize("poems", process.env.DB_CREDS.split("|")[0], process.env.DB_CREDS.split("|")[1], {
             host: "184.168.99.253",
             dialect: "mysql",
             port: 3306,
@@ -32,7 +33,7 @@ if (process.env.NODE_ENV === "development") {
     sequelize = global._sequelize;
   } else {
     // In production mode, it's best to not use a global variable.
-    sequelize = new Sequelize("poems", process.env.MYSQL_USERDB, process.env.MYSQL_PASS, {
+    sequelize = new Sequelize("poems", process.env.DB_CREDS.split("|")[0], process.env.DB_CREDS.split("|")[1], {
         host: "184.168.99.253",
         dialect: "mysql",
         port: 3306,

@@ -371,6 +371,7 @@ const HomePage = (props) => {
                                 inputFieldPosition="bottom"
                                 placeholder="Add collaborators"
                                 handleInputChange={(e) => {
+                                    console.log(e);
                                     setCollabInput(e);
                                 }}
                                 suggestions={users.users.map((v) => ({

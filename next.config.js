@@ -5,6 +5,6 @@ module.exports = (phase, { defaultConfig }) => {
   return removeImports({
     ...defaultConfig,
     reactStrictMode: true,
-    experimental: { images: { layoutRaw: true } }
+    experimental: { images: { layoutRaw: true } },
   });
 };
