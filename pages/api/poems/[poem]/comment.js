@@ -3,8 +3,13 @@ import { getSession } from 'next-auth/react';
 
 const {models, sequelize} = require("../../../../models/models");
 
+const commentsBlocked = true;
+// UNBLOCK COMMENTS HERE ^^
+
 export default async function handler(req, res) {
     if (req.method === 'POST') {
+			
+			
         const {text} = req.body;
         const session = await getSession({ req });
         if (!session) {
@@ -13,6 +18,11 @@ export default async function handler(req, res) {
             // sequelize.close();
             return;
         }
+			if (commentsBlocked && !(["kpowling@sas.edu.sg", "he47611@sas.edu.sg", "mathur47349@sas.edu.sg"].includes(session.user.email))) {
+				res.status(403).json({error: ["The admins have decided to pause commenting for safety and well-being reasons for now. For any inquiries, please email the developers."]});
+				res.end();
+				return;
+			}
         console.log("\t TEXT", text);
         if (!text) {
             res.status(401).json({error: ["Missing text"]});

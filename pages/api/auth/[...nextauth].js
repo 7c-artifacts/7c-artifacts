@@ -24,10 +24,39 @@ export default NextAuth({
   callbacks: {
     async signIn(data) {
       if (data.profile.hd !== "sas.edu.sg") {
-          return "/auth/signin";
+          return "/auth/signin?error=Not7CMember";
       } 
+			console.log(data)
+			if (/\d/g.test(data.user.email)) {
+				return true
+			} else {
+				let teachers = [
+					"lcameron@sas.edu.sg",
+					"mmedina@sas.edu.sg",
+					"zwang@sas.edu.sg",
+					"rbuxton@sas.edu.sg",
+					"rbruce@sas.edu.sg",
+					"smccue@sas.edu.sg",
+					"yzhang@sas.edu.sg",
+					"aselley@sas.edu.sg",
+					"brobertaccio@sas.edu.sg",
+					"craymaakers@sas.edu.sg",
+					"dgao@sas.edu.sg",
+					"dfine@sas.edu.sg",
+					"esparrow@sas.edu.sg",
+					"kbucknall@sas.edu.sg",
+					"kpowling@sas.edu.sg",
+					"lmehrbach@sas.edu.sg",
+					"sriley@sas.edu.sg",
+					"bhall@sas.edu.sg",
+					"lspillane@sas.edu.sg",
+					"mtrainor@sas.edu.sg"
+				]
+				if (teachers.includes(data.user.email)) return true;
+				return "/auth/signin?error=Not7CMember";
+			}
       // Filter down the data to this
-      console.log('Signing in...')
+
 
       return true;
     },

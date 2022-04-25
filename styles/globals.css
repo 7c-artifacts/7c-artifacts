@@ -20,7 +20,7 @@ a {
 }
  */
 
-.output a :not(.ignoreLink), .output a:visited :not(.ignoreLink) {
+.output a:not(.ignoreLink), .output a:visited:not(.ignoreLink) {
   cursor: pointer;
   text-decoration-line: underline;
   color: #1fb2a6;
@@ -32,7 +32,7 @@ a {
   break-inside: avoid;
 }
 
-.output a:hover :not(.ignoreLink) {
+.output a:hover:not(.ignoreLink) {
   color: #198f85;
 }
 

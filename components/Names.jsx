@@ -19,7 +19,7 @@ function Names(props) {
             <>
                 {props.by ? props.by : "By"} {props.users.map((user) => <Link href={`/users/${user.id}`} passHref key={user.id}>
                                 <a
-                                    className="link"
+                                    className="link ignoreLink"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
@@ -33,7 +33,7 @@ function Names(props) {
         <p>
             {props.by ? props.by : "By"} {props.users.map((user) => <Link href={`/users/${user.id}`} passHref key={user.id}>
                             <a
-                                className="link"
+                                className="link ignoreLink"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
