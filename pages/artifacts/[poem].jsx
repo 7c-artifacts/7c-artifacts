@@ -169,8 +169,6 @@ const Post = ({ session }) => {
                                 >
                                     <Link passHref href={`/tags/${val.id}`}>
                                         <a
-                                            target="_blank"
-                                            rel="noopener noreferrer"
                                             className="ignoreLink"
                                         >
                                             {val.name}
@@ -293,7 +291,7 @@ const Post = ({ session }) => {
                                                       overflowWrap:
                                                           "break-word",
                                                   }}
-                                                  dangerouslySetInnerHTML={{
+                                                	dangerouslySetInnerHTML={{
                                                       __html: sanitize(
                                                           val.text,
                                                           {
@@ -301,7 +299,7 @@ const Post = ({ session }) => {
                                                                   "iframe",
                                                               ],
                                                           }
-                                                      ),
+                                                      )
                                                   }}
                                               ></div>
                                           </div>

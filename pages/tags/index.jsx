@@ -70,8 +70,7 @@ const Post = ({ session }) => {
                                                     href={"/tags/" + ite.id}
                                                     passHref
                                                 >
-                                                    <a target="_blank"
-                                                    rel="noreferrer"
+                                                    <a
                                                     className="btn btn-sm">View Artifacts with Tag</a>
                                                 </Link>
                                             </div>

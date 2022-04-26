@@ -3,7 +3,7 @@ import { getSession } from 'next-auth/react';
 
 const {models, sequelize} = require("../../../../models/models");
 
-const commentsBlocked = true;
+const commentsBlocked = false;
 // UNBLOCK COMMENTS HERE ^^
 
 export default async function handler(req, res) {

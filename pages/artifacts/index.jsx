@@ -81,8 +81,6 @@ const Post = ({ session }) => {
                                                                 href={`/tags/${ite2.id}`}
                                                             >
                                                                 <a
-                                                                    target="_blank"
-                                                                    rel="noopener noreferrer"
                                                                 >
                                                                     {ite2.name}
                                                                 </a>
@@ -97,8 +95,7 @@ const Post = ({ session }) => {
                                                     passHref
                                                 >
                                                     <a
-                                                        target="_blank"
-                                                        rel="noreferrer"
+                                               
                                                         className="btn btn-sm"
                                                     >
                                                         Go to Artifact

@@ -389,7 +389,7 @@ const HomePage = (props) => {
                             <br />
                             <h2 className="text-3xl">
                                 Preview (note that all links will open in
-                                another tab when posted)
+                                another tab when posted and embeds will not work)
                             </h2>
                             <br />
                             <div className="border mockup-window bg-base-300">

@@ -103,8 +103,7 @@ const Post = ({ session }) => {
                                                     href={"/artifacts/" + ite.id}
                                                     passHref
                                                 >
-                                                    <a target="_blank"
-                                                    rel="noreferrer"
+                                                    <a
                                                     className="btn btn-sm">Go to Artifact</a>
 
                                                 </Link>
