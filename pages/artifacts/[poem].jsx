@@ -8,7 +8,7 @@ import useSWR from "swr";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { sanitize } from "../../components/purify";
-
+import {useEffect} from "react";
 
 function parseISOString(s) {
     var b = s.split(/\D+/);
@@ -28,7 +28,7 @@ import Draft, { EditorState, Modifier, ContentState } from "draft-js";
 import { stateToHTML } from "draft-js-export-html";
 import Names from "../../components/Names";
 
-const Post = ({ session }) => {
+const Post = ({ session }) => {		
     const router = useRouter();
     function html(k) {
         return stateToHTML(k.getCurrentContent(), {
@@ -70,6 +70,7 @@ const Post = ({ session }) => {
     const [submitting, setSubmitting] = useState(false);
     const [htmlData, setHtmlData] = useState("");
 
+	
     function onChange(k) {
         setEditorState(k);
         var data = html(k);
@@ -134,11 +135,11 @@ const Post = ({ session }) => {
         (poemdata?.poem !== undefined || poemdata?.poem !== null) &&
         poemdata?.poem
     ) {
-        console.log(poemdata);
         return (
             <div>
                 <Head>
                     <title>7C Artifacts</title>
+                    <script src="//cdn.iframe.ly/embed.js?api_key=ec86f4db392dfd94fb6798&cancel=0" async defer charset="utf-8"></script>
                 </Head>
                 <Navbar />
                 <div
@@ -148,6 +149,10 @@ const Post = ({ session }) => {
                         overflowWrap: "break-word",
                     }}
                 >
+									
+                    <div dangerouslySetInnerHTML={{__html: 
+                      "<style>.scroll-container{overflow-x:auto;overflow-y:visible}</style>"
+                    }}></div>
                     <h1>{poemdata.poem.title}</h1>
 
                     <h2 className="mb-2">
@@ -180,10 +185,20 @@ const Post = ({ session }) => {
                     </div>
                     <div
                         dangerouslySetInnerHTML={{
-                            __html: sanitize(poemdata.poem.text, {
-                                ADD_TAGS: ["iframe"],
-                            }),
-                        }}
+													__html: (
+														sanitize(
+															poemdata.poem.text,
+															{
+																ADD_TAGS: [
+																	"iframe",
+																],
+                              }
+														).replace(
+														  /\[embed\](.*?)\[\/embed\]/g,
+														  '<div class="iframely-embed"><div class="iframely-responsive"><a href="'+'$1'.replaceAll('"','&quot;')+'" data-iframely-url></a></div></div>'
+                            )
+													)
+												}}
                         className="mt-3 thing"
                     ></div>
                     <br />
@@ -292,14 +307,17 @@ const Post = ({ session }) => {
                                                           "break-word",
                                                   }}
                                                 	dangerouslySetInnerHTML={{
-                                                      __html: sanitize(
-                                                          val.text,
-                                                          {
-                                                              ADD_TAGS: [
-                                                                  "iframe",
-                                                              ],
-                                                          }
-                                                      )
+																										__html: (sanitize(
+																											val.text,
+																											{
+																												ADD_TAGS: [
+																														"iframe",
+																												],
+																											}
+																										).replace(
+														  /\[embed\](.*?)\[\/embed\]/g,
+														  '<div class="iframely-embed"><div class="iframely-responsive"><a href="'+'$1'.replaceAll('"','&quot;')+'" data-iframely-url></a></div></div>'
+                            ))
                                                   }}
                                               ></div>
                                           </div>
@@ -313,7 +331,6 @@ const Post = ({ session }) => {
                 <Footer />
             </div>
         );
-        // I hate css
     } else if (poemdata == undefined) {
         return (
             <div>
